@@ -1,76 +1,73 @@
 import scala.util.parsing.combinator._
 
-object DeclParser {
-    case class Arg(argType: String, name: Option[String])
-    type Args = List[Arg]
-
-    trait StdMethod {
-        def name: String
-        def retType: String
-        def args: Args
-    }
-
-    type StdMethods = List[StdMethod]
-
-    case class StdMethodHR(override val name: String, override val args: Args) extends StdMethod {
-        override val retType = "HRESULT"
-    }
-
-    case class StdMethodRet(override val name: String, override val retType: String, override val args: Args) extends StdMethod
-
-    case class Interface(name: String, methods: StdMethods)
-    type Interfaces = List[Interface]
-}
+/*
 
 class DeclParser extends JavaTokenParsers {
-    import DeclParser._
-
-    def stars: Parser[String] = rep("*") ^^ { case lst => lst.mkString("") }
-    def constType: Parser[String] = ("CONST"?) ~ ident ^^ {
-        case Some(const) ~ t => const + " " + t
-        case None ~ t => t
-    }
-
-    def argType: Parser[String] = constType ~ stars ^^ { case t ~ s => t + s }
-    def arg: Parser[Arg] = argType ~ (ident?) ^^ { case t ~ name => Arg(t, name) }
-
-    def emptyArgs: Parser[Args] = "THIS" ^^ { case str => Nil }
-    def nonEmptyArgs: Parser[Args] = "THIS_" ~> repsep(arg, ",")
-    def args: Parser[Args] = nonEmptyArgs | emptyArgs
-
-    def brArgs: Parser[Args] = "(" ~> args <~ ")"
-
-    def stdMethodHR: Parser[StdMethodHR] = "STDMETHOD" ~> (("(" ~> ident <~ ")") ~ brArgs) <~ "PURE" ^^ {
-        case name ~ args => StdMethodHR(name, args)
-    }
-
-    def stdMethodRet: Parser[StdMethodRet] = "STDMETHOD_" ~> ((("(" ~> argType <~ ",") ~ ident <~ ")") ~ brArgs) <~ "PURE" ^^ {
-        case t ~ name ~ args => StdMethodRet(name, t, args)
-    }
-
-    def stdMethod: Parser[StdMethod] = stdMethodRet | stdMethodHR
-
-    def interfaceDecl: Parser[String] = ("DECLARE_INTERFACE_" ~ "(") ~> ((ident <~ "," ) <~ ident) <~ ")"
-    def interfaceBody: Parser[StdMethods] = rep(stdMethod <~ ";")
-    def interface: Parser[Interface] = interfaceDecl ~ ("{" ~> interfaceBody <~ "}") ^^ {
-        case name ~ methods => Interface(name, methods)
-    }
-
-    def interfaces: Parser[Interfaces] = rep (interface <~ ";")
-
 }
 
 object Main extends DeclParser {
-    private def printMethods(methods: DeclParser.StdMethods) {
+    private def printMethods(methods: DeclParser.DeclParser.StdMethods) {
         methods.foreach {
             case m => println(m.retType, m.name, "(" + m.args.size + ")")
         }
     }
 
-    private def printInterfaces(interfaces: DeclParser.Interfaces) {
-        interfaces.foreach {
-            case i => println(i.name, i.methods.size)
+    private def printInterfaces(interfaces: DeclParser.DeclParser.Interfaces) {
+        def saveInterface(interface: DeclParser.DeclParser.Interface) {
+            def stripName(interfaceName: String) {
+
+            }
+
+            def proxyFilename(interfaceName: String) = "gen/" + interfaceName + "Proxy"
+            type PW = java.io.PrintWriter
+
+            def saveH(interface: DeclParser.DeclParser.Interface) {
+                val pw = new PW(proxyFilename(interface.name) + ".h")
+                pw.println("#pragma once")
+                pw.println
+
+                pw.println("namespace NS_" + interface.name)
+                pw.println("{")
+
+                pw.println("typedef " + interface.name + " IBase;")
+                pw.println("typedef " + interface.name + " *IBasePtr;")
+                pw.println
+
+                pw.println("struct ProxyBase")
+                pw.println("    : IBase")
+                pw.println("{")
+
+                pw.println("    ProxyBase(IBasePtr pimpl) : pimpl_(pimpl) {}")
+                pw.println
+
+                interface.methods.foreach((i) => {
+                    pw.print("    ")
+                    pw.print(i.retType + " " + i.name + "(")
+
+                    val argStrings = i.args.map((arg) => arg.argType + (arg.name match {
+                        case Some(name) => " " + name
+                        case None => ""
+                    }))
+
+                    pw.print(argStrings.mkString(", "))
+                    pw.println(") override;")
+                })
+
+                pw.println
+                pw.println("private:")
+                pw.println("    " + "IBasePtr pimpl_;")
+
+                pw.println("};")
+                pw.println
+
+                pw.println("}")
+                pw.close()
+            }
+
+            saveH(interface)
         }
+
+        interfaces.foreach(saveInterface)
     }
 
     def main(argv: Array[String]) {
@@ -84,3 +81,4 @@ object Main extends DeclParser {
     }
 }
 
+*/
