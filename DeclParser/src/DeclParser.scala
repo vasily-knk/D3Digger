@@ -18,7 +18,8 @@ object DeclParser {
 
     case class StdMethodRet(override val name: String, override val retType: String, override val args: Args) extends StdMethod
 
-
+    case class Interface(name: String, methods: StdMethods)
+    type Interfaces = List[Interface]
 }
 
 class DeclParser extends JavaTokenParsers {
@@ -49,22 +50,35 @@ class DeclParser extends JavaTokenParsers {
 
     def stdMethod: Parser[StdMethod] = stdMethodRet | stdMethodHR
 
+    def interfaceDecl: Parser[String] = ("DECLARE_INTERFACE_" ~ "(") ~> ((ident <~ "," ) <~ ident) <~ ")"
     def interfaceBody: Parser[StdMethods] = rep(stdMethod <~ ";")
+    def interface: Parser[Interface] = interfaceDecl ~ ("{" ~> interfaceBody <~ "}") ^^ {
+        case name ~ methods => Interface(name, methods)
+    }
+
+    def interfaces: Parser[Interfaces] = rep (interface <~ ";")
+
 }
 
 object Main extends DeclParser {
-    private def printBody(methods: DeclParser.StdMethods) {
+    private def printMethods(methods: DeclParser.StdMethods) {
         methods.foreach {
             case m => println(m.retType, m.name, "(" + m.args.size + ")")
         }
     }
 
+    private def printInterfaces(interfaces: DeclParser.Interfaces) {
+        interfaces.foreach {
+            case i => println(i.name, i.methods.size)
+        }
+    }
+
     def main(argv: Array[String]) {
         val text = scala.io.Source.fromFile("src.txt").mkString
-        val res = parseAll(interfaceBody, text)
+        val res = parseAll(interfaces, text)
 
         if(res.successful)
-            printBody(res.get)
+            printInterfaces(res.get)
         else
             println(res)
     }
