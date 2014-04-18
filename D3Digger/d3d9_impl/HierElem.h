@@ -19,6 +19,11 @@ struct HierElem
 
     }
 
+    virtual ~HierElem()
+    {
+        assert(children_.empty());
+    }
+
 protected:
     void addChild(HierElemPtr child)
     {

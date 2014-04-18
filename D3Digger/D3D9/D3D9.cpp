@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "impl/d3d9/D3D.h"
+#include "../d3d9_impl/D3D.h"
 
 IDirect3D9* WINAPI Direct3DCreate9(UINT SDKVersion)
 {
