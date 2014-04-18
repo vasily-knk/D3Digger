@@ -3,16 +3,30 @@
 
 #include "stdafx.h"
 #include "../d3d9_impl/D3D.h"
+#include "../d3d9_impl/HierElem.h"
+
 
 IDirect3D9* WINAPI Direct3DCreate9(UINT SDKVersion)
 {
-    static auto dll = LoadLibrary(L"C:\\Windows\\System32\\d3d9.dll");
-    typedef IDirect3D9* (WINAPI *fn_t)(UINT);
-
-    auto fn = reinterpret_cast<fn_t>(GetProcAddress(dll, "Direct3DCreate9"));
-
     using namespace D3Digger::D3D9;
-    D3D::IBasePtr pimpl = fn(SDKVersion);
 
-    return D3D::ProxyImpl::create(pimpl).get();
+    static auto dll = LoadLibrary(L"C:\\Windows\\System32\\d3d9.dll");
+    static D3Digger::HierElemKeeper keeper;
+
+    typedef IDirect3D9* (WINAPI *Creator)(UINT);
+
+    Creator creator = reinterpret_cast<Creator>(GetProcAddress(dll, "Direct3DCreate9"));
+
+    D3D::IBasePtr pimpl = creator(SDKVersion);
+
+    if (pimpl)
+    {
+        D3D::ProxyImplPtr child = D3D::ProxyImpl::create(pimpl);
+        keeper.addChild(child);
+        return child.get();
+    }
+    else
+    {
+        return nullptr;
+    }
 }

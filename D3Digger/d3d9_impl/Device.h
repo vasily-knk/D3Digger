@@ -12,16 +12,17 @@ namespace Device
 {
 
 struct ProxyImpl
-    : ProxyBase
-    , HierElem
+    : IHierElem
+    , ProxyBase
 {
-    static ProxyImplPtr create(D3D::ProxyImplPtr parent, IBasePtr pimpl);
+    static ProxyImplPtr create(IBasePtr pimpl);
+    ULONG STDMETHODCALLTYPE Release() override;
 
 private:
-    ProxyImpl(D3D::ProxyImplPtr parent, IBasePtr pimpl);
+    ProxyImpl(IBasePtr pimpl);
 
-public:
-    ULONG STDMETHODCALLTYPE Release() override;
+private:
+    HierElemKeeper keeper_;
 };
 
 } // namespace Device

@@ -3,76 +3,39 @@
 namespace D3Digger
 {
 
-struct HierElem;
-typedef shared_ptr<HierElem> HierElemPtr;
-typedef weak_ptr<HierElem> HierElemWPtr;
+    
+struct IHierElem;
+typedef shared_ptr<IHierElem> IHierElemPtr;
 
-struct HierElem
-    : enable_shared_from_this<HierElem>
+struct IHierElem
 {
-    typedef set<HierElemPtr> ChildrenSet;
-    friend struct HierElemAux;
+    virtual ~IHierElem() {}
 
-    HierElem(HierElemWPtr parent)
-        : parent_(parent)
-    {
+    DECLARE_EVENT(detach, ());
+};
 
-    }
+struct HierElemKeeper;
 
-    virtual ~HierElem()
-    {
-        assert(children_.empty());
-    }
+struct HierElemKeeper
+{
+    typedef set<IHierElemPtr> ChildrenSet;
 
-protected:
-    void addChild(HierElemPtr child)
+public:
+    void addChild(IHierElemPtr child) 
     {
         children_.insert(child);
+        holder_ << child->subscribe_detach(bind(&HierElemKeeper::removeChild, this, child));
     }
 
-    void removeChild(HierElemPtr child)
+private:
+    void removeChild(IHierElemPtr child)
     {
         children_.erase(child);
     }
 
-    void detach()
-    {
-        if (HierElemPtr parent = parent_.lock())
-        {
-            parent->removeChild(shared_from_this());
-        }
-    }
-
-public:
-    HierElemWPtr parent() const
-    {
-        return parent_;
-    }
-
-    ChildrenSet const &children() const
-    {
-        return children_;
-    }
-
 private:
-    HierElemWPtr parent_;
     ChildrenSet children_;
-};
-
-struct HierElemAux
-    : HierElem
-{
-    HierElemAux(HierElemWPtr parent)
-        : HierElem(parent)
-    {
-
-    }
-
-    void setParent(HierElemWPtr parent)
-    {
-        detach();
-        parent_ = parent;
-    }
+    connection_holder holder_;
 };
 
 } // namespace D3Digger

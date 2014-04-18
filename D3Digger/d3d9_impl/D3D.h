@@ -12,19 +12,20 @@ namespace D3D
 {
 
 struct ProxyImpl
-    : ProxyBase
-    , HierElemAux
+    : IHierElem
+    , ProxyBase
 {
-
     static ProxyImplPtr create(IBasePtr pimpl);
+    ULONG STDMETHODCALLTYPE Release() override;
+
+public:
+    HRESULT STDMETHODCALLTYPE CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType, HWND hFocusWindow, DWORD BehaviorFlags, D3DPRESENT_PARAMETERS* pPresentationParameters, IDirect3DDevice9** ppReturnedDeviceInterface) override;
 
 private:
     ProxyImpl(IBasePtr pimpl);
-    void init();
 
-public:
-    ULONG STDMETHODCALLTYPE Release() override;
-    HRESULT STDMETHODCALLTYPE CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType, HWND hFocusWindow, DWORD BehaviorFlags, D3DPRESENT_PARAMETERS* pPresentationParameters, IDirect3DDevice9** ppReturnedDeviceInterface) override;
+private:
+    HierElemKeeper keeper_;
 };
 
 } // namespace Device

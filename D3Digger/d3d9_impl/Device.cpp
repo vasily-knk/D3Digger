@@ -9,14 +9,13 @@ namespace D3D9
 namespace Device
 {
 
-ProxyImplPtr ProxyImpl::create(D3D::ProxyImplPtr parent, IBasePtr pimpl)
+ProxyImplPtr ProxyImpl::create(IBasePtr pimpl)
 {
-    return ProxyImplPtr(new ProxyImpl(parent, pimpl));
+    return ProxyImplPtr(new ProxyImpl(pimpl));
 }
 
-ProxyImpl::ProxyImpl(D3D::ProxyImplPtr parent, IBasePtr pimpl)
-    : HierElem(std::dynamic_pointer_cast<HierElem>(parent))
-    , ProxyBase(pimpl)
+ProxyImpl::ProxyImpl(IBasePtr pimpl)
+    : ProxyBase(pimpl)
 {
 
 }
@@ -25,7 +24,8 @@ ULONG ProxyImpl::Release()
 {
     auto refcount = ProxyBase::Release();
     if (refcount == 0)
-        detach();
+        detach_signal_();
+
     return refcount;
 }
 
