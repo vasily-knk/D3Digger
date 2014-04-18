@@ -30,6 +30,8 @@ struct ProxyBase
     HRESULT STDMETHODCALLTYPE Unlock() override;
     HRESULT STDMETHODCALLTYPE GetDesc(D3DVERTEXBUFFER_DESC* pDesc) override;
 
+    IBasePtr getPImpl() const;
+
 private:
     IBasePtr pimpl_;
 };

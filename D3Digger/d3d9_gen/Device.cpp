@@ -24,7 +24,10 @@ ULONG ProxyBase::AddRef()
 
 ULONG ProxyBase::Release()
 {
-    return pimpl_->Release();
+    size_t refcount = pimpl_->Release();
+    if (refcount == 0)
+         pimpl_ = nullptr;
+    return refcount;
 }
 
 HRESULT ProxyBase::TestCooperativeLevel()
@@ -605,6 +608,11 @@ HRESULT ProxyBase::DeletePatch(UINT Handle)
 HRESULT ProxyBase::CreateQuery(D3DQUERYTYPE Type, IDirect3DQuery9** ppQuery)
 {
     return pimpl_->CreateQuery(Type, ppQuery);
+}
+
+IBasePtr ProxyBase::getPImpl() const
+{
+    return pimpl_;
 }
 
 } // namespace D3Digger

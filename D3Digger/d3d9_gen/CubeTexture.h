@@ -38,6 +38,8 @@ struct ProxyBase
     HRESULT STDMETHODCALLTYPE UnlockRect(D3DCUBEMAP_FACES FaceType, UINT Level) override;
     HRESULT STDMETHODCALLTYPE AddDirtyRect(D3DCUBEMAP_FACES FaceType, CONST RECT* pDirtyRect) override;
 
+    IBasePtr getPImpl() const;
+
 private:
     IBasePtr pimpl_;
 };

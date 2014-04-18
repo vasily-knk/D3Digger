@@ -33,6 +33,8 @@ struct ProxyBase
     HMONITOR STDMETHODCALLTYPE GetAdapterMonitor(UINT Adapter) override;
     HRESULT STDMETHODCALLTYPE CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType, HWND hFocusWindow, DWORD BehaviorFlags, D3DPRESENT_PARAMETERS* pPresentationParameters, IDirect3DDevice9** ppReturnedDeviceInterface) override;
 
+    IBasePtr getPImpl() const;
+
 private:
     IBasePtr pimpl_;
 };

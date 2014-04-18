@@ -38,6 +38,8 @@ struct ProxyBase
     HRESULT STDMETHODCALLTYPE UnlockBox(UINT Level) override;
     HRESULT STDMETHODCALLTYPE AddDirtyBox(CONST D3DBOX* pDirtyBox) override;
 
+    IBasePtr getPImpl() const;
+
 private:
     IBasePtr pimpl_;
 };

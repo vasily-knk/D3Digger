@@ -21,6 +21,8 @@ struct ProxyBase
     HRESULT STDMETHODCALLTYPE GetDevice(IDirect3DDevice9** ppDevice) override;
     HRESULT STDMETHODCALLTYPE GetFunction(void*, UINT* pSizeOfData) override;
 
+    IBasePtr getPImpl() const;
+
 private:
     IBasePtr pimpl_;
 };

@@ -135,6 +135,8 @@ struct ProxyBase
     HRESULT STDMETHODCALLTYPE DeletePatch(UINT Handle) override;
     HRESULT STDMETHODCALLTYPE CreateQuery(D3DQUERYTYPE Type, IDirect3DQuery9** ppQuery) override;
 
+    IBasePtr getPImpl() const;
+
 private:
     IBasePtr pimpl_;
 };

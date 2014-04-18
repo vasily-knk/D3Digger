@@ -24,7 +24,10 @@ ULONG ProxyBase::AddRef()
 
 ULONG ProxyBase::Release()
 {
-    return pimpl_->Release();
+    size_t refcount = pimpl_->Release();
+    if (refcount == 0)
+         pimpl_ = nullptr;
+    return refcount;
 }
 
 HRESULT ProxyBase::GetDevice(IDirect3DDevice9** ppDevice)
@@ -35,6 +38,11 @@ HRESULT ProxyBase::GetDevice(IDirect3DDevice9** ppDevice)
 HRESULT ProxyBase::GetFunction(void* unnamed0, UINT* pSizeOfData)
 {
     return pimpl_->GetFunction(unnamed0, pSizeOfData);
+}
+
+IBasePtr ProxyBase::getPImpl() const
+{
+    return pimpl_;
 }
 
 } // namespace D3Digger

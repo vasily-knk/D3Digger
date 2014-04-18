@@ -27,6 +27,8 @@ struct ProxyBase
     HRESULT STDMETHODCALLTYPE LockBox(D3DLOCKED_BOX* pLockedVolume, CONST D3DBOX* pBox, DWORD Flags) override;
     HRESULT STDMETHODCALLTYPE UnlockBox() override;
 
+    IBasePtr getPImpl() const;
+
 private:
     IBasePtr pimpl_;
 };

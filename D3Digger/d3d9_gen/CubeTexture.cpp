@@ -24,7 +24,10 @@ ULONG ProxyBase::AddRef()
 
 ULONG ProxyBase::Release()
 {
-    return pimpl_->Release();
+    size_t refcount = pimpl_->Release();
+    if (refcount == 0)
+         pimpl_ = nullptr;
+    return refcount;
 }
 
 HRESULT ProxyBase::GetDevice(IDirect3DDevice9** ppDevice)
@@ -120,6 +123,11 @@ HRESULT ProxyBase::UnlockRect(D3DCUBEMAP_FACES FaceType, UINT Level)
 HRESULT ProxyBase::AddDirtyRect(D3DCUBEMAP_FACES FaceType, CONST RECT* pDirtyRect)
 {
     return pimpl_->AddDirtyRect(FaceType, pDirtyRect);
+}
+
+IBasePtr ProxyBase::getPImpl() const
+{
+    return pimpl_;
 }
 
 } // namespace D3Digger

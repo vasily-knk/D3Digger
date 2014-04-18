@@ -38,6 +38,8 @@ struct ProxyBase
     HRESULT STDMETHODCALLTYPE UnlockRect(UINT Level) override;
     HRESULT STDMETHODCALLTYPE AddDirtyRect(CONST RECT* pDirtyRect) override;
 
+    IBasePtr getPImpl() const;
+
 private:
     IBasePtr pimpl_;
 };

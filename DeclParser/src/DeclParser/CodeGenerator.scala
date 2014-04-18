@@ -93,6 +93,8 @@ class CodeGenerator extends InterfacesProcessor {
             pw.println(") override;")
         })
 
+        pw.println()
+        pw.println("    IBasePtr getPImpl() const;")
 
         pw.println(
             """
@@ -136,21 +138,34 @@ class CodeGenerator extends InterfacesProcessor {
             pw.println(")")
             pw.println("{")
 
-            pw.print("    ")
-            if (m.retType != "void")
-                pw.print("return ")
+            if (m.name == "Release") {
+                pw.println("    size_t refcount = pimpl_->Release();")
+                pw.println("    if (refcount == 0)")
+                pw.println("         pimpl_ = nullptr;")
+                pw.println("    return refcount;")
+            } else {
+                pw.print("    ")
+                if (m.retType != "void")
+                    pw.print("return ")
 
-            pw.print("pimpl_->" + m.name + "(")
-            val argStringsOnlyNames = args.map((arg) => arg.name match {
-                case Some(name) => name
-            })
+                pw.print("pimpl_->" + m.name + "(")
+                val argStringsOnlyNames = args.map((arg) => arg.name match {
+                    case Some(name) => name
+                })
 
-            pw.print(argStringsOnlyNames.mkString(", "))
-            pw.println(");")
+                pw.print(argStringsOnlyNames.mkString(", "))
+                pw.println(");")
+            }
 
             pw.println("}")
             pw.println()
         })
+
+        pw.println("IBasePtr ProxyBase::getPImpl() const")
+        pw.println("{")
+        pw.println("    return pimpl_;")
+        pw.println("}")
+        pw.println()
 
 
         pw.println(closeNamespaces(namespaces))

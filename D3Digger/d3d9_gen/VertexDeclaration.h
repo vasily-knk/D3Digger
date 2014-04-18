@@ -21,6 +21,8 @@ struct ProxyBase
     HRESULT STDMETHODCALLTYPE GetDevice(IDirect3DDevice9** ppDevice) override;
     HRESULT STDMETHODCALLTYPE GetDeclaration(D3DVERTEXELEMENT9* pElement, UINT* pNumElements) override;
 
+    IBasePtr getPImpl() const;
+
 private:
     IBasePtr pimpl_;
 };

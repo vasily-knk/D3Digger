@@ -33,6 +33,8 @@ struct ProxyBase
     HRESULT STDMETHODCALLTYPE GetDC(HDC* phdc) override;
     HRESULT STDMETHODCALLTYPE ReleaseDC(HDC hdc) override;
 
+    IBasePtr getPImpl() const;
+
 private:
     IBasePtr pimpl_;
 };

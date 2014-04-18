@@ -22,6 +22,8 @@ struct ProxyBase
     HRESULT STDMETHODCALLTYPE Capture() override;
     HRESULT STDMETHODCALLTYPE Apply() override;
 
+    IBasePtr getPImpl() const;
+
 private:
     IBasePtr pimpl_;
 };

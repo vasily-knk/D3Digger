@@ -2,7 +2,7 @@
 
 #include <SDKDDKVer.h>
 
-#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
+#define WIN32_LEAN_AND_MEAN       
 
 #include <d3d9.h>
 
@@ -27,3 +27,6 @@ using std::unordered_set;
 using std::set;
 
 #include <cassert>
+
+#include <vector>
+using std::vector;
