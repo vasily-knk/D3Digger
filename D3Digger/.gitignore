@@ -1,0 +1,8 @@
+out/*
+*.ipch
+Makefile
+
+*.suo
+*.sdf
+*.opensdf
+*.user

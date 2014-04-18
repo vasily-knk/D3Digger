@@ -82,7 +82,7 @@ class CodeGenerator extends InterfacesProcessor {
 
         i.methods.foreach((m) => {
             pw.print("    ")
-            pw.print(m.retType + " " + m.name + "(")
+            pw.print(m.retType + " STDMETHODCALLTYPE " + m.name + "(")
 
             val argStrings = m.args.map((arg) => arg.argType + (arg.name match {
                 case Some(name) => " " + name
@@ -111,13 +111,13 @@ class CodeGenerator extends InterfacesProcessor {
         val namespaces = baseNamespaces :+ name
         val pw = new PW(proxyFilename(name) + ".cpp")
 
-        val headerName = proxyFilename(name) + ".h"
+        val headerName = name + ".h"
         pw.println("#include \"%s\"".format(headerName))
         pw.println()
 
         pw.println(openNamespaces(namespaces))
 
-        pw.println("ProxyBase::ProxyBase(IBasePtr *)")
+        pw.println("ProxyBase::ProxyBase(IBasePtr pimpl)")
         pw.println("    : pimpl_(pimpl)")
         pw.println("{")
         pw.println("}")

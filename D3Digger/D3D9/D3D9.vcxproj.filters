@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="gen">
+      <UniqueIdentifier>{a232cd5b-3f88-4a41-907c-cbf9b2373567}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gen\header">
+      <UniqueIdentifier>{fa3169b5-2303-4dde-ae3e-4815fbbc87da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gen\source">
+      <UniqueIdentifier>{8f9dd7d4-fc27-44aa-aef8-3621b68d209b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="impl">
+      <UniqueIdentifier>{5a0c5409-d6e9-4c3c-ad19-105d58762d6d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gen\d3d9\CubeTexture.h">
+      <Filter>gen\header</Filter>
+    </ClInclude>
+    <ClInclude Include="gen\d3d9\D3D.h">
+      <Filter>gen\header</Filter>
+    </ClInclude>
+    <ClInclude Include="gen\d3d9\Device.h">
+      <Filter>gen\header</Filter>
+    </ClInclude>
+    <ClInclude Include="gen\d3d9\IndexBuffer.h">
+      <Filter>gen\header</Filter>
+    </ClInclude>
+    <ClInclude Include="gen\d3d9\PixelShader.h">
+      <Filter>gen\header</Filter>
+    </ClInclude>
+    <ClInclude Include="gen\d3d9\StateBlock.h">
+      <Filter>gen\header</Filter>
+    </ClInclude>
+    <ClInclude Include="gen\d3d9\Surface.h">
+      <Filter>gen\header</Filter>
+    </ClInclude>
+    <ClInclude Include="gen\d3d9\SwapChain.h">
+      <Filter>gen\header</Filter>
+    </ClInclude>
+    <ClInclude Include="gen\d3d9\Texture.h">
+      <Filter>gen\header</Filter>
+    </ClInclude>
+    <ClInclude Include="gen\d3d9\VertexBuffer.h">
+      <Filter>gen\header</Filter>
+    </ClInclude>
+    <ClInclude Include="gen\d3d9\VertexDeclaration.h">
+      <Filter>gen\header</Filter>
+    </ClInclude>
+    <ClInclude Include="gen\d3d9\VertexShader.h">
+      <Filter>gen\header</Filter>
+    </ClInclude>
+    <ClInclude Include="gen\d3d9\Volume.h">
+      <Filter>gen\header</Filter>
+    </ClInclude>
+    <ClInclude Include="gen\d3d9\VolumeTexture.h">
+      <Filter>gen\header</Filter>
+    </ClInclude>
+    <ClInclude Include="HierElem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="impl\d3d9\Device.h">
+      <Filter>impl</Filter>
+    </ClInclude>
+    <ClInclude Include="impl\d3d9\fwd.h">
+      <Filter>impl</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D3D9.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gen\d3d9\CubeTexture.cpp">
+      <Filter>gen\source</Filter>
+    </ClCompile>
+    <ClCompile Include="gen\d3d9\D3D.cpp">
+      <Filter>gen\source</Filter>
+    </ClCompile>
+    <ClCompile Include="gen\d3d9\Device.cpp">
+      <Filter>gen\source</Filter>
+    </ClCompile>
+    <ClCompile Include="gen\d3d9\IndexBuffer.cpp">
+      <Filter>gen\source</Filter>
+    </ClCompile>
+    <ClCompile Include="gen\d3d9\PixelShader.cpp">
+      <Filter>gen\source</Filter>
+    </ClCompile>
+    <ClCompile Include="gen\d3d9\StateBlock.cpp">
+      <Filter>gen\source</Filter>
+    </ClCompile>
+    <ClCompile Include="gen\d3d9\Surface.cpp">
+      <Filter>gen\source</Filter>
+    </ClCompile>
+    <ClCompile Include="gen\d3d9\SwapChain.cpp">
+      <Filter>gen\source</Filter>
+    </ClCompile>
+    <ClCompile Include="gen\d3d9\Texture.cpp">
+      <Filter>gen\source</Filter>
+    </ClCompile>
+    <ClCompile Include="gen\d3d9\VertexBuffer.cpp">
+      <Filter>gen\source</Filter>
+    </ClCompile>
+    <ClCompile Include="gen\d3d9\VertexDeclaration.cpp">
+      <Filter>gen\source</Filter>
+    </ClCompile>
+    <ClCompile Include="gen\d3d9\VertexShader.cpp">
+      <Filter>gen\source</Filter>
+    </ClCompile>
+    <ClCompile Include="gen\d3d9\Volume.cpp">
+      <Filter>gen\source</Filter>
+    </ClCompile>
+    <ClCompile Include="gen\d3d9\VolumeTexture.cpp">
+      <Filter>gen\source</Filter>
+    </ClCompile>
+    <ClCompile Include="impl\d3d9\Device.cpp">
+      <Filter>impl</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="exports.def">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>
