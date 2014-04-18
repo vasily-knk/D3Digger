@@ -8,6 +8,11 @@
 
 IDirect3D9* WINAPI Direct3DCreate9(UINT SDKVersion)
 {
+    {
+        ofstream out("d3d9.log");
+        out << "Hello!" << endl;
+    }
+    
     using namespace D3Digger::D3D9;
 
     static auto dll = LoadLibrary(L"C:\\Windows\\System32\\d3d9.dll");

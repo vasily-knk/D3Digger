@@ -16,6 +16,8 @@ struct ProxyImpl
     , ProxyBase
 {
     static ProxyImplPtr create(IBasePtr pimpl);
+    ~ProxyImpl();
+
     ULONG STDMETHODCALLTYPE Release() override;
 
 public:

@@ -17,6 +17,8 @@ struct ProxyImpl
     , enable_shared_from_this<ProxyImpl>
 {
     static ProxyImplPtr create(IBasePtr pimpl);
+    ~ProxyImpl();
+
     ULONG STDMETHODCALLTYPE Release() override;
 
 public:

@@ -21,6 +21,12 @@ ProxyImpl::ProxyImpl(IBasePtr pimpl)
 
 }
 
+ProxyImpl::~ProxyImpl()
+{
+    assert(!ProxyBase::getPImpl());
+}
+
+
 ULONG ProxyImpl::Release() 
 {
     auto refcount = ProxyBase::Release();
@@ -51,13 +57,16 @@ HRESULT ProxyImpl::GetTexture(DWORD Stage, IDirect3DBaseTexture9** ppTexture)
     if (SUCCEEDED(res) && ppTexture)
     {
         assert(*ppTexture);
-        assert(Stage < textures_.size());
-        
-        Texture::ProxyImplPtr tex = textures_.at(Stage);
-        assert(tex);
-        assert(tex->getPImpl() == *ppTexture);
+        if (isTexture(*ppTexture))
+        {
+            assert(Stage < textures_.size());
 
-        *ppTexture = tex.get();
+            Texture::ProxyImplPtr tex = textures_.at(Stage);
+            assert(tex);
+            assert(tex->getPImpl() == *ppTexture);
+
+            *ppTexture = tex.get();
+        }
     }
 
     return res;
@@ -66,7 +75,7 @@ HRESULT ProxyImpl::GetTexture(DWORD Stage, IDirect3DBaseTexture9** ppTexture)
 HRESULT ProxyImpl::SetTexture(DWORD Stage, IDirect3DBaseTexture9* pTexture)
 {
     Texture::ProxyImplPtr tex;
-    if (pTexture)
+    if (pTexture && isTexture(pTexture))
     {
         Texture::ProxyImpl *temp_ptr = dynamic_cast<Texture::ProxyImpl *>(pTexture);
         assert(temp_ptr);
@@ -84,6 +93,11 @@ HRESULT ProxyImpl::SetTexture(DWORD Stage, IDirect3DBaseTexture9* pTexture)
     }
 
     return res;
+}
+
+bool ProxyImpl::isTexture(IDirect3DBaseTexture9* pTexture) const
+{
+    return pTexture->GetType() == D3DRTYPE_TEXTURE;
 }
 
 

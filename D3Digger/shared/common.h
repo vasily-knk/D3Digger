@@ -30,3 +30,8 @@ using std::set;
 
 #include <vector>
 using std::vector;
+
+#include <fstream>
+using std::ofstream;
+using std::ifstream;
+using std::endl;

@@ -20,6 +20,12 @@ ProxyImpl::ProxyImpl(IBasePtr pimpl)
 
 }
 
+ProxyImpl::~ProxyImpl()
+{
+    assert(!ProxyBase::getPImpl());
+}
+
+
 ULONG ProxyImpl::Release() 
 {
     auto refcount = ProxyBase::Release();
