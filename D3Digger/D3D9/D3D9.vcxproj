@@ -89,6 +89,7 @@
     <ClInclude Include="gen\d3d9\Volume.h" />
     <ClInclude Include="gen\d3d9\VolumeTexture.h" />
     <ClInclude Include="HierElem.h" />
+    <ClInclude Include="impl\d3d9\D3D.h" />
     <ClInclude Include="impl\d3d9\Device.h" />
     <ClInclude Include="impl\d3d9\fwd.h" />
     <ClInclude Include="stdafx.h" />
@@ -146,6 +147,7 @@
     <ClCompile Include="gen\d3d9\VolumeTexture.cpp">
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</ForcedIncludeFiles>
     </ClCompile>
+    <ClCompile Include="impl\d3d9\D3D.cpp" />
     <ClCompile Include="impl\d3d9\Device.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

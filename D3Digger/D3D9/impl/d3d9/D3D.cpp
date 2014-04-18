@@ -6,19 +6,26 @@ namespace D3Digger
 {
 namespace D3D9
 {
-namespace Device
+namespace D3D
 {
 
-ProxyImplPtr ProxyImpl::create(D3D::ProxyImplPtr parent, IBasePtr pimpl)
+ProxyImplPtr ProxyImpl::create(IBasePtr pimpl)
 {
-    return ProxyImplPtr(new ProxyImpl(parent, pimpl));
+    ProxyImplPtr p(new ProxyImpl(pimpl));
+    p->init();
+    return p;
 }
 
-ProxyImpl::ProxyImpl(D3D::ProxyImplPtr parent, IBasePtr pimpl)
-    : HierElem(std::dynamic_pointer_cast<HierElem>(parent))
+ProxyImpl::ProxyImpl(IBasePtr pimpl)
+    : HierElemAux(HierElemPtr())
     , ProxyBase(pimpl)
 {
+    
+}
 
+void ProxyImpl::init()
+{
+    HierElemAux::setParent(HierElem::shared_from_this());
 }
 
 ULONG ProxyImpl::Release() 

@@ -65,6 +65,7 @@ struct HierElemAux
 
     void setParent(HierElemWPtr parent)
     {
+        detach();
         parent_ = parent;
     }
 };

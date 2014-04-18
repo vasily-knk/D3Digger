@@ -84,6 +84,9 @@
     <ClInclude Include="impl\d3d9\fwd.h">
       <Filter>impl</Filter>
     </ClInclude>
+    <ClInclude Include="impl\d3d9\D3D.h">
+      <Filter>impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -138,6 +141,9 @@
       <Filter>gen\source</Filter>
     </ClCompile>
     <ClCompile Include="impl\d3d9\Device.cpp">
+      <Filter>impl</Filter>
+    </ClCompile>
+    <ClCompile Include="impl\d3d9\D3D.cpp">
       <Filter>impl</Filter>
     </ClCompile>
   </ItemGroup>
