@@ -15,7 +15,6 @@
     <ClInclude Include="common\interface.h" />
     <ClInclude Include="d3d9\decl.h" />
     <ClInclude Include="d3d9\def.h" />
-    <ClInclude Include="d3d9\proxy.h" />
     <ClInclude Include="d3d9\undef.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

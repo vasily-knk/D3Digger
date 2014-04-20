@@ -70,41 +70,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CubeTexture.h" />
-    <ClInclude Include="D3D.h" />
-    <ClInclude Include="Device.h" />
-    <ClInclude Include="IndexBuffer.h" />
-    <ClInclude Include="PixelShader.h" />
-    <ClInclude Include="StateBlock.h" />
+    <ClInclude Include="ProxyBase.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Surface.h" />
-    <ClInclude Include="SwapChain.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="VertexBuffer.h" />
-    <ClInclude Include="VertexDeclaration.h" />
-    <ClInclude Include="VertexShader.h" />
-    <ClInclude Include="Volume.h" />
-    <ClInclude Include="VolumeTexture.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CubeTexture.cpp" />
-    <ClCompile Include="D3D.cpp" />
-    <ClCompile Include="Device.cpp" />
-    <ClCompile Include="IndexBuffer.cpp" />
-    <ClCompile Include="PixelShader.cpp" />
-    <ClCompile Include="StateBlock.cpp" />
+    <ClCompile Include="ProxyBase_IDirect3D9.cpp" />
+    <ClCompile Include="ProxyBase_IDirect3DCubeTexture9.cpp" />
+    <ClCompile Include="ProxyBase_IDirect3DDevice9.cpp" />
+    <ClCompile Include="ProxyBase_IDirect3DIndexBuffer9.cpp" />
+    <ClCompile Include="ProxyBase_IDirect3DPixelShader9.cpp" />
+    <ClCompile Include="ProxyBase_IDirect3DStateBlock9.cpp" />
+    <ClCompile Include="ProxyBase_IDirect3DSurface9.cpp" />
+    <ClCompile Include="ProxyBase_IDirect3DSwapChain9.cpp" />
+    <ClCompile Include="ProxyBase_IDirect3DTexture9.cpp" />
+    <ClCompile Include="ProxyBase_IDirect3DVertexBuffer9.cpp" />
+    <ClCompile Include="ProxyBase_IDirect3DVertexDeclaration9.cpp" />
+    <ClCompile Include="ProxyBase_IDirect3DVertexShader9.cpp" />
+    <ClCompile Include="ProxyBase_IDirect3DVolume9.cpp" />
+    <ClCompile Include="ProxyBase_IDirect3DVolumeTexture9.cpp">
+      <PreprocessToFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</PreprocessToFile>
+    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Surface.cpp" />
-    <ClCompile Include="SwapChain.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="VertexBuffer.cpp" />
-    <ClCompile Include="VertexDeclaration.cpp" />
-    <ClCompile Include="VertexShader.cpp" />
-    <ClCompile Include="Volume.cpp" />
-    <ClCompile Include="VolumeTexture.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

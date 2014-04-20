@@ -1,9 +1,10 @@
 #include "stdafx.h"
 
-#include "d3d9/proxy.h"
+#include "proxy.h"
+#include "pimpl.h"
 
 struct ProxyImpl_Texture
-    : IDirect3DTexture9
+    : IPImplHandler_IDirect3DTexture9
 {
 
 };

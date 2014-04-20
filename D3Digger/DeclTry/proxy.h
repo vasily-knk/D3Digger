@@ -10,5 +10,5 @@
 #define MY_PURE = 0
 
 #include "common/interface.h"
-#include "decl.h"
-#include "undef.h"
+#include "d3d9/decl.h"
+#include "d3d9/undef.h"

@@ -30,8 +30,5 @@
     <ClInclude Include="d3d9\undef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="d3d9\proxy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
