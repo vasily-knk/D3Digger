@@ -15,40 +15,23 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="common\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D3D.h">
+    <ClInclude Include="common\interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Device.h">
+    <ClInclude Include="d3d9\decl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="fwd.h">
+    <ClInclude Include="d3d9\def.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HierElem.h">
+    <ClInclude Include="d3d9\undef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
+    <ClInclude Include="d3d9\proxy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="res.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D3D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Device.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

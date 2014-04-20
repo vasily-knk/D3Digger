@@ -25,14 +25,14 @@ struct ProxyImpl
     HRESULT STDMETHODCALLTYPE SetTexture(DWORD Stage, IDirect3DBaseTexture9* pTexture) override;
 
 private:
-    bool isTexture(IDirect3DBaseTexture9* pTexture) const;
+    IResPtr extractShared(IDirect3DBaseTexture9* pTexture) const;
 
 private:
     ProxyImpl(IBasePtr pimpl);
 
 private:
     HierElemKeeper keeper_;
-    vector<Texture::ProxyImplPtr> textures_;
+    vector<IResPtr> textures_;
 };
 
 } // namespace Device

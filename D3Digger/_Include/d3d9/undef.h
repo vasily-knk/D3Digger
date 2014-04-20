@@ -1,0 +1,8 @@
+#undef MY_BEGIN_INTERFACE
+#undef MY_BEGIN_INTERFACE_
+#undef MY_END_INTERFACE
+
+#undef MY_STDMETHOD
+#undef MY_STDMETHOD_
+
+#undef MY_PURE

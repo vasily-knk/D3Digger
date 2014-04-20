@@ -3,6 +3,7 @@
 #include "../d3d9_gen/Texture.h"
 #include "HierElem.h"
 #include "fwd.h"
+#include "res.h"
 
 namespace D3Digger
 {
@@ -15,6 +16,7 @@ struct ProxyImpl
     : IHierElem
     , ProxyBase
     , enable_shared_from_this<ProxyImpl>
+    , IResShare
 {
     static ProxyImplPtr create(IBasePtr pimpl);
     ~ProxyImpl();
@@ -22,7 +24,8 @@ struct ProxyImpl
     ULONG STDMETHODCALLTYPE Release() override;
 
 public:
-    ProxyImplPtr getShared();
+    IResPtr getSharedRes() override;
+    ProxyImplPtr getSharedProxyImpl();
 
 private:
     ProxyImpl(IBasePtr pimpl);

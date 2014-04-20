@@ -33,7 +33,12 @@ ULONG ProxyImpl::Release()
     return refcount;
 }
 
-ProxyImplPtr ProxyImpl::getShared()
+IResPtr ProxyImpl::getSharedRes()
+{
+    return getSharedProxyImpl();
+}
+
+ProxyImplPtr ProxyImpl::getSharedProxyImpl()
 {
     return shared_from_this();
 }

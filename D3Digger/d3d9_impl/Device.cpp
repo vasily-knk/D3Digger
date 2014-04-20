@@ -57,14 +57,10 @@ HRESULT ProxyImpl::GetTexture(DWORD Stage, IDirect3DBaseTexture9** ppTexture)
     if (SUCCEEDED(res) && ppTexture)
     {
         assert(*ppTexture);
-        if (isTexture(*ppTexture))
+        IResPtr tex = extractShared(*ppTexture);
+        if (tex)
         {
-            assert(Stage < textures_.size());
-
-            Texture::ProxyImplPtr tex = textures_.at(Stage);
-            assert(tex);
-            assert(tex->getPImpl() == *ppTexture);
-
+            //assert(tex->getPImpl() == *ppTexture);
             *ppTexture = tex.get();
         }
     }
@@ -75,12 +71,11 @@ HRESULT ProxyImpl::GetTexture(DWORD Stage, IDirect3DBaseTexture9** ppTexture)
 HRESULT ProxyImpl::SetTexture(DWORD Stage, IDirect3DBaseTexture9* pTexture)
 {
     Texture::ProxyImplPtr tex;
-    if (pTexture && isTexture(pTexture))
+    if (pTexture)
     {
-        Texture::ProxyImpl *temp_ptr = dynamic_cast<Texture::ProxyImpl *>(pTexture);
-        assert(temp_ptr);
-        tex = temp_ptr->getShared();
-        pTexture = tex->getPImpl();
+        tex = extractShared(pTexture);
+        if (tex)
+            pTexture = tex->getPImpl();
     }
 
     auto res = ProxyBase::SetTexture(Stage, pTexture);
@@ -95,12 +90,27 @@ HRESULT ProxyImpl::SetTexture(DWORD Stage, IDirect3DBaseTexture9* pTexture)
     return res;
 }
 
-bool ProxyImpl::isTexture(IDirect3DBaseTexture9* pTexture) const
+
+IResPtr ProxyImpl::extractShared(IDirect3DBaseTexture9* pTexture) const
 {
-    return pTexture->GetType() == D3DRTYPE_TEXTURE;
+    D3DRESOURCETYPE type = pTexture->GetType();
+    switch(type)
+    {
+    case D3DRTYPE_TEXTURE:
+        IResShare *resShare = dynamic_cast<IResShare *>(pTexture);
+        assert(resShare);
+        return resShare->getSharedRes();
+        break;
+    case D3DRTYPE_VOLUMETEXTURE:
+    case D3DRTYPE_CUBETEXTURE:
+        // not implemented yet
+        return IResPtr();
+        break;
+    default:
+    }
+
+    assert(false);
 }
-
-
 
 } // namespace Device
 
