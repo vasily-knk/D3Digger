@@ -15,7 +15,10 @@
     <ClInclude Include="common\interface.h" />
     <ClInclude Include="d3d9\decl.h" />
     <ClInclude Include="d3d9\def.h" />
+    <ClInclude Include="d3d9\Global.h" />
+    <ClInclude Include="d3d9\IProxy.h" />
     <ClInclude Include="d3d9\undef.h" />
+    <ClInclude Include="d3d9\wrap.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F9681CB6-1570-402A-9C36-8B765B5504D9}</ProjectGuid>

@@ -30,5 +30,14 @@
     <ClInclude Include="d3d9\undef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="d3d9\IProxy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d9\wrap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d9\Global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

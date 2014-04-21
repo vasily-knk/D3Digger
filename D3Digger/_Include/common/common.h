@@ -22,6 +22,8 @@ using std::function;
 
 #include <unordered_set>
 using std::unordered_set;
+#include <unordered_map>
+using std::unordered_map;
 
 #include <set>
 using std::set;
@@ -35,3 +37,9 @@ using std::vector;
 using std::ofstream;
 using std::ifstream;
 using std::endl;
+
+#include <utility>
+using std::pair;
+using std::make_pair;
+
+#include "interface.h"

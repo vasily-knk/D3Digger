@@ -1,10 +1,14 @@
 #pragma once
 
-#define MY_BEGIN_INTERFACE(name) struct IPImplHandler_##name : Interface {
-#define MY_BEGIN_INTERFACE_(name, parent) \
-    struct IPImplHandler_##name : IPImplHandler_##parent \
+#define MY_BEGIN_INTERFACE(name) \
+    struct IShared_##name : Interface \
     { \
-        virtual name *getPImpl() = 0;
+    virtual shared_ptr<name> getShared_##name() = 0;
+    
+#define MY_BEGIN_INTERFACE_(name, parent) \
+    struct IShared_##name : IShared_##parent \
+    { \
+    virtual shared_ptr<name> getShared_##name() = 0;
 
 #define MY_END_INTERFACE }
 

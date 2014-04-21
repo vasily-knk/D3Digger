@@ -16,8 +16,8 @@ object CodeGenerator {
         if (stripped.isEmpty) "D3D" else stripped
     }
 
-    val baseNamespaces = List("D3Digger", "D3D9")
-    private def proxyFilename(name: String) = "gen/d3d9/" + name
+    val baseNamespaces = Nil //List("D3Digger", "D3D9")
+    private def proxyFilename(name: String) = "gen/ProxyBase_" + name
 
     private type PW = java.io.PrintWriter
 
@@ -58,8 +58,9 @@ class CodeGenerator extends InterfacesProcessor {
 
     private def writeHeader(i: Interface) {
         val name = stripName(i.name)
-        val namespaces = baseNamespaces :+ name
+        val namespaces = baseNamespaces // :+ name
         val pw = new PW(proxyFilename(name) + ".h")
+        val suffix = "_" + name
 
         pw.println("#pragma once")
         pw.println()
@@ -67,17 +68,20 @@ class CodeGenerator extends InterfacesProcessor {
 
         pw.println(openNamespaces(namespaces))
 
-        pw.println(
-            """typedef %s IBase;
-              |typedef %s *IBasePtr;
-            """.stripMargin.format(i.name, i.name))
+//        pw.println(
+//            """typedef %s IBase;
+//              |typedef %s *IBasePtr;
+//            """.stripMargin.format(i.name, i.name))
 
-        pw.println(
+        pw.println("struct ProxyBase" + suffix)
+        pw.println("    : " + name)
+        pw.println("{")
+        /*pw.println("")
             """struct ProxyBase
               |    : IBase
               |{
               |    ProxyBase(IBasePtr pimpl);
-            """.stripMargin)
+            """.stripMargin)*/
 
 
         i.methods.foreach((m) => {
@@ -109,17 +113,19 @@ class CodeGenerator extends InterfacesProcessor {
     }
 
     private def writeCPP(i: Interface) {
-        val name = stripName(i.name)
-        val namespaces = baseNamespaces :+ name
+        val name = i.name//stripName(i.name)
+        val namespaces = baseNamespaces //:+ name
         val pw = new PW(proxyFilename(name) + ".cpp")
 
-        val headerName = name + ".h"
-        pw.println("#include \"%s\"".format(headerName))
+        //val headerName = name + ".h"
+        //pw.println("#include \"%s\"".format(headerName))
+
+        pw.println("#include \"ProxyBase.h\"")
         pw.println()
 
         pw.println(openNamespaces(namespaces))
 
-        pw.println("ProxyBase::ProxyBase(IBasePtr pimpl)")
+        pw.println("ProxyBase_" + name + "::ProxyBase_" + name + "(" + name + " *pimpl)")
         pw.println("    : pimpl_(pimpl)")
         pw.println("{")
         pw.println("}")
@@ -128,7 +134,7 @@ class CodeGenerator extends InterfacesProcessor {
         i.methods.foreach((m) => {
             val args = fixUnnamedArgs(m.args)
 
-            pw.print(m.retType + " " + "ProxyBase::" + m.name + "(")
+            pw.print(m.retType + " " + "ProxyBase_" + name + "::" + m.name + "(")
 
             val argStrings = args.map((arg) => arg.argType + (arg.name match {
                 case Some(name) => " " + name
@@ -161,20 +167,13 @@ class CodeGenerator extends InterfacesProcessor {
             pw.println()
         })
 
-        pw.println("IBasePtr ProxyBase::getPImpl() const")
-        pw.println("{")
-        pw.println("    return pimpl_;")
-        pw.println("}")
-        pw.println()
-
-
         pw.println(closeNamespaces(namespaces))
 
         pw.close()
     }
 
     private def processInterface(i: Interface) {
-        writeHeader(i)
+        //writeHeader(i)
         writeCPP(i)
     }
 
