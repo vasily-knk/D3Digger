@@ -5,6 +5,7 @@
 #define WIN32_LEAN_AND_MEAN       
 
 #include <d3d9.h>
+#include <D3dx9tex.h>
 
 #include <memory>
 using std::shared_ptr;
@@ -42,4 +43,10 @@ using std::endl;
 using std::pair;
 using std::make_pair;
 
+#include <string>
+using std::string;
+#include <sstream>
+using std::stringstream;
+
 #include "interface.h"
+

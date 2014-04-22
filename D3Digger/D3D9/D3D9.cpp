@@ -12,13 +12,6 @@ void logMethod(const char *interfaceName, const char *methodName)
 }
 
 
-template<>
-shared_ptr<IProxy<IDirect3DBaseTexture9>> createProxy<IDirect3DBaseTexture9>(IDirect3DBaseTexture9 *pimpl)
-{
-    assert(false);
-    return shared_ptr<IProxy<IDirect3DBaseTexture9>>();
-}
-
 HMODULE getSystemDLL()
 {
     static HMODULE dll = LoadLibrary(L"C:\\Windows\\System32\\d3d9.dll");

@@ -86,13 +86,13 @@ class CodeGenerator extends InterfacesProcessor {
     }
 
     private def processInterface(i: Interface, pw: PW) {
-        pw.println(
+        /*pw.println(
             """template<>
               |shared_ptr<IProxy<%s>> createProxy<%s>(%s *pimpl)
               |{
               |    return make_shared<ProxyBase<%s>>(pimpl);
               |}
-            """.stripMargin.format(i.name, i.name, i.name, i.name))
+            """.stripMargin.format(i.name, i.name, i.name, i.name))*/
 
         pw.println(
             """ProxyBase<%s>::ProxyBase(%s *pimpl)

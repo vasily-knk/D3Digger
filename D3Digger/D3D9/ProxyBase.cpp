@@ -1,12 +1,6 @@
 #include "stdafx.h"
 #include "ProxyBase.h"
             
-template<>
-shared_ptr<IProxy<IDirect3D9>> createProxy<IDirect3D9>(IDirect3D9 *pimpl)
-{
-    return make_shared<ProxyBase<IDirect3D9>>(pimpl);
-}
-            
 ProxyBase<IDirect3D9>::ProxyBase(IDirect3D9 *pimpl)
     : pimpl_(pimpl)
     , extRefCount_(1)
@@ -201,12 +195,6 @@ HRESULT ProxyBase<IDirect3D9>::CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType,
                     
 }
                 
-template<>
-shared_ptr<IProxy<IDirect3DDevice9>> createProxy<IDirect3DDevice9>(IDirect3DDevice9 *pimpl)
-{
-    return make_shared<ProxyBase<IDirect3DDevice9>>(pimpl);
-}
-            
 ProxyBase<IDirect3DDevice9>::ProxyBase(IDirect3DDevice9 *pimpl)
     : pimpl_(pimpl)
     , extRefCount_(1)
@@ -1526,12 +1514,6 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateQuery(D3DQUERYTYPE Type, IDirect3DQue
                     
 }
                 
-template<>
-shared_ptr<IProxy<IDirect3DStateBlock9>> createProxy<IDirect3DStateBlock9>(IDirect3DStateBlock9 *pimpl)
-{
-    return make_shared<ProxyBase<IDirect3DStateBlock9>>(pimpl);
-}
-            
 ProxyBase<IDirect3DStateBlock9>::ProxyBase(IDirect3DStateBlock9 *pimpl)
     : pimpl_(pimpl)
     , extRefCount_(1)
@@ -1616,12 +1598,6 @@ HRESULT ProxyBase<IDirect3DStateBlock9>::Apply()
                     
 }
                 
-template<>
-shared_ptr<IProxy<IDirect3DSwapChain9>> createProxy<IDirect3DSwapChain9>(IDirect3DSwapChain9 *pimpl)
-{
-    return make_shared<ProxyBase<IDirect3DSwapChain9>>(pimpl);
-}
-            
 ProxyBase<IDirect3DSwapChain9>::ProxyBase(IDirect3DSwapChain9 *pimpl)
     : pimpl_(pimpl)
     , extRefCount_(1)
@@ -1750,12 +1726,6 @@ HRESULT ProxyBase<IDirect3DSwapChain9>::GetPresentParameters(D3DPRESENT_PARAMETE
                     
 }
                 
-template<>
-shared_ptr<IProxy<IDirect3DVertexDeclaration9>> createProxy<IDirect3DVertexDeclaration9>(IDirect3DVertexDeclaration9 *pimpl)
-{
-    return make_shared<ProxyBase<IDirect3DVertexDeclaration9>>(pimpl);
-}
-            
 ProxyBase<IDirect3DVertexDeclaration9>::ProxyBase(IDirect3DVertexDeclaration9 *pimpl)
     : pimpl_(pimpl)
     , extRefCount_(1)
@@ -1830,12 +1800,6 @@ HRESULT ProxyBase<IDirect3DVertexDeclaration9>::GetDeclaration(D3DVERTEXELEMENT9
                     
 }
                 
-template<>
-shared_ptr<IProxy<IDirect3DVertexShader9>> createProxy<IDirect3DVertexShader9>(IDirect3DVertexShader9 *pimpl)
-{
-    return make_shared<ProxyBase<IDirect3DVertexShader9>>(pimpl);
-}
-            
 ProxyBase<IDirect3DVertexShader9>::ProxyBase(IDirect3DVertexShader9 *pimpl)
     : pimpl_(pimpl)
     , extRefCount_(1)
@@ -1910,12 +1874,6 @@ HRESULT ProxyBase<IDirect3DVertexShader9>::GetFunction(void* unnamed0, UINT* pSi
                     
 }
                 
-template<>
-shared_ptr<IProxy<IDirect3DPixelShader9>> createProxy<IDirect3DPixelShader9>(IDirect3DPixelShader9 *pimpl)
-{
-    return make_shared<ProxyBase<IDirect3DPixelShader9>>(pimpl);
-}
-            
 ProxyBase<IDirect3DPixelShader9>::ProxyBase(IDirect3DPixelShader9 *pimpl)
     : pimpl_(pimpl)
     , extRefCount_(1)
@@ -1990,12 +1948,6 @@ HRESULT ProxyBase<IDirect3DPixelShader9>::GetFunction(void* unnamed0, UINT* pSiz
                     
 }
                 
-template<>
-shared_ptr<IProxy<IDirect3DTexture9>> createProxy<IDirect3DTexture9>(IDirect3DTexture9 *pimpl)
-{
-    return make_shared<ProxyBase<IDirect3DTexture9>>(pimpl);
-}
-            
 ProxyBase<IDirect3DTexture9>::ProxyBase(IDirect3DTexture9 *pimpl)
     : pimpl_(pimpl)
     , extRefCount_(1)
@@ -2244,12 +2196,6 @@ HRESULT ProxyBase<IDirect3DTexture9>::AddDirtyRect(const RECT* pDirtyRect)
                     
 }
                 
-template<>
-shared_ptr<IProxy<IDirect3DVolumeTexture9>> createProxy<IDirect3DVolumeTexture9>(IDirect3DVolumeTexture9 *pimpl)
-{
-    return make_shared<ProxyBase<IDirect3DVolumeTexture9>>(pimpl);
-}
-            
 ProxyBase<IDirect3DVolumeTexture9>::ProxyBase(IDirect3DVolumeTexture9 *pimpl)
     : pimpl_(pimpl)
     , extRefCount_(1)
@@ -2498,12 +2444,6 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::AddDirtyBox(const D3DBOX* pDirtyBox)
                     
 }
                 
-template<>
-shared_ptr<IProxy<IDirect3DCubeTexture9>> createProxy<IDirect3DCubeTexture9>(IDirect3DCubeTexture9 *pimpl)
-{
-    return make_shared<ProxyBase<IDirect3DCubeTexture9>>(pimpl);
-}
-            
 ProxyBase<IDirect3DCubeTexture9>::ProxyBase(IDirect3DCubeTexture9 *pimpl)
     : pimpl_(pimpl)
     , extRefCount_(1)
@@ -2752,12 +2692,6 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::AddDirtyRect(D3DCUBEMAP_FACES FaceType
                     
 }
                 
-template<>
-shared_ptr<IProxy<IDirect3DVertexBuffer9>> createProxy<IDirect3DVertexBuffer9>(IDirect3DVertexBuffer9 *pimpl)
-{
-    return make_shared<ProxyBase<IDirect3DVertexBuffer9>>(pimpl);
-}
-            
 ProxyBase<IDirect3DVertexBuffer9>::ProxyBase(IDirect3DVertexBuffer9 *pimpl)
     : pimpl_(pimpl)
     , extRefCount_(1)
@@ -2922,12 +2856,6 @@ HRESULT ProxyBase<IDirect3DVertexBuffer9>::GetDesc(D3DVERTEXBUFFER_DESC* pDesc)
                     
 }
                 
-template<>
-shared_ptr<IProxy<IDirect3DIndexBuffer9>> createProxy<IDirect3DIndexBuffer9>(IDirect3DIndexBuffer9 *pimpl)
-{
-    return make_shared<ProxyBase<IDirect3DIndexBuffer9>>(pimpl);
-}
-            
 ProxyBase<IDirect3DIndexBuffer9>::ProxyBase(IDirect3DIndexBuffer9 *pimpl)
     : pimpl_(pimpl)
     , extRefCount_(1)
@@ -3092,12 +3020,6 @@ HRESULT ProxyBase<IDirect3DIndexBuffer9>::GetDesc(D3DINDEXBUFFER_DESC* pDesc)
                     
 }
                 
-template<>
-shared_ptr<IProxy<IDirect3DSurface9>> createProxy<IDirect3DSurface9>(IDirect3DSurface9 *pimpl)
-{
-    return make_shared<ProxyBase<IDirect3DSurface9>>(pimpl);
-}
-            
 ProxyBase<IDirect3DSurface9>::ProxyBase(IDirect3DSurface9 *pimpl)
     : pimpl_(pimpl)
     , extRefCount_(1)
@@ -3292,12 +3214,6 @@ HRESULT ProxyBase<IDirect3DSurface9>::ReleaseDC(HDC hdc)
                     
 }
                 
-template<>
-shared_ptr<IProxy<IDirect3DVolume9>> createProxy<IDirect3DVolume9>(IDirect3DVolume9 *pimpl)
-{
-    return make_shared<ProxyBase<IDirect3DVolume9>>(pimpl);
-}
-            
 ProxyBase<IDirect3DVolume9>::ProxyBase(IDirect3DVolume9 *pimpl)
     : pimpl_(pimpl)
     , extRefCount_(1)
@@ -3432,12 +3348,6 @@ HRESULT ProxyBase<IDirect3DVolume9>::UnlockBox()
                     
 }
                 
-template<>
-shared_ptr<IProxy<IDirect3DQuery9>> createProxy<IDirect3DQuery9>(IDirect3DQuery9 *pimpl)
-{
-    return make_shared<ProxyBase<IDirect3DQuery9>>(pimpl);
-}
-            
 ProxyBase<IDirect3DQuery9>::ProxyBase(IDirect3DQuery9 *pimpl)
     : pimpl_(pimpl)
     , extRefCount_(1)
