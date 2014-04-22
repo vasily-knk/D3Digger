@@ -43,6 +43,7 @@ ULONG ProxyBase<IDirect3D9>::AddRef()
 ULONG ProxyBase<IDirect3D9>::Release()
 {
     LOG("IDirect3D9.Release");
+    auto sharedThis = shared_from_this();
     auto refCount = pimpl_->Release();
     --extRefCount_;
     if (extRefCount_ == 0)
@@ -189,7 +190,11 @@ HRESULT ProxyBase<IDirect3D9>::CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType,
     LOG("IDirect3D9.CreateDevice");
    
    auto res = pimpl_->CreateDevice(Adapter, DeviceType, hFocusWindow, BehaviorFlags, pPresentationParameters, ppReturnedDeviceInterface);
-   *ppReturnedDeviceInterface = wrapProxy<IDirect3DDevice9>(*ppReturnedDeviceInterface).get();
+       if (SUCCEEDED(res))
+    {
+        *ppReturnedDeviceInterface = wrapProxy<IDirect3DDevice9>(*ppReturnedDeviceInterface).get();
+    }
+                        
    return res;
                     
 }
@@ -236,6 +241,7 @@ ULONG ProxyBase<IDirect3DDevice9>::AddRef()
 ULONG ProxyBase<IDirect3DDevice9>::Release()
 {
     LOG("IDirect3DDevice9.Release");
+    auto sharedThis = shared_from_this();
     auto refCount = pimpl_->Release();
     --extRefCount_;
     if (extRefCount_ == 0)
@@ -282,7 +288,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetDirect3D(IDirect3D9** ppD3D9)
     LOG("IDirect3DDevice9.GetDirect3D");
    
    auto res = pimpl_->GetDirect3D(ppD3D9);
-   *ppD3D9 = wrapProxy<IDirect3D9>(*ppD3D9).get();
+       if (SUCCEEDED(res))
+    {
+        *ppD3D9 = wrapProxy<IDirect3D9>(*ppD3D9).get();
+    }
+                        
    return res;
                     
 }
@@ -352,7 +362,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateAdditionalSwapChain(D3DPRESENT_PARAME
     LOG("IDirect3DDevice9.CreateAdditionalSwapChain");
    
    auto res = pimpl_->CreateAdditionalSwapChain(pPresentationParameters, pSwapChain);
-   *pSwapChain = wrapProxy<IDirect3DSwapChain9>(*pSwapChain).get();
+       if (SUCCEEDED(res))
+    {
+        *pSwapChain = wrapProxy<IDirect3DSwapChain9>(*pSwapChain).get();
+    }
+                        
    return res;
                     
 }
@@ -362,7 +376,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetSwapChain(UINT iSwapChain, IDirect3DSwap
     LOG("IDirect3DDevice9.GetSwapChain");
    
    auto res = pimpl_->GetSwapChain(iSwapChain, pSwapChain);
-   *pSwapChain = wrapProxy<IDirect3DSwapChain9>(*pSwapChain).get();
+       if (SUCCEEDED(res))
+    {
+        *pSwapChain = wrapProxy<IDirect3DSwapChain9>(*pSwapChain).get();
+    }
+                        
    return res;
                     
 }
@@ -402,7 +420,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetBackBuffer(UINT iSwapChain, UINT iBackBu
     LOG("IDirect3DDevice9.GetBackBuffer");
    
    auto res = pimpl_->GetBackBuffer(iSwapChain, iBackBuffer, Type, ppBackBuffer);
-   *ppBackBuffer = wrapProxy<IDirect3DSurface9>(*ppBackBuffer).get();
+       if (SUCCEEDED(res))
+    {
+        *ppBackBuffer = wrapProxy<IDirect3DSurface9>(*ppBackBuffer).get();
+    }
+                        
    return res;
                     
 }
@@ -452,7 +474,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateTexture(UINT Width, UINT Height, UINT
     LOG("IDirect3DDevice9.CreateTexture");
    
    auto res = pimpl_->CreateTexture(Width, Height, Levels, Usage, Format, Pool, ppTexture, pSharedHandle);
-   *ppTexture = wrapProxy<IDirect3DTexture9>(*ppTexture).get();
+       if (SUCCEEDED(res))
+    {
+        *ppTexture = wrapProxy<IDirect3DTexture9>(*ppTexture).get();
+    }
+                        
    return res;
                     
 }
@@ -462,7 +488,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateVolumeTexture(UINT Width, UINT Height
     LOG("IDirect3DDevice9.CreateVolumeTexture");
    
    auto res = pimpl_->CreateVolumeTexture(Width, Height, Depth, Levels, Usage, Format, Pool, ppVolumeTexture, pSharedHandle);
-   *ppVolumeTexture = wrapProxy<IDirect3DVolumeTexture9>(*ppVolumeTexture).get();
+       if (SUCCEEDED(res))
+    {
+        *ppVolumeTexture = wrapProxy<IDirect3DVolumeTexture9>(*ppVolumeTexture).get();
+    }
+                        
    return res;
                     
 }
@@ -472,7 +502,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateCubeTexture(UINT EdgeLength, UINT Lev
     LOG("IDirect3DDevice9.CreateCubeTexture");
    
    auto res = pimpl_->CreateCubeTexture(EdgeLength, Levels, Usage, Format, Pool, ppCubeTexture, pSharedHandle);
-   *ppCubeTexture = wrapProxy<IDirect3DCubeTexture9>(*ppCubeTexture).get();
+       if (SUCCEEDED(res))
+    {
+        *ppCubeTexture = wrapProxy<IDirect3DCubeTexture9>(*ppCubeTexture).get();
+    }
+                        
    return res;
                     
 }
@@ -482,7 +516,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateVertexBuffer(UINT Length, DWORD Usage
     LOG("IDirect3DDevice9.CreateVertexBuffer");
    
    auto res = pimpl_->CreateVertexBuffer(Length, Usage, FVF, Pool, ppVertexBuffer, pSharedHandle);
-   *ppVertexBuffer = wrapProxy<IDirect3DVertexBuffer9>(*ppVertexBuffer).get();
+       if (SUCCEEDED(res))
+    {
+        *ppVertexBuffer = wrapProxy<IDirect3DVertexBuffer9>(*ppVertexBuffer).get();
+    }
+                        
    return res;
                     
 }
@@ -492,7 +530,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateIndexBuffer(UINT Length, DWORD Usage,
     LOG("IDirect3DDevice9.CreateIndexBuffer");
    
    auto res = pimpl_->CreateIndexBuffer(Length, Usage, Format, Pool, ppIndexBuffer, pSharedHandle);
-   *ppIndexBuffer = wrapProxy<IDirect3DIndexBuffer9>(*ppIndexBuffer).get();
+       if (SUCCEEDED(res))
+    {
+        *ppIndexBuffer = wrapProxy<IDirect3DIndexBuffer9>(*ppIndexBuffer).get();
+    }
+                        
    return res;
                     
 }
@@ -502,7 +544,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateRenderTarget(UINT Width, UINT Height,
     LOG("IDirect3DDevice9.CreateRenderTarget");
    
    auto res = pimpl_->CreateRenderTarget(Width, Height, Format, MultiSample, MultisampleQuality, Lockable, ppSurface, pSharedHandle);
-   *ppSurface = wrapProxy<IDirect3DSurface9>(*ppSurface).get();
+       if (SUCCEEDED(res))
+    {
+        *ppSurface = wrapProxy<IDirect3DSurface9>(*ppSurface).get();
+    }
+                        
    return res;
                     
 }
@@ -512,7 +558,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateDepthStencilSurface(UINT Width, UINT 
     LOG("IDirect3DDevice9.CreateDepthStencilSurface");
    
    auto res = pimpl_->CreateDepthStencilSurface(Width, Height, Format, MultiSample, MultisampleQuality, Discard, ppSurface, pSharedHandle);
-   *ppSurface = wrapProxy<IDirect3DSurface9>(*ppSurface).get();
+       if (SUCCEEDED(res))
+    {
+        *ppSurface = wrapProxy<IDirect3DSurface9>(*ppSurface).get();
+    }
+                        
    return res;
                     
 }
@@ -582,7 +632,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateOffscreenPlainSurface(UINT Width, UIN
     LOG("IDirect3DDevice9.CreateOffscreenPlainSurface");
    
    auto res = pimpl_->CreateOffscreenPlainSurface(Width, Height, Format, Pool, ppSurface, pSharedHandle);
-   *ppSurface = wrapProxy<IDirect3DSurface9>(*ppSurface).get();
+       if (SUCCEEDED(res))
+    {
+        *ppSurface = wrapProxy<IDirect3DSurface9>(*ppSurface).get();
+    }
+                        
    return res;
                     
 }
@@ -602,7 +656,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetRenderTarget(DWORD RenderTargetIndex, ID
     LOG("IDirect3DDevice9.GetRenderTarget");
    
    auto res = pimpl_->GetRenderTarget(RenderTargetIndex, ppRenderTarget);
-   *ppRenderTarget = wrapProxy<IDirect3DSurface9>(*ppRenderTarget).get();
+       if (SUCCEEDED(res))
+    {
+        *ppRenderTarget = wrapProxy<IDirect3DSurface9>(*ppRenderTarget).get();
+    }
+                        
    return res;
                     
 }
@@ -622,7 +680,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetDepthStencilSurface(IDirect3DSurface9** 
     LOG("IDirect3DDevice9.GetDepthStencilSurface");
    
    auto res = pimpl_->GetDepthStencilSurface(ppZStencilSurface);
-   *ppZStencilSurface = wrapProxy<IDirect3DSurface9>(*ppZStencilSurface).get();
+       if (SUCCEEDED(res))
+    {
+        *ppZStencilSurface = wrapProxy<IDirect3DSurface9>(*ppZStencilSurface).get();
+    }
+                        
    return res;
                     
 }
@@ -812,7 +874,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateStateBlock(D3DSTATEBLOCKTYPE Type, ID
     LOG("IDirect3DDevice9.CreateStateBlock");
    
    auto res = pimpl_->CreateStateBlock(Type, ppSB);
-   *ppSB = wrapProxy<IDirect3DStateBlock9>(*ppSB).get();
+       if (SUCCEEDED(res))
+    {
+        *ppSB = wrapProxy<IDirect3DStateBlock9>(*ppSB).get();
+    }
+                        
    return res;
                     
 }
@@ -832,7 +898,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::EndStateBlock(IDirect3DStateBlock9** ppSB)
     LOG("IDirect3DDevice9.EndStateBlock");
    
    auto res = pimpl_->EndStateBlock(ppSB);
-   *ppSB = wrapProxy<IDirect3DStateBlock9>(*ppSB).get();
+       if (SUCCEEDED(res))
+    {
+        *ppSB = wrapProxy<IDirect3DStateBlock9>(*ppSB).get();
+    }
+                        
    return res;
                     
 }
@@ -862,7 +932,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetTexture(DWORD Stage, IDirect3DBaseTextur
     LOG("IDirect3DDevice9.GetTexture");
    
    auto res = pimpl_->GetTexture(Stage, ppTexture);
-   *ppTexture = wrapProxy<IDirect3DBaseTexture9>(*ppTexture).get();
+       if (SUCCEEDED(res))
+    {
+        *ppTexture = wrapProxy<IDirect3DBaseTexture9>(*ppTexture).get();
+    }
+                        
    return res;
                     
 }
@@ -1082,7 +1156,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateVertexDeclaration(const D3DVERTEXELEM
     LOG("IDirect3DDevice9.CreateVertexDeclaration");
    
    auto res = pimpl_->CreateVertexDeclaration(pVertexElements, ppDecl);
-   *ppDecl = wrapProxy<IDirect3DVertexDeclaration9>(*ppDecl).get();
+       if (SUCCEEDED(res))
+    {
+        *ppDecl = wrapProxy<IDirect3DVertexDeclaration9>(*ppDecl).get();
+    }
+                        
    return res;
                     
 }
@@ -1102,7 +1180,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetVertexDeclaration(IDirect3DVertexDeclara
     LOG("IDirect3DDevice9.GetVertexDeclaration");
    
    auto res = pimpl_->GetVertexDeclaration(ppDecl);
-   *ppDecl = wrapProxy<IDirect3DVertexDeclaration9>(*ppDecl).get();
+       if (SUCCEEDED(res))
+    {
+        *ppDecl = wrapProxy<IDirect3DVertexDeclaration9>(*ppDecl).get();
+    }
+                        
    return res;
                     
 }
@@ -1132,7 +1214,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateVertexShader(const DWORD* pFunction, 
     LOG("IDirect3DDevice9.CreateVertexShader");
    
    auto res = pimpl_->CreateVertexShader(pFunction, ppShader);
-   *ppShader = wrapProxy<IDirect3DVertexShader9>(*ppShader).get();
+       if (SUCCEEDED(res))
+    {
+        *ppShader = wrapProxy<IDirect3DVertexShader9>(*ppShader).get();
+    }
+                        
    return res;
                     
 }
@@ -1152,7 +1238,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetVertexShader(IDirect3DVertexShader9** pp
     LOG("IDirect3DDevice9.GetVertexShader");
    
    auto res = pimpl_->GetVertexShader(ppShader);
-   *ppShader = wrapProxy<IDirect3DVertexShader9>(*ppShader).get();
+       if (SUCCEEDED(res))
+    {
+        *ppShader = wrapProxy<IDirect3DVertexShader9>(*ppShader).get();
+    }
+                        
    return res;
                     
 }
@@ -1232,7 +1322,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetStreamSource(UINT StreamNumber, IDirect3
     LOG("IDirect3DDevice9.GetStreamSource");
    
    auto res = pimpl_->GetStreamSource(StreamNumber, ppStreamData, pOffsetInBytes, pStride);
-   *ppStreamData = wrapProxy<IDirect3DVertexBuffer9>(*ppStreamData).get();
+       if (SUCCEEDED(res))
+    {
+        *ppStreamData = wrapProxy<IDirect3DVertexBuffer9>(*ppStreamData).get();
+    }
+                        
    return res;
                     
 }
@@ -1272,7 +1366,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetIndices(IDirect3DIndexBuffer9** ppIndexD
     LOG("IDirect3DDevice9.GetIndices");
    
    auto res = pimpl_->GetIndices(ppIndexData);
-   *ppIndexData = wrapProxy<IDirect3DIndexBuffer9>(*ppIndexData).get();
+       if (SUCCEEDED(res))
+    {
+        *ppIndexData = wrapProxy<IDirect3DIndexBuffer9>(*ppIndexData).get();
+    }
+                        
    return res;
                     
 }
@@ -1282,7 +1380,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreatePixelShader(const DWORD* pFunction, I
     LOG("IDirect3DDevice9.CreatePixelShader");
    
    auto res = pimpl_->CreatePixelShader(pFunction, ppShader);
-   *ppShader = wrapProxy<IDirect3DPixelShader9>(*ppShader).get();
+       if (SUCCEEDED(res))
+    {
+        *ppShader = wrapProxy<IDirect3DPixelShader9>(*ppShader).get();
+    }
+                        
    return res;
                     
 }
@@ -1302,7 +1404,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetPixelShader(IDirect3DPixelShader9** ppSh
     LOG("IDirect3DDevice9.GetPixelShader");
    
    auto res = pimpl_->GetPixelShader(ppShader);
-   *ppShader = wrapProxy<IDirect3DPixelShader9>(*ppShader).get();
+       if (SUCCEEDED(res))
+    {
+        *ppShader = wrapProxy<IDirect3DPixelShader9>(*ppShader).get();
+    }
+                        
    return res;
                     
 }
@@ -1402,7 +1508,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateQuery(D3DQUERYTYPE Type, IDirect3DQue
     LOG("IDirect3DDevice9.CreateQuery");
    
    auto res = pimpl_->CreateQuery(Type, ppQuery);
-   *ppQuery = wrapProxy<IDirect3DQuery9>(*ppQuery).get();
+       if (SUCCEEDED(res))
+    {
+        *ppQuery = wrapProxy<IDirect3DQuery9>(*ppQuery).get();
+    }
+                        
    return res;
                     
 }
@@ -1449,6 +1559,7 @@ ULONG ProxyBase<IDirect3DStateBlock9>::AddRef()
 ULONG ProxyBase<IDirect3DStateBlock9>::Release()
 {
     LOG("IDirect3DStateBlock9.Release");
+    auto sharedThis = shared_from_this();
     auto refCount = pimpl_->Release();
     --extRefCount_;
     if (extRefCount_ == 0)
@@ -1465,7 +1576,11 @@ HRESULT ProxyBase<IDirect3DStateBlock9>::GetDevice(IDirect3DDevice9** ppDevice)
     LOG("IDirect3DStateBlock9.GetDevice");
    
    auto res = pimpl_->GetDevice(ppDevice);
-   *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+       if (SUCCEEDED(res))
+    {
+        *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+    }
+                        
    return res;
                     
 }
@@ -1532,6 +1647,7 @@ ULONG ProxyBase<IDirect3DSwapChain9>::AddRef()
 ULONG ProxyBase<IDirect3DSwapChain9>::Release()
 {
     LOG("IDirect3DSwapChain9.Release");
+    auto sharedThis = shared_from_this();
     auto refCount = pimpl_->Release();
     --extRefCount_;
     if (extRefCount_ == 0)
@@ -1568,7 +1684,11 @@ HRESULT ProxyBase<IDirect3DSwapChain9>::GetBackBuffer(UINT iBackBuffer, D3DBACKB
     LOG("IDirect3DSwapChain9.GetBackBuffer");
    
    auto res = pimpl_->GetBackBuffer(iBackBuffer, Type, ppBackBuffer);
-   *ppBackBuffer = wrapProxy<IDirect3DSurface9>(*ppBackBuffer).get();
+       if (SUCCEEDED(res))
+    {
+        *ppBackBuffer = wrapProxy<IDirect3DSurface9>(*ppBackBuffer).get();
+    }
+                        
    return res;
                     
 }
@@ -1598,7 +1718,11 @@ HRESULT ProxyBase<IDirect3DSwapChain9>::GetDevice(IDirect3DDevice9** ppDevice)
     LOG("IDirect3DSwapChain9.GetDevice");
    
    auto res = pimpl_->GetDevice(ppDevice);
-   *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+       if (SUCCEEDED(res))
+    {
+        *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+    }
+                        
    return res;
                     
 }
@@ -1655,6 +1779,7 @@ ULONG ProxyBase<IDirect3DVertexDeclaration9>::AddRef()
 ULONG ProxyBase<IDirect3DVertexDeclaration9>::Release()
 {
     LOG("IDirect3DVertexDeclaration9.Release");
+    auto sharedThis = shared_from_this();
     auto refCount = pimpl_->Release();
     --extRefCount_;
     if (extRefCount_ == 0)
@@ -1671,7 +1796,11 @@ HRESULT ProxyBase<IDirect3DVertexDeclaration9>::GetDevice(IDirect3DDevice9** ppD
     LOG("IDirect3DVertexDeclaration9.GetDevice");
    
    auto res = pimpl_->GetDevice(ppDevice);
-   *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+       if (SUCCEEDED(res))
+    {
+        *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+    }
+                        
    return res;
                     
 }
@@ -1728,6 +1857,7 @@ ULONG ProxyBase<IDirect3DVertexShader9>::AddRef()
 ULONG ProxyBase<IDirect3DVertexShader9>::Release()
 {
     LOG("IDirect3DVertexShader9.Release");
+    auto sharedThis = shared_from_this();
     auto refCount = pimpl_->Release();
     --extRefCount_;
     if (extRefCount_ == 0)
@@ -1744,7 +1874,11 @@ HRESULT ProxyBase<IDirect3DVertexShader9>::GetDevice(IDirect3DDevice9** ppDevice
     LOG("IDirect3DVertexShader9.GetDevice");
    
    auto res = pimpl_->GetDevice(ppDevice);
-   *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+       if (SUCCEEDED(res))
+    {
+        *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+    }
+                        
    return res;
                     
 }
@@ -1801,6 +1935,7 @@ ULONG ProxyBase<IDirect3DPixelShader9>::AddRef()
 ULONG ProxyBase<IDirect3DPixelShader9>::Release()
 {
     LOG("IDirect3DPixelShader9.Release");
+    auto sharedThis = shared_from_this();
     auto refCount = pimpl_->Release();
     --extRefCount_;
     if (extRefCount_ == 0)
@@ -1817,7 +1952,11 @@ HRESULT ProxyBase<IDirect3DPixelShader9>::GetDevice(IDirect3DDevice9** ppDevice)
     LOG("IDirect3DPixelShader9.GetDevice");
    
    auto res = pimpl_->GetDevice(ppDevice);
-   *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+       if (SUCCEEDED(res))
+    {
+        *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+    }
+                        
    return res;
                     
 }
@@ -1874,6 +2013,7 @@ ULONG ProxyBase<IDirect3DTexture9>::AddRef()
 ULONG ProxyBase<IDirect3DTexture9>::Release()
 {
     LOG("IDirect3DTexture9.Release");
+    auto sharedThis = shared_from_this();
     auto refCount = pimpl_->Release();
     --extRefCount_;
     if (extRefCount_ == 0)
@@ -1890,7 +2030,11 @@ HRESULT ProxyBase<IDirect3DTexture9>::GetDevice(IDirect3DDevice9** ppDevice)
     LOG("IDirect3DTexture9.GetDevice");
    
    auto res = pimpl_->GetDevice(ppDevice);
-   *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+       if (SUCCEEDED(res))
+    {
+        *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+    }
+                        
    return res;
                     
 }
@@ -2040,7 +2184,11 @@ HRESULT ProxyBase<IDirect3DTexture9>::GetSurfaceLevel(UINT Level, IDirect3DSurfa
     LOG("IDirect3DTexture9.GetSurfaceLevel");
    
    auto res = pimpl_->GetSurfaceLevel(Level, ppSurfaceLevel);
-   *ppSurfaceLevel = wrapProxy<IDirect3DSurface9>(*ppSurfaceLevel).get();
+       if (SUCCEEDED(res))
+    {
+        *ppSurfaceLevel = wrapProxy<IDirect3DSurface9>(*ppSurfaceLevel).get();
+    }
+                        
    return res;
                     
 }
@@ -2117,6 +2265,7 @@ ULONG ProxyBase<IDirect3DVolumeTexture9>::AddRef()
 ULONG ProxyBase<IDirect3DVolumeTexture9>::Release()
 {
     LOG("IDirect3DVolumeTexture9.Release");
+    auto sharedThis = shared_from_this();
     auto refCount = pimpl_->Release();
     --extRefCount_;
     if (extRefCount_ == 0)
@@ -2133,7 +2282,11 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::GetDevice(IDirect3DDevice9** ppDevic
     LOG("IDirect3DVolumeTexture9.GetDevice");
    
    auto res = pimpl_->GetDevice(ppDevice);
-   *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+       if (SUCCEEDED(res))
+    {
+        *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+    }
+                        
    return res;
                     
 }
@@ -2283,7 +2436,11 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::GetVolumeLevel(UINT Level, IDirect3D
     LOG("IDirect3DVolumeTexture9.GetVolumeLevel");
    
    auto res = pimpl_->GetVolumeLevel(Level, ppVolumeLevel);
-   *ppVolumeLevel = wrapProxy<IDirect3DVolume9>(*ppVolumeLevel).get();
+       if (SUCCEEDED(res))
+    {
+        *ppVolumeLevel = wrapProxy<IDirect3DVolume9>(*ppVolumeLevel).get();
+    }
+                        
    return res;
                     
 }
@@ -2360,6 +2517,7 @@ ULONG ProxyBase<IDirect3DCubeTexture9>::AddRef()
 ULONG ProxyBase<IDirect3DCubeTexture9>::Release()
 {
     LOG("IDirect3DCubeTexture9.Release");
+    auto sharedThis = shared_from_this();
     auto refCount = pimpl_->Release();
     --extRefCount_;
     if (extRefCount_ == 0)
@@ -2376,7 +2534,11 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::GetDevice(IDirect3DDevice9** ppDevice)
     LOG("IDirect3DCubeTexture9.GetDevice");
    
    auto res = pimpl_->GetDevice(ppDevice);
-   *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+       if (SUCCEEDED(res))
+    {
+        *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+    }
+                        
    return res;
                     
 }
@@ -2526,7 +2688,11 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::GetCubeMapSurface(D3DCUBEMAP_FACES Fac
     LOG("IDirect3DCubeTexture9.GetCubeMapSurface");
    
    auto res = pimpl_->GetCubeMapSurface(FaceType, Level, ppCubeMapSurface);
-   *ppCubeMapSurface = wrapProxy<IDirect3DSurface9>(*ppCubeMapSurface).get();
+       if (SUCCEEDED(res))
+    {
+        *ppCubeMapSurface = wrapProxy<IDirect3DSurface9>(*ppCubeMapSurface).get();
+    }
+                        
    return res;
                     
 }
@@ -2603,6 +2769,7 @@ ULONG ProxyBase<IDirect3DVertexBuffer9>::AddRef()
 ULONG ProxyBase<IDirect3DVertexBuffer9>::Release()
 {
     LOG("IDirect3DVertexBuffer9.Release");
+    auto sharedThis = shared_from_this();
     auto refCount = pimpl_->Release();
     --extRefCount_;
     if (extRefCount_ == 0)
@@ -2619,7 +2786,11 @@ HRESULT ProxyBase<IDirect3DVertexBuffer9>::GetDevice(IDirect3DDevice9** ppDevice
     LOG("IDirect3DVertexBuffer9.GetDevice");
    
    auto res = pimpl_->GetDevice(ppDevice);
-   *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+       if (SUCCEEDED(res))
+    {
+        *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+    }
+                        
    return res;
                     
 }
@@ -2766,6 +2937,7 @@ ULONG ProxyBase<IDirect3DIndexBuffer9>::AddRef()
 ULONG ProxyBase<IDirect3DIndexBuffer9>::Release()
 {
     LOG("IDirect3DIndexBuffer9.Release");
+    auto sharedThis = shared_from_this();
     auto refCount = pimpl_->Release();
     --extRefCount_;
     if (extRefCount_ == 0)
@@ -2782,7 +2954,11 @@ HRESULT ProxyBase<IDirect3DIndexBuffer9>::GetDevice(IDirect3DDevice9** ppDevice)
     LOG("IDirect3DIndexBuffer9.GetDevice");
    
    auto res = pimpl_->GetDevice(ppDevice);
-   *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+       if (SUCCEEDED(res))
+    {
+        *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+    }
+                        
    return res;
                     
 }
@@ -2929,6 +3105,7 @@ ULONG ProxyBase<IDirect3DSurface9>::AddRef()
 ULONG ProxyBase<IDirect3DSurface9>::Release()
 {
     LOG("IDirect3DSurface9.Release");
+    auto sharedThis = shared_from_this();
     auto refCount = pimpl_->Release();
     --extRefCount_;
     if (extRefCount_ == 0)
@@ -2945,7 +3122,11 @@ HRESULT ProxyBase<IDirect3DSurface9>::GetDevice(IDirect3DDevice9** ppDevice)
     LOG("IDirect3DSurface9.GetDevice");
    
    auto res = pimpl_->GetDevice(ppDevice);
-   *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+       if (SUCCEEDED(res))
+    {
+        *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+    }
+                        
    return res;
                     
 }
@@ -3122,6 +3303,7 @@ ULONG ProxyBase<IDirect3DVolume9>::AddRef()
 ULONG ProxyBase<IDirect3DVolume9>::Release()
 {
     LOG("IDirect3DVolume9.Release");
+    auto sharedThis = shared_from_this();
     auto refCount = pimpl_->Release();
     --extRefCount_;
     if (extRefCount_ == 0)
@@ -3138,7 +3320,11 @@ HRESULT ProxyBase<IDirect3DVolume9>::GetDevice(IDirect3DDevice9** ppDevice)
     LOG("IDirect3DVolume9.GetDevice");
    
    auto res = pimpl_->GetDevice(ppDevice);
-   *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+       if (SUCCEEDED(res))
+    {
+        *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+    }
+                        
    return res;
                     
 }
@@ -3255,6 +3441,7 @@ ULONG ProxyBase<IDirect3DQuery9>::AddRef()
 ULONG ProxyBase<IDirect3DQuery9>::Release()
 {
     LOG("IDirect3DQuery9.Release");
+    auto sharedThis = shared_from_this();
     auto refCount = pimpl_->Release();
     --extRefCount_;
     if (extRefCount_ == 0)
@@ -3271,7 +3458,11 @@ HRESULT ProxyBase<IDirect3DQuery9>::GetDevice(IDirect3DDevice9** ppDevice)
     LOG("IDirect3DQuery9.GetDevice");
    
    auto res = pimpl_->GetDevice(ppDevice);
-   *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+       if (SUCCEEDED(res))
+    {
+        *ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();
+    }
+                        
    return res;
                     
 }

@@ -10,6 +10,7 @@ struct ProxyBase;
     template<> \
     struct ProxyBase<name> \
         : IProxy<name> \
+        , enable_shared_from_this<ProxyBase<name>> \
     { \
         typedef name IBase; \
         IBase *getPImpl() override; \

@@ -141,7 +141,8 @@ class CodeGenerator extends InterfacesProcessor {
                       |    return refCount;
                     """.stripMargin.format(pimplCall)
                 case "Release" =>
-                    """    auto refCount = %s;
+                    """    auto sharedThis = shared_from_this();
+                      |    auto refCount = %s;
                       |    --extRefCount_;
                       |    if (extRefCount_ == 0)
                       |    {
@@ -162,7 +163,13 @@ class CodeGenerator extends InterfacesProcessor {
                     val wrapStrs = wraps.map({case arg => "*%s = wrapProxy<%s>(*%s).get();".format(arg.name.get, arg.argType.name, arg.name.get)})
 
                     val unwrapsStr = unwrapStrs.mkString(" ")
-                    val wrapsStr = wrapStrs.mkString(" ")
+                    val wrapsStr = if (wrapStrs.isEmpty) "" else
+                        """    if (SUCCEEDED(res))
+                          |    {
+                          |        %s
+                          |    }
+                        """.stripMargin.format(wrapStrs.mkString(" "))
+
 
                     val storeStr = if (checkVoid(m.retType)) "" else "auto res = "
                     val returnStr = if (checkVoid(m.retType)) "" else "return res"

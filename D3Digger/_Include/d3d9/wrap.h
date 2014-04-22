@@ -33,5 +33,5 @@ inline T *unwrapProxy(T *p)
 
 inline void detachProxy(IUnknown *id)
 {
-    //getGlobal().mapping.erase(id);
+    getGlobal().mapping.erase(id);
 }
