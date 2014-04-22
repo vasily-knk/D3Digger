@@ -33,6 +33,7 @@ object Main extends App {
 
     val interfaces = new ParserImpl().parse(text)
 
+    /*
     interfaces.foreach((i) => {
         println("Interface " + i.name + ": ")
         i.methods.foreach((m) => {
@@ -44,9 +45,13 @@ object Main extends App {
                     println("  In:" + ins.mkString(", "))
                 if (!outs.isEmpty)
                     println("  Out:" + outs.mkString(", "))
+
+                if (!ins.isEmpty && !outs.isEmpty)
+                    throw new RuntimeException("AAA!")
             }
         })
     })
+    */
 
-    //new CodeGenerator().process(interfaces)
+    new CodeGenerator().process(interfaces)
 }

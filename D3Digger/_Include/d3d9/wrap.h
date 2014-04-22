@@ -10,7 +10,7 @@ inline shared_ptr<IProxy<T>> wrapProxy(T *p)
     auto id = static_cast<IUnknown*>(p);
     if (getGlobal().mapping.count(id) == 0)
     {
-        auto v = make_pair(id, createProxy<IBase>());
+        auto v = make_pair(id, createProxy<IBase>(p));
         getGlobal().mapping.insert(v);
         //getGlobal().mapping[id] = createProxy<IBase>();
     }
@@ -25,4 +25,9 @@ inline T *unwrapProxy(T *p)
     typedef T IBase;
     IProxy<IBase> *proxy = dynamic_cast<IProxy<IBase> *>(p);
     return proxy->getPImpl();
+}
+
+inline void detachProxy(IUnknown *id)
+{
+    //getGlobal().mapping.erase(id);
 }

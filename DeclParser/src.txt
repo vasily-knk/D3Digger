@@ -357,3 +357,16 @@ DECLARE_INTERFACE_(IDirect3DVolume9, IUnknown)
     STDMETHOD(LockBox)(THIS_ D3DLOCKED_BOX * pLockedVolume,CONST D3DBOX* pBox,DWORD Flags) PURE;
     STDMETHOD(UnlockBox)(THIS) PURE;
 };
+
+DECLARE_INTERFACE_(IDirect3DQuery9, IUnknown)
+{
+    STDMETHOD(QueryInterface)(THIS_ REFIID riid, void** ppvObj) PURE;
+    STDMETHOD_(ULONG,AddRef)(THIS) PURE;
+    STDMETHOD_(ULONG,Release)(THIS) PURE;
+
+    STDMETHOD(GetDevice)(THIS_ IDirect3DDevice9** ppDevice) PURE;
+    STDMETHOD_(D3DQUERYTYPE, GetType)(THIS) PURE;
+    STDMETHOD_(DWORD, GetDataSize)(THIS) PURE;
+    STDMETHOD(Issue)(THIS_ DWORD dwIssueFlags) PURE;
+    STDMETHOD(GetData)(THIS_ void* pData,DWORD dwSize,DWORD dwGetDataFlags) PURE;
+};

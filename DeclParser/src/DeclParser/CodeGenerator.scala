@@ -50,134 +50,138 @@ object CodeGenerator {
         )
     }
 
+    def checkTypeName(name: String) = {
+        val pattern = """IDirect3D(\w*)9""".r
+
+        name match {
+            case pattern(str) => true
+            case _ => false
+        }
+    }
+
+    object WrapType extends Enumeration {
+        type WrapType = Value
+        val None, In, Out = Value
+    }
+    def checkArgWrap(argType: ArgType) : WrapType.Value = {
+        if (!checkTypeName(argType.name))
+            WrapType.None
+        else if (argType.ptrDepth == 1)
+            WrapType.In
+        else if (argType.ptrDepth == 2)
+            WrapType.Out
+        else
+            WrapType.None
+    }
 }
 
 class CodeGenerator extends InterfacesProcessor {
     import CodeGenerator._
 
-
-    private def writeHeader(i: Interface) {
-        val name = stripName(i.name)
-        val namespaces = baseNamespaces // :+ name
-        val pw = new PW(proxyFilename(name) + ".h")
-        val suffix = "_" + name
-
-        pw.println("#pragma once")
-        pw.println()
-
-
-        pw.println(openNamespaces(namespaces))
-
-//        pw.println(
-//            """typedef %s IBase;
-//              |typedef %s *IBasePtr;
-//            """.stripMargin.format(i.name, i.name))
-
-        pw.println("struct ProxyBase" + suffix)
-        pw.println("    : " + name)
-        pw.println("{")
-        /*pw.println("")
-            """struct ProxyBase
-              |    : IBase
-              |{
-              |    ProxyBase(IBasePtr pimpl);
-            """.stripMargin)*/
-
-
-        i.methods.foreach((m) => {
-            pw.print("    ")
-            pw.print(m.retType + " STDMETHODCALLTYPE " + m.name + "(")
-
-            val argStrings = m.args.map((arg) => arg.argType + (arg.name match {
-                case Some(name) => " " + name
-                case None => ""
-            }))
-
-            pw.print(argStrings.mkString(", "))
-            pw.println(") override;")
-        })
-
-        pw.println()
-        pw.println("    IBasePtr getPImpl() const;")
-
+    private def writeHeader(pw: PW) {
         pw.println(
-            """
-              |private:
-              |    IBasePtr pimpl_;
-              |};
+            """#include "stdafx.h"
+              |#include "ProxyBase.h"
             """.stripMargin)
-
-        pw.println("typedef ProxyBase *ProxyBasePtr;")
-        pw.println(closeNamespaces(namespaces))
-        pw.close()
     }
 
-    private def writeCPP(i: Interface) {
-        val name = i.name//stripName(i.name)
-        val namespaces = baseNamespaces //:+ name
-        val pw = new PW(proxyFilename(name) + ".cpp")
+    private def processInterface(i: Interface, pw: PW) {
+        pw.println(
+            """template<>
+              |shared_ptr<IProxy<%s>> createProxy<%s>(%s *pimpl)
+              |{
+              |    return make_shared<ProxyBase<%s>>(pimpl);
+              |}
+            """.stripMargin.format(i.name, i.name, i.name, i.name))
 
-        //val headerName = name + ".h"
-        //pw.println("#include \"%s\"".format(headerName))
+        pw.println(
+            """ProxyBase<%s>::ProxyBase(%s *pimpl)
+              |    : pimpl_(pimpl)
+              |    , extRefCount_(1)
+              |{
+              |}
+            """.stripMargin.format(i.name, i.name))
 
-        pw.println("#include \"ProxyBase.h\"")
-        pw.println()
+        pw.println(
+            """%s *ProxyBase<%s>::getPImpl()
+              |{
+              |    return pimpl_;
+              |}
+            """.stripMargin.format(i.name, i.name))
 
-        pw.println(openNamespaces(namespaces))
-
-        pw.println("ProxyBase_" + name + "::ProxyBase_" + name + "(" + name + " *pimpl)")
-        pw.println("    : pimpl_(pimpl)")
-        pw.println("{")
-        pw.println("}")
-        pw.println()
 
         i.methods.foreach((m) => {
             val args = fixUnnamedArgs(m.args)
 
-            pw.print(m.retType + " " + "ProxyBase_" + name + "::" + m.name + "(")
-
-            val argStrings = args.map((arg) => arg.argType + (arg.name match {
+            val argsString = args.map((arg) => arg.argType + (arg.name match {
                 case Some(name) => " " + name
-            }))
+            })).mkString(", ")
 
-            pw.print(argStrings.mkString(", "))
-            pw.println(")")
-            pw.println("{")
+            def checkVoid(t: ArgType) = t.name == "void" && t.ptrDepth == 0
 
-            if (m.name == "Release") {
-                pw.println("    size_t refcount = pimpl_->Release();")
-                pw.println("    if (refcount == 0)")
-                pw.println("         pimpl_ = nullptr;")
-                pw.println("    return refcount;")
-            } else {
-                pw.print("    ")
-                if (m.retType != "void")
-                    pw.print("return ")
+            //val returnStr = if (checkVoid(m.retType)) "return " else ""
 
-                pw.print("pimpl_->" + m.name + "(")
-                val argStringsOnlyNames = args.map((arg) => arg.name match {
-                    case Some(name) => name
-                })
+            val argsStringOnlyNames = args.map((arg) => arg.name match {
+                case Some(name) => name
+            }).mkString(", ")
 
-                pw.print(argStringsOnlyNames.mkString(", "))
-                pw.println(");")
+            val pimplCall = "pimpl_->%s(%s)".format(m.name, argsStringOnlyNames)
+
+            val body = m.name match {
+                case "AddRef" =>
+                    """    auto refCount = %s;
+                      |    ++extRefCount_;
+                      |    return refCount;
+                    """.stripMargin.format(pimplCall)
+                case "Release" =>
+                    """    auto refCount = %s;
+                      |    --extRefCount_;
+                      |    if (refCount == 0 && extRefCount_ == 0)
+                      |    {
+                      |        detachProxy(pimpl_);
+                      |        pimpl_ = nullptr;
+                      |    }
+                      |    return refCount;
+                    """.stripMargin.format(pimplCall)
+                case "QueryInterface" =>
+                    """    assert(false); // Not implemented
+                      |    return E_FAIL;
+                    """.stripMargin
+                case _ => {
+                    val unwraps = m.args.filter({case arg => checkArgWrap(arg.argType) == WrapType.In })
+                    val wraps = m.args.filter({case arg => checkArgWrap(arg.argType) == WrapType.Out})
+
+                    val unwrapStrs = unwraps.map({case arg => "%s = unwrapProxy<%s>(%s);".format(arg.name.get, arg.argType.name, arg.name.get)})
+                    val wrapStrs = wraps.map({case arg => "*%s = wrapProxy<%s>(*%s).get();".format(arg.name.get, arg.argType.name, arg.name.get)})
+
+                    val unwrapsStr = unwrapStrs.mkString(" ")
+                    val wrapsStr = wrapStrs.mkString(" ")
+
+                    val storeStr = if (checkVoid(m.retType)) "" else "auto res = "
+                    val returnStr = if (checkVoid(m.retType)) "" else "return res"
+
+                    """   %s
+                      |   %s%s;
+                      |   %s
+                      |   %s;
+                    """.stripMargin.format(unwrapsStr, storeStr, pimplCall, wrapsStr, returnStr)
+                }
             }
 
-            pw.println("}")
-            pw.println()
+            pw.println(
+                """%s ProxyBase<%s>::%s(%s)
+                  |{
+                  |    LOG("%s.%s");
+                  |%s
+                  |}
+                """.stripMargin.format(m.retType, i.name, m.name, argsString, i.name, m.name, body))
         })
-
-        pw.println(closeNamespaces(namespaces))
-
-        pw.close()
-    }
-
-    private def processInterface(i: Interface) {
-        //writeHeader(i)
-        writeCPP(i)
     }
 
     def process(interfaces: Interfaces) {
-        interfaces.foreach(processInterface)
+        val pw = new PW("C:\\my\\D3Digger\\D3Digger\\D3D9\\ProxyBase.cpp")
+        writeHeader(pw)
+        interfaces.foreach(processInterface(_, pw))
+        pw.close()
     }
 }

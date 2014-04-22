@@ -4,14 +4,14 @@ template<typename T>
 struct IProxy;
 
 template<typename T>
-shared_ptr<IProxy<T>> createProxy();
+shared_ptr<IProxy<T>> createProxy(T *pimpl);
 
 #include "undef.h"
 
 #define MY_BEGIN_INTERFACE_(name, parent)   \
     template<> struct IProxy<name>;         \
     template<>                              \
-    shared_ptr<IProxy<name>> createProxy(); \
+    shared_ptr<IProxy<name>> createProxy(name *pimpl); \
                                             \
     template<>                              \
     struct IProxy<name>                     \
@@ -22,7 +22,7 @@ shared_ptr<IProxy<T>> createProxy();
 #define MY_BEGIN_INTERFACE(name)            \
     template<> struct IProxy<name>;         \
     template<>                              \
-    shared_ptr<IProxy<name>> createProxy(); \
+    shared_ptr<IProxy<name>> createProxy(name *pimpl); \
                                             \
     template<>                              \
     struct IProxy<name>                     \
