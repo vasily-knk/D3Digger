@@ -24,6 +24,9 @@
     <ClInclude Include="ProxyBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ProxyImpl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

@@ -6,6 +6,8 @@
 template<typename T>
 struct ProxyBase;
 
+void logMethod(const char *interfaceName, const char *methodName);
+
 #define MY_BEGIN_INTERFACE(name) \
     template<> \
     struct ProxyBase<name> \

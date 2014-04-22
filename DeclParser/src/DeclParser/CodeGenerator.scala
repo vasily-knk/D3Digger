@@ -151,24 +151,24 @@ class CodeGenerator extends InterfacesProcessor {
                       |    }
                       |    return refCount;
                     """.stripMargin.format(pimplCall)
-                case "QueryInterface" =>
+                /*case "QueryInterface" =>
                     """    assert(false); // Not implemented
                       |    return E_FAIL;
-                    """.stripMargin
+                    """.stripMargin*/
                 case _ => {
                     val unwraps = m.args.filter({case arg => checkArgWrap(arg.argType) == WrapType.In })
                     val wraps = m.args.filter({case arg => checkArgWrap(arg.argType) == WrapType.Out})
 
-                    val unwrapStrs = unwraps.map({case arg => "%s = unwrapProxy<%s>(%s);".format(arg.name.get, arg.argType.name, arg.name.get)})
-                    val wrapStrs = wraps.map({case arg => "*%s = wrapProxy<%s>(*%s).get();".format(arg.name.get, arg.argType.name, arg.name.get)})
+                    val unwrapStrs = unwraps.map({case arg => "if (%s) {%s = unwrapProxy<%s>(%s);}".format(arg.name.get, arg.name.get, arg.argType.name, arg.name.get)})
+                    val wrapStrs = wraps.map({case arg => "if (%s) {*%s = wrapProxy<%s>(*%s).get();}".format(arg.name.get, arg.name.get, arg.argType.name, arg.name.get)})
 
-                    val unwrapsStr = unwrapStrs.mkString(" ")
+                    val unwrapsStr = unwrapStrs.mkString("\r\n        ")
                     val wrapsStr = if (wrapStrs.isEmpty) "" else
                         """    if (SUCCEEDED(res))
                           |    {
                           |        %s
                           |    }
-                        """.stripMargin.format(wrapStrs.mkString(" "))
+                        """.stripMargin.format(wrapStrs.mkString("\r\n        "))
 
 
                     val storeStr = if (checkVoid(m.retType)) "" else "auto res = "
@@ -185,7 +185,7 @@ class CodeGenerator extends InterfacesProcessor {
             pw.println(
                 """%s ProxyBase<%s>::%s(%s)
                   |{
-                  |    LOG("%s.%s");
+                  |    logMethod("%s", "%s");
                   |%s
                   |}
                 """.stripMargin.format(m.retType, i.name, m.name, argsString, i.name, m.name, body))

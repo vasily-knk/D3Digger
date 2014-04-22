@@ -3,6 +3,14 @@
 
 #include "stdafx.h"
 #include "ProxyBase.h"
+#include "ProxyImpl.h"
+
+void logMethod(const char *interfaceName, const char *methodName)
+{
+    (void)interfaceName;
+    (void)methodName;
+}
+
 
 template<>
 shared_ptr<IProxy<IDirect3DBaseTexture9>> createProxy<IDirect3DBaseTexture9>(IDirect3DBaseTexture9 *pimpl)
