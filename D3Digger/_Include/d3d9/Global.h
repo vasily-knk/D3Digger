@@ -6,11 +6,13 @@ struct Global
 {
     Global()
         : log("d3d9_log.txt")
+        , numTextures(0)
     {
 
     }
     unordered_map<IUnknown *, shared_ptr<IProxy<IUnknown>>> mapping;
     ofstream log;
+    size_t numTextures;
 };
 
 Global &getGlobal();

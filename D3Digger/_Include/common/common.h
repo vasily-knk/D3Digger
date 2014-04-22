@@ -48,5 +48,7 @@ using std::string;
 #include <sstream>
 using std::stringstream;
 
+#include <iomanip>
+
 #include "interface.h"
 
