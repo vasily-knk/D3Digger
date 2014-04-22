@@ -18,6 +18,11 @@ IDirect3D9 *ProxyBase<IDirect3D9>::getPImpl()
     return pimpl_;
 }
             
+size_t ProxyBase<IDirect3D9>::addExtRef()
+{
+    return ++extRefCount_;
+}
+            
 HRESULT ProxyBase<IDirect3D9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     LOG("IDirect3D9.QueryInterface");
@@ -40,7 +45,7 @@ ULONG ProxyBase<IDirect3D9>::Release()
     LOG("IDirect3D9.Release");
     auto refCount = pimpl_->Release();
     --extRefCount_;
-    if (refCount == 0 && extRefCount_ == 0)
+    if (extRefCount_ == 0)
     {
         detachProxy(pimpl_);
         pimpl_ = nullptr;
@@ -206,6 +211,11 @@ IDirect3DDevice9 *ProxyBase<IDirect3DDevice9>::getPImpl()
     return pimpl_;
 }
             
+size_t ProxyBase<IDirect3DDevice9>::addExtRef()
+{
+    return ++extRefCount_;
+}
+            
 HRESULT ProxyBase<IDirect3DDevice9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     LOG("IDirect3DDevice9.QueryInterface");
@@ -228,7 +238,7 @@ ULONG ProxyBase<IDirect3DDevice9>::Release()
     LOG("IDirect3DDevice9.Release");
     auto refCount = pimpl_->Release();
     --extRefCount_;
-    if (refCount == 0 && extRefCount_ == 0)
+    if (extRefCount_ == 0)
     {
         detachProxy(pimpl_);
         pimpl_ = nullptr;
@@ -1414,6 +1424,11 @@ IDirect3DStateBlock9 *ProxyBase<IDirect3DStateBlock9>::getPImpl()
     return pimpl_;
 }
             
+size_t ProxyBase<IDirect3DStateBlock9>::addExtRef()
+{
+    return ++extRefCount_;
+}
+            
 HRESULT ProxyBase<IDirect3DStateBlock9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     LOG("IDirect3DStateBlock9.QueryInterface");
@@ -1436,7 +1451,7 @@ ULONG ProxyBase<IDirect3DStateBlock9>::Release()
     LOG("IDirect3DStateBlock9.Release");
     auto refCount = pimpl_->Release();
     --extRefCount_;
-    if (refCount == 0 && extRefCount_ == 0)
+    if (extRefCount_ == 0)
     {
         detachProxy(pimpl_);
         pimpl_ = nullptr;
@@ -1492,6 +1507,11 @@ IDirect3DSwapChain9 *ProxyBase<IDirect3DSwapChain9>::getPImpl()
     return pimpl_;
 }
             
+size_t ProxyBase<IDirect3DSwapChain9>::addExtRef()
+{
+    return ++extRefCount_;
+}
+            
 HRESULT ProxyBase<IDirect3DSwapChain9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     LOG("IDirect3DSwapChain9.QueryInterface");
@@ -1514,7 +1534,7 @@ ULONG ProxyBase<IDirect3DSwapChain9>::Release()
     LOG("IDirect3DSwapChain9.Release");
     auto refCount = pimpl_->Release();
     --extRefCount_;
-    if (refCount == 0 && extRefCount_ == 0)
+    if (extRefCount_ == 0)
     {
         detachProxy(pimpl_);
         pimpl_ = nullptr;
@@ -1610,6 +1630,11 @@ IDirect3DVertexDeclaration9 *ProxyBase<IDirect3DVertexDeclaration9>::getPImpl()
     return pimpl_;
 }
             
+size_t ProxyBase<IDirect3DVertexDeclaration9>::addExtRef()
+{
+    return ++extRefCount_;
+}
+            
 HRESULT ProxyBase<IDirect3DVertexDeclaration9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     LOG("IDirect3DVertexDeclaration9.QueryInterface");
@@ -1632,7 +1657,7 @@ ULONG ProxyBase<IDirect3DVertexDeclaration9>::Release()
     LOG("IDirect3DVertexDeclaration9.Release");
     auto refCount = pimpl_->Release();
     --extRefCount_;
-    if (refCount == 0 && extRefCount_ == 0)
+    if (extRefCount_ == 0)
     {
         detachProxy(pimpl_);
         pimpl_ = nullptr;
@@ -1678,6 +1703,11 @@ IDirect3DVertexShader9 *ProxyBase<IDirect3DVertexShader9>::getPImpl()
     return pimpl_;
 }
             
+size_t ProxyBase<IDirect3DVertexShader9>::addExtRef()
+{
+    return ++extRefCount_;
+}
+            
 HRESULT ProxyBase<IDirect3DVertexShader9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     LOG("IDirect3DVertexShader9.QueryInterface");
@@ -1700,7 +1730,7 @@ ULONG ProxyBase<IDirect3DVertexShader9>::Release()
     LOG("IDirect3DVertexShader9.Release");
     auto refCount = pimpl_->Release();
     --extRefCount_;
-    if (refCount == 0 && extRefCount_ == 0)
+    if (extRefCount_ == 0)
     {
         detachProxy(pimpl_);
         pimpl_ = nullptr;
@@ -1746,6 +1776,11 @@ IDirect3DPixelShader9 *ProxyBase<IDirect3DPixelShader9>::getPImpl()
     return pimpl_;
 }
             
+size_t ProxyBase<IDirect3DPixelShader9>::addExtRef()
+{
+    return ++extRefCount_;
+}
+            
 HRESULT ProxyBase<IDirect3DPixelShader9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     LOG("IDirect3DPixelShader9.QueryInterface");
@@ -1768,7 +1803,7 @@ ULONG ProxyBase<IDirect3DPixelShader9>::Release()
     LOG("IDirect3DPixelShader9.Release");
     auto refCount = pimpl_->Release();
     --extRefCount_;
-    if (refCount == 0 && extRefCount_ == 0)
+    if (extRefCount_ == 0)
     {
         detachProxy(pimpl_);
         pimpl_ = nullptr;
@@ -1814,6 +1849,11 @@ IDirect3DTexture9 *ProxyBase<IDirect3DTexture9>::getPImpl()
     return pimpl_;
 }
             
+size_t ProxyBase<IDirect3DTexture9>::addExtRef()
+{
+    return ++extRefCount_;
+}
+            
 HRESULT ProxyBase<IDirect3DTexture9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     LOG("IDirect3DTexture9.QueryInterface");
@@ -1836,7 +1876,7 @@ ULONG ProxyBase<IDirect3DTexture9>::Release()
     LOG("IDirect3DTexture9.Release");
     auto refCount = pimpl_->Release();
     --extRefCount_;
-    if (refCount == 0 && extRefCount_ == 0)
+    if (extRefCount_ == 0)
     {
         detachProxy(pimpl_);
         pimpl_ = nullptr;
@@ -2052,6 +2092,11 @@ IDirect3DVolumeTexture9 *ProxyBase<IDirect3DVolumeTexture9>::getPImpl()
     return pimpl_;
 }
             
+size_t ProxyBase<IDirect3DVolumeTexture9>::addExtRef()
+{
+    return ++extRefCount_;
+}
+            
 HRESULT ProxyBase<IDirect3DVolumeTexture9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     LOG("IDirect3DVolumeTexture9.QueryInterface");
@@ -2074,7 +2119,7 @@ ULONG ProxyBase<IDirect3DVolumeTexture9>::Release()
     LOG("IDirect3DVolumeTexture9.Release");
     auto refCount = pimpl_->Release();
     --extRefCount_;
-    if (refCount == 0 && extRefCount_ == 0)
+    if (extRefCount_ == 0)
     {
         detachProxy(pimpl_);
         pimpl_ = nullptr;
@@ -2290,6 +2335,11 @@ IDirect3DCubeTexture9 *ProxyBase<IDirect3DCubeTexture9>::getPImpl()
     return pimpl_;
 }
             
+size_t ProxyBase<IDirect3DCubeTexture9>::addExtRef()
+{
+    return ++extRefCount_;
+}
+            
 HRESULT ProxyBase<IDirect3DCubeTexture9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     LOG("IDirect3DCubeTexture9.QueryInterface");
@@ -2312,7 +2362,7 @@ ULONG ProxyBase<IDirect3DCubeTexture9>::Release()
     LOG("IDirect3DCubeTexture9.Release");
     auto refCount = pimpl_->Release();
     --extRefCount_;
-    if (refCount == 0 && extRefCount_ == 0)
+    if (extRefCount_ == 0)
     {
         detachProxy(pimpl_);
         pimpl_ = nullptr;
@@ -2528,6 +2578,11 @@ IDirect3DVertexBuffer9 *ProxyBase<IDirect3DVertexBuffer9>::getPImpl()
     return pimpl_;
 }
             
+size_t ProxyBase<IDirect3DVertexBuffer9>::addExtRef()
+{
+    return ++extRefCount_;
+}
+            
 HRESULT ProxyBase<IDirect3DVertexBuffer9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     LOG("IDirect3DVertexBuffer9.QueryInterface");
@@ -2550,7 +2605,7 @@ ULONG ProxyBase<IDirect3DVertexBuffer9>::Release()
     LOG("IDirect3DVertexBuffer9.Release");
     auto refCount = pimpl_->Release();
     --extRefCount_;
-    if (refCount == 0 && extRefCount_ == 0)
+    if (extRefCount_ == 0)
     {
         detachProxy(pimpl_);
         pimpl_ = nullptr;
@@ -2686,6 +2741,11 @@ IDirect3DIndexBuffer9 *ProxyBase<IDirect3DIndexBuffer9>::getPImpl()
     return pimpl_;
 }
             
+size_t ProxyBase<IDirect3DIndexBuffer9>::addExtRef()
+{
+    return ++extRefCount_;
+}
+            
 HRESULT ProxyBase<IDirect3DIndexBuffer9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     LOG("IDirect3DIndexBuffer9.QueryInterface");
@@ -2708,7 +2768,7 @@ ULONG ProxyBase<IDirect3DIndexBuffer9>::Release()
     LOG("IDirect3DIndexBuffer9.Release");
     auto refCount = pimpl_->Release();
     --extRefCount_;
-    if (refCount == 0 && extRefCount_ == 0)
+    if (extRefCount_ == 0)
     {
         detachProxy(pimpl_);
         pimpl_ = nullptr;
@@ -2844,6 +2904,11 @@ IDirect3DSurface9 *ProxyBase<IDirect3DSurface9>::getPImpl()
     return pimpl_;
 }
             
+size_t ProxyBase<IDirect3DSurface9>::addExtRef()
+{
+    return ++extRefCount_;
+}
+            
 HRESULT ProxyBase<IDirect3DSurface9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     LOG("IDirect3DSurface9.QueryInterface");
@@ -2866,7 +2931,7 @@ ULONG ProxyBase<IDirect3DSurface9>::Release()
     LOG("IDirect3DSurface9.Release");
     auto refCount = pimpl_->Release();
     --extRefCount_;
-    if (refCount == 0 && extRefCount_ == 0)
+    if (extRefCount_ == 0)
     {
         detachProxy(pimpl_);
         pimpl_ = nullptr;
@@ -3032,6 +3097,11 @@ IDirect3DVolume9 *ProxyBase<IDirect3DVolume9>::getPImpl()
     return pimpl_;
 }
             
+size_t ProxyBase<IDirect3DVolume9>::addExtRef()
+{
+    return ++extRefCount_;
+}
+            
 HRESULT ProxyBase<IDirect3DVolume9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     LOG("IDirect3DVolume9.QueryInterface");
@@ -3054,7 +3124,7 @@ ULONG ProxyBase<IDirect3DVolume9>::Release()
     LOG("IDirect3DVolume9.Release");
     auto refCount = pimpl_->Release();
     --extRefCount_;
-    if (refCount == 0 && extRefCount_ == 0)
+    if (extRefCount_ == 0)
     {
         detachProxy(pimpl_);
         pimpl_ = nullptr;
@@ -3160,6 +3230,11 @@ IDirect3DQuery9 *ProxyBase<IDirect3DQuery9>::getPImpl()
     return pimpl_;
 }
             
+size_t ProxyBase<IDirect3DQuery9>::addExtRef()
+{
+    return ++extRefCount_;
+}
+            
 HRESULT ProxyBase<IDirect3DQuery9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     LOG("IDirect3DQuery9.QueryInterface");
@@ -3182,7 +3257,7 @@ ULONG ProxyBase<IDirect3DQuery9>::Release()
     LOG("IDirect3DQuery9.Release");
     auto refCount = pimpl_->Release();
     --extRefCount_;
-    if (refCount == 0 && extRefCount_ == 0)
+    if (extRefCount_ == 0)
     {
         detachProxy(pimpl_);
         pimpl_ = nullptr;

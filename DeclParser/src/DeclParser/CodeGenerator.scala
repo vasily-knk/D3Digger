@@ -109,6 +109,13 @@ class CodeGenerator extends InterfacesProcessor {
               |}
             """.stripMargin.format(i.name, i.name))
 
+        pw.println(
+            """size_t ProxyBase<%s>::addExtRef()
+              |{
+              |    return ++extRefCount_;
+              |}
+            """.stripMargin.format(i.name))
+
 
         i.methods.foreach((m) => {
             val args = fixUnnamedArgs(m.args)
@@ -136,7 +143,7 @@ class CodeGenerator extends InterfacesProcessor {
                 case "Release" =>
                     """    auto refCount = %s;
                       |    --extRefCount_;
-                      |    if (refCount == 0 && extRefCount_ == 0)
+                      |    if (extRefCount_ == 0)
                       |    {
                       |        detachProxy(pimpl_);
                       |        pimpl_ = nullptr;

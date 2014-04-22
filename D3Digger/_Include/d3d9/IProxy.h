@@ -17,7 +17,8 @@ shared_ptr<IProxy<T>> createProxy(T *pimpl);
     struct IProxy<name>                     \
         : name, IProxy<parent>              \
     {                                       \
-        virtual name *getPImpl() = 0;
+        virtual name *getPImpl() = 0;       \
+        virtual size_t addExtRef() = 0;
       
 #define MY_BEGIN_INTERFACE(name)            \
     template<> struct IProxy<name>;         \
@@ -28,7 +29,8 @@ shared_ptr<IProxy<T>> createProxy(T *pimpl);
     struct IProxy<name>                     \
         : name, Interface                   \
     {                                       \
-        virtual name *getPImpl() = 0;
+        virtual name *getPImpl() = 0;       \
+        virtual size_t addExtRef() = 0;
 
 #define MY_END_INTERFACE }
 

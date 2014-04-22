@@ -13,6 +13,7 @@ struct ProxyBase;
     { \
         typedef name IBase; \
         IBase *getPImpl() override; \
+        size_t addExtRef() override; \
         ProxyBase(IBase *pimpl);
 
 #define MY_BEGIN_INTERFACE_(name, parent) MY_BEGIN_INTERFACE(name)

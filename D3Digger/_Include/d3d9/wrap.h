@@ -12,8 +12,12 @@ inline shared_ptr<IProxy<T>> wrapProxy(T *p)
     {
         auto v = make_pair(id, createProxy<IBase>(p));
         getGlobal().mapping.insert(v);
-        //getGlobal().mapping[id] = createProxy<IBase>();
     }
+    else
+    {
+        getGlobal().mapping.at(id)->addExtRef();
+    }
+
 
     shared_ptr<IProxy<IBase>> proxy = dynamic_pointer_cast<IProxy<IBase>>(getGlobal().mapping.at(id));
     return proxy;
