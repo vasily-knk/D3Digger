@@ -5,11 +5,6 @@
 #include "ProxyBase.h"
 #include "ProxyImpl.h"
 
-void logMethod(const char *interfaceName, const char *methodName)
-{
-    (void)interfaceName;
-    (void)methodName;
-}
 
 
 HMODULE getSystemDLL()

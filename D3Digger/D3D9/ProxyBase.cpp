@@ -20,10 +20,9 @@ size_t ProxyBase<IDirect3D9>::addExtRef()
 HRESULT ProxyBase<IDirect3D9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     logMethod("IDirect3D9", "QueryInterface");
-   
-   auto res = pimpl_->QueryInterface(riid, ppvObj);
-   
-   return res;
+    auto res = pimpl_->QueryInterface(riid, ppvObj);
+    LogQI(riid);
+    return res;
                     
 }
                 
@@ -57,7 +56,7 @@ HRESULT ProxyBase<IDirect3D9>::RegisterSoftwareDevice(void* pInitializeFunction)
    
    auto res = pimpl_->RegisterSoftwareDevice(pInitializeFunction);
    
-   return res;
+   return checkReturn(res, "IDirect3D9", "RegisterSoftwareDevice");
                     
 }
                 
@@ -67,7 +66,7 @@ UINT ProxyBase<IDirect3D9>::GetAdapterCount()
    
    auto res = pimpl_->GetAdapterCount();
    
-   return res;
+   return checkReturn(res, "IDirect3D9", "GetAdapterCount");
                     
 }
                 
@@ -77,7 +76,7 @@ HRESULT ProxyBase<IDirect3D9>::GetAdapterIdentifier(UINT Adapter, DWORD Flags, D
    
    auto res = pimpl_->GetAdapterIdentifier(Adapter, Flags, pIdentifier);
    
-   return res;
+   return checkReturn(res, "IDirect3D9", "GetAdapterIdentifier");
                     
 }
                 
@@ -87,7 +86,7 @@ UINT ProxyBase<IDirect3D9>::GetAdapterModeCount(UINT Adapter, D3DFORMAT Format)
    
    auto res = pimpl_->GetAdapterModeCount(Adapter, Format);
    
-   return res;
+   return checkReturn(res, "IDirect3D9", "GetAdapterModeCount");
                     
 }
                 
@@ -97,7 +96,7 @@ HRESULT ProxyBase<IDirect3D9>::EnumAdapterModes(UINT Adapter, D3DFORMAT Format, 
    
    auto res = pimpl_->EnumAdapterModes(Adapter, Format, Mode, pMode);
    
-   return res;
+   return checkReturn(res, "IDirect3D9", "EnumAdapterModes");
                     
 }
                 
@@ -107,7 +106,7 @@ HRESULT ProxyBase<IDirect3D9>::GetAdapterDisplayMode(UINT Adapter, D3DDISPLAYMOD
    
    auto res = pimpl_->GetAdapterDisplayMode(Adapter, pMode);
    
-   return res;
+   return checkReturn(res, "IDirect3D9", "GetAdapterDisplayMode");
                     
 }
                 
@@ -117,7 +116,7 @@ HRESULT ProxyBase<IDirect3D9>::CheckDeviceType(UINT Adapter, D3DDEVTYPE DevType,
    
    auto res = pimpl_->CheckDeviceType(Adapter, DevType, AdapterFormat, BackBufferFormat, bWindowed);
    
-   return res;
+   return checkReturn(res, "IDirect3D9", "CheckDeviceType");
                     
 }
                 
@@ -127,7 +126,7 @@ HRESULT ProxyBase<IDirect3D9>::CheckDeviceFormat(UINT Adapter, D3DDEVTYPE Device
    
    auto res = pimpl_->CheckDeviceFormat(Adapter, DeviceType, AdapterFormat, Usage, RType, CheckFormat);
    
-   return res;
+   return checkReturn(res, "IDirect3D9", "CheckDeviceFormat");
                     
 }
                 
@@ -137,7 +136,7 @@ HRESULT ProxyBase<IDirect3D9>::CheckDeviceMultiSampleType(UINT Adapter, D3DDEVTY
    
    auto res = pimpl_->CheckDeviceMultiSampleType(Adapter, DeviceType, SurfaceFormat, Windowed, MultiSampleType, pQualityLevels);
    
-   return res;
+   return checkReturn(res, "IDirect3D9", "CheckDeviceMultiSampleType");
                     
 }
                 
@@ -147,7 +146,7 @@ HRESULT ProxyBase<IDirect3D9>::CheckDepthStencilMatch(UINT Adapter, D3DDEVTYPE D
    
    auto res = pimpl_->CheckDepthStencilMatch(Adapter, DeviceType, AdapterFormat, RenderTargetFormat, DepthStencilFormat);
    
-   return res;
+   return checkReturn(res, "IDirect3D9", "CheckDepthStencilMatch");
                     
 }
                 
@@ -157,7 +156,7 @@ HRESULT ProxyBase<IDirect3D9>::CheckDeviceFormatConversion(UINT Adapter, D3DDEVT
    
    auto res = pimpl_->CheckDeviceFormatConversion(Adapter, DeviceType, SourceFormat, TargetFormat);
    
-   return res;
+   return checkReturn(res, "IDirect3D9", "CheckDeviceFormatConversion");
                     
 }
                 
@@ -167,7 +166,7 @@ HRESULT ProxyBase<IDirect3D9>::GetDeviceCaps(UINT Adapter, D3DDEVTYPE DeviceType
    
    auto res = pimpl_->GetDeviceCaps(Adapter, DeviceType, pCaps);
    
-   return res;
+   return checkReturn(res, "IDirect3D9", "GetDeviceCaps");
                     
 }
                 
@@ -177,7 +176,7 @@ HMONITOR ProxyBase<IDirect3D9>::GetAdapterMonitor(UINT Adapter)
    
    auto res = pimpl_->GetAdapterMonitor(Adapter);
    
-   return res;
+   return checkReturn(res, "IDirect3D9", "GetAdapterMonitor");
                     
 }
                 
@@ -191,7 +190,7 @@ HRESULT ProxyBase<IDirect3D9>::CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType,
         if (ppReturnedDeviceInterface) {*ppReturnedDeviceInterface = wrapProxy<IDirect3DDevice9>(*ppReturnedDeviceInterface).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3D9", "CreateDevice");
                     
 }
                 
@@ -214,10 +213,9 @@ size_t ProxyBase<IDirect3DDevice9>::addExtRef()
 HRESULT ProxyBase<IDirect3DDevice9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     logMethod("IDirect3DDevice9", "QueryInterface");
-   
-   auto res = pimpl_->QueryInterface(riid, ppvObj);
-   
-   return res;
+    auto res = pimpl_->QueryInterface(riid, ppvObj);
+    LogQI(riid);
+    return res;
                     
 }
                 
@@ -251,7 +249,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::TestCooperativeLevel()
    
    auto res = pimpl_->TestCooperativeLevel();
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "TestCooperativeLevel");
                     
 }
                 
@@ -261,7 +259,7 @@ UINT ProxyBase<IDirect3DDevice9>::GetAvailableTextureMem()
    
    auto res = pimpl_->GetAvailableTextureMem();
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetAvailableTextureMem");
                     
 }
                 
@@ -271,7 +269,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::EvictManagedResources()
    
    auto res = pimpl_->EvictManagedResources();
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "EvictManagedResources");
                     
 }
                 
@@ -285,7 +283,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetDirect3D(IDirect3D9** ppD3D9)
         if (ppD3D9) {*ppD3D9 = wrapProxy<IDirect3D9>(*ppD3D9).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetDirect3D");
                     
 }
                 
@@ -295,7 +293,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetDeviceCaps(D3DCAPS9* pCaps)
    
    auto res = pimpl_->GetDeviceCaps(pCaps);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetDeviceCaps");
                     
 }
                 
@@ -305,7 +303,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetDisplayMode(UINT iSwapChain, D3DDISPLAYM
    
    auto res = pimpl_->GetDisplayMode(iSwapChain, pMode);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetDisplayMode");
                     
 }
                 
@@ -315,7 +313,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetCreationParameters(D3DDEVICE_CREATION_PA
    
    auto res = pimpl_->GetCreationParameters(pParameters);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetCreationParameters");
                     
 }
                 
@@ -325,7 +323,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetCursorProperties(UINT XHotSpot, UINT YHo
    if (pCursorBitmap) {pCursorBitmap = unwrapProxy<IDirect3DSurface9>(pCursorBitmap);}
    auto res = pimpl_->SetCursorProperties(XHotSpot, YHotSpot, pCursorBitmap);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetCursorProperties");
                     
 }
                 
@@ -345,7 +343,7 @@ BOOL ProxyBase<IDirect3DDevice9>::ShowCursor(BOOL bShow)
    
    auto res = pimpl_->ShowCursor(bShow);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "ShowCursor");
                     
 }
                 
@@ -359,7 +357,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateAdditionalSwapChain(D3DPRESENT_PARAME
         if (pSwapChain) {*pSwapChain = wrapProxy<IDirect3DSwapChain9>(*pSwapChain).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "CreateAdditionalSwapChain");
                     
 }
                 
@@ -373,7 +371,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetSwapChain(UINT iSwapChain, IDirect3DSwap
         if (pSwapChain) {*pSwapChain = wrapProxy<IDirect3DSwapChain9>(*pSwapChain).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetSwapChain");
                     
 }
                 
@@ -383,7 +381,7 @@ UINT ProxyBase<IDirect3DDevice9>::GetNumberOfSwapChains()
    
    auto res = pimpl_->GetNumberOfSwapChains();
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetNumberOfSwapChains");
                     
 }
                 
@@ -393,7 +391,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::Reset(D3DPRESENT_PARAMETERS* pPresentationP
    
    auto res = pimpl_->Reset(pPresentationParameters);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "Reset");
                     
 }
                 
@@ -403,7 +401,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::Present(const RECT* pSourceRect, const RECT
    
    auto res = pimpl_->Present(pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "Present");
                     
 }
                 
@@ -417,7 +415,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetBackBuffer(UINT iSwapChain, UINT iBackBu
         if (ppBackBuffer) {*ppBackBuffer = wrapProxy<IDirect3DSurface9>(*ppBackBuffer).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetBackBuffer");
                     
 }
                 
@@ -427,7 +425,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetRasterStatus(UINT iSwapChain, D3DRASTER_
    
    auto res = pimpl_->GetRasterStatus(iSwapChain, pRasterStatus);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetRasterStatus");
                     
 }
                 
@@ -437,7 +435,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetDialogBoxMode(BOOL bEnableDialogs)
    
    auto res = pimpl_->SetDialogBoxMode(bEnableDialogs);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetDialogBoxMode");
                     
 }
                 
@@ -471,7 +469,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateTexture(UINT Width, UINT Height, UINT
         if (ppTexture) {*ppTexture = wrapProxy<IDirect3DTexture9>(*ppTexture).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "CreateTexture");
                     
 }
                 
@@ -485,7 +483,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateVolumeTexture(UINT Width, UINT Height
         if (ppVolumeTexture) {*ppVolumeTexture = wrapProxy<IDirect3DVolumeTexture9>(*ppVolumeTexture).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "CreateVolumeTexture");
                     
 }
                 
@@ -499,7 +497,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateCubeTexture(UINT EdgeLength, UINT Lev
         if (ppCubeTexture) {*ppCubeTexture = wrapProxy<IDirect3DCubeTexture9>(*ppCubeTexture).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "CreateCubeTexture");
                     
 }
                 
@@ -513,7 +511,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateVertexBuffer(UINT Length, DWORD Usage
         if (ppVertexBuffer) {*ppVertexBuffer = wrapProxy<IDirect3DVertexBuffer9>(*ppVertexBuffer).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "CreateVertexBuffer");
                     
 }
                 
@@ -527,7 +525,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateIndexBuffer(UINT Length, DWORD Usage,
         if (ppIndexBuffer) {*ppIndexBuffer = wrapProxy<IDirect3DIndexBuffer9>(*ppIndexBuffer).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "CreateIndexBuffer");
                     
 }
                 
@@ -541,7 +539,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateRenderTarget(UINT Width, UINT Height,
         if (ppSurface) {*ppSurface = wrapProxy<IDirect3DSurface9>(*ppSurface).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "CreateRenderTarget");
                     
 }
                 
@@ -555,7 +553,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateDepthStencilSurface(UINT Width, UINT 
         if (ppSurface) {*ppSurface = wrapProxy<IDirect3DSurface9>(*ppSurface).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "CreateDepthStencilSurface");
                     
 }
                 
@@ -566,7 +564,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::UpdateSurface(IDirect3DSurface9* pSourceSur
         if (pDestinationSurface) {pDestinationSurface = unwrapProxy<IDirect3DSurface9>(pDestinationSurface);}
    auto res = pimpl_->UpdateSurface(pSourceSurface, pSourceRect, pDestinationSurface, pDestPoint);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "UpdateSurface");
                     
 }
                 
@@ -577,7 +575,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::UpdateTexture(IDirect3DBaseTexture9* pSourc
         if (pDestinationTexture) {pDestinationTexture = unwrapProxy<IDirect3DBaseTexture9>(pDestinationTexture);}
    auto res = pimpl_->UpdateTexture(pSourceTexture, pDestinationTexture);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "UpdateTexture");
                     
 }
                 
@@ -588,7 +586,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetRenderTargetData(IDirect3DSurface9* pRen
         if (pDestSurface) {pDestSurface = unwrapProxy<IDirect3DSurface9>(pDestSurface);}
    auto res = pimpl_->GetRenderTargetData(pRenderTarget, pDestSurface);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetRenderTargetData");
                     
 }
                 
@@ -598,7 +596,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetFrontBufferData(UINT iSwapChain, IDirect
    if (pDestSurface) {pDestSurface = unwrapProxy<IDirect3DSurface9>(pDestSurface);}
    auto res = pimpl_->GetFrontBufferData(iSwapChain, pDestSurface);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetFrontBufferData");
                     
 }
                 
@@ -609,7 +607,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::StretchRect(IDirect3DSurface9* pSourceSurfa
         if (pDestSurface) {pDestSurface = unwrapProxy<IDirect3DSurface9>(pDestSurface);}
    auto res = pimpl_->StretchRect(pSourceSurface, pSourceRect, pDestSurface, pDestRect, Filter);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "StretchRect");
                     
 }
                 
@@ -619,7 +617,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::ColorFill(IDirect3DSurface9* pSurface, cons
    if (pSurface) {pSurface = unwrapProxy<IDirect3DSurface9>(pSurface);}
    auto res = pimpl_->ColorFill(pSurface, pRect, color);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "ColorFill");
                     
 }
                 
@@ -633,7 +631,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateOffscreenPlainSurface(UINT Width, UIN
         if (ppSurface) {*ppSurface = wrapProxy<IDirect3DSurface9>(*ppSurface).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "CreateOffscreenPlainSurface");
                     
 }
                 
@@ -643,7 +641,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetRenderTarget(DWORD RenderTargetIndex, ID
    if (pRenderTarget) {pRenderTarget = unwrapProxy<IDirect3DSurface9>(pRenderTarget);}
    auto res = pimpl_->SetRenderTarget(RenderTargetIndex, pRenderTarget);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetRenderTarget");
                     
 }
                 
@@ -657,7 +655,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetRenderTarget(DWORD RenderTargetIndex, ID
         if (ppRenderTarget) {*ppRenderTarget = wrapProxy<IDirect3DSurface9>(*ppRenderTarget).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetRenderTarget");
                     
 }
                 
@@ -667,7 +665,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetDepthStencilSurface(IDirect3DSurface9* p
    if (pNewZStencil) {pNewZStencil = unwrapProxy<IDirect3DSurface9>(pNewZStencil);}
    auto res = pimpl_->SetDepthStencilSurface(pNewZStencil);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetDepthStencilSurface");
                     
 }
                 
@@ -681,7 +679,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetDepthStencilSurface(IDirect3DSurface9** 
         if (ppZStencilSurface) {*ppZStencilSurface = wrapProxy<IDirect3DSurface9>(*ppZStencilSurface).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetDepthStencilSurface");
                     
 }
                 
@@ -691,7 +689,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::BeginScene()
    
    auto res = pimpl_->BeginScene();
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "BeginScene");
                     
 }
                 
@@ -701,7 +699,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::EndScene()
    
    auto res = pimpl_->EndScene();
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "EndScene");
                     
 }
                 
@@ -711,7 +709,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::Clear(DWORD Count, const D3DRECT* pRects, D
    
    auto res = pimpl_->Clear(Count, pRects, Flags, Color, Z, Stencil);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "Clear");
                     
 }
                 
@@ -721,7 +719,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetTransform(D3DTRANSFORMSTATETYPE State, c
    
    auto res = pimpl_->SetTransform(State, pMatrix);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetTransform");
                     
 }
                 
@@ -731,7 +729,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetTransform(D3DTRANSFORMSTATETYPE State, D
    
    auto res = pimpl_->GetTransform(State, pMatrix);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetTransform");
                     
 }
                 
@@ -741,7 +739,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::MultiplyTransform(D3DTRANSFORMSTATETYPE unn
    
    auto res = pimpl_->MultiplyTransform(unnamed0, unnamed1);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "MultiplyTransform");
                     
 }
                 
@@ -751,7 +749,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetViewport(const D3DVIEWPORT9* pViewport)
    
    auto res = pimpl_->SetViewport(pViewport);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetViewport");
                     
 }
                 
@@ -761,7 +759,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetViewport(D3DVIEWPORT9* pViewport)
    
    auto res = pimpl_->GetViewport(pViewport);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetViewport");
                     
 }
                 
@@ -771,7 +769,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetMaterial(const D3DMATERIAL9* pMaterial)
    
    auto res = pimpl_->SetMaterial(pMaterial);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetMaterial");
                     
 }
                 
@@ -781,7 +779,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetMaterial(D3DMATERIAL9* pMaterial)
    
    auto res = pimpl_->GetMaterial(pMaterial);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetMaterial");
                     
 }
                 
@@ -791,7 +789,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetLight(DWORD Index, const D3DLIGHT9* unna
    
    auto res = pimpl_->SetLight(Index, unnamed0);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetLight");
                     
 }
                 
@@ -801,7 +799,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetLight(DWORD Index, D3DLIGHT9* unnamed0)
    
    auto res = pimpl_->GetLight(Index, unnamed0);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetLight");
                     
 }
                 
@@ -811,7 +809,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::LightEnable(DWORD Index, BOOL Enable)
    
    auto res = pimpl_->LightEnable(Index, Enable);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "LightEnable");
                     
 }
                 
@@ -821,7 +819,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetLightEnable(DWORD Index, BOOL* pEnable)
    
    auto res = pimpl_->GetLightEnable(Index, pEnable);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetLightEnable");
                     
 }
                 
@@ -831,7 +829,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetClipPlane(DWORD Index, const float* pPla
    
    auto res = pimpl_->SetClipPlane(Index, pPlane);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetClipPlane");
                     
 }
                 
@@ -841,7 +839,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetClipPlane(DWORD Index, float* pPlane)
    
    auto res = pimpl_->GetClipPlane(Index, pPlane);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetClipPlane");
                     
 }
                 
@@ -851,7 +849,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetRenderState(D3DRENDERSTATETYPE State, DW
    
    auto res = pimpl_->SetRenderState(State, Value);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetRenderState");
                     
 }
                 
@@ -861,7 +859,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetRenderState(D3DRENDERSTATETYPE State, DW
    
    auto res = pimpl_->GetRenderState(State, pValue);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetRenderState");
                     
 }
                 
@@ -875,7 +873,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateStateBlock(D3DSTATEBLOCKTYPE Type, ID
         if (ppSB) {*ppSB = wrapProxy<IDirect3DStateBlock9>(*ppSB).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "CreateStateBlock");
                     
 }
                 
@@ -885,7 +883,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::BeginStateBlock()
    
    auto res = pimpl_->BeginStateBlock();
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "BeginStateBlock");
                     
 }
                 
@@ -899,7 +897,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::EndStateBlock(IDirect3DStateBlock9** ppSB)
         if (ppSB) {*ppSB = wrapProxy<IDirect3DStateBlock9>(*ppSB).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "EndStateBlock");
                     
 }
                 
@@ -909,7 +907,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetClipStatus(const D3DCLIPSTATUS9* pClipSt
    
    auto res = pimpl_->SetClipStatus(pClipStatus);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetClipStatus");
                     
 }
                 
@@ -919,7 +917,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetClipStatus(D3DCLIPSTATUS9* pClipStatus)
    
    auto res = pimpl_->GetClipStatus(pClipStatus);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetClipStatus");
                     
 }
                 
@@ -933,7 +931,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetTexture(DWORD Stage, IDirect3DBaseTextur
         if (ppTexture) {*ppTexture = wrapProxy<IDirect3DBaseTexture9>(*ppTexture).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetTexture");
                     
 }
                 
@@ -943,7 +941,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetTexture(DWORD Stage, IDirect3DBaseTextur
    if (pTexture) {pTexture = unwrapProxy<IDirect3DBaseTexture9>(pTexture);}
    auto res = pimpl_->SetTexture(Stage, pTexture);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetTexture");
                     
 }
                 
@@ -953,7 +951,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetTextureStageState(DWORD Stage, D3DTEXTUR
    
    auto res = pimpl_->GetTextureStageState(Stage, Type, pValue);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetTextureStageState");
                     
 }
                 
@@ -963,7 +961,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetTextureStageState(DWORD Stage, D3DTEXTUR
    
    auto res = pimpl_->SetTextureStageState(Stage, Type, Value);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetTextureStageState");
                     
 }
                 
@@ -973,7 +971,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetSamplerState(DWORD Sampler, D3DSAMPLERST
    
    auto res = pimpl_->GetSamplerState(Sampler, Type, pValue);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetSamplerState");
                     
 }
                 
@@ -983,7 +981,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetSamplerState(DWORD Sampler, D3DSAMPLERST
    
    auto res = pimpl_->SetSamplerState(Sampler, Type, Value);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetSamplerState");
                     
 }
                 
@@ -993,7 +991,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::ValidateDevice(DWORD* pNumPasses)
    
    auto res = pimpl_->ValidateDevice(pNumPasses);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "ValidateDevice");
                     
 }
                 
@@ -1003,7 +1001,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetPaletteEntries(UINT PaletteNumber, const
    
    auto res = pimpl_->SetPaletteEntries(PaletteNumber, pEntries);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetPaletteEntries");
                     
 }
                 
@@ -1013,7 +1011,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetPaletteEntries(UINT PaletteNumber, PALET
    
    auto res = pimpl_->GetPaletteEntries(PaletteNumber, pEntries);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetPaletteEntries");
                     
 }
                 
@@ -1023,7 +1021,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetCurrentTexturePalette(UINT PaletteNumber
    
    auto res = pimpl_->SetCurrentTexturePalette(PaletteNumber);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetCurrentTexturePalette");
                     
 }
                 
@@ -1033,7 +1031,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetCurrentTexturePalette(UINT* PaletteNumbe
    
    auto res = pimpl_->GetCurrentTexturePalette(PaletteNumber);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetCurrentTexturePalette");
                     
 }
                 
@@ -1043,7 +1041,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetScissorRect(const RECT* pRect)
    
    auto res = pimpl_->SetScissorRect(pRect);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetScissorRect");
                     
 }
                 
@@ -1053,7 +1051,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetScissorRect(RECT* pRect)
    
    auto res = pimpl_->GetScissorRect(pRect);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetScissorRect");
                     
 }
                 
@@ -1063,7 +1061,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetSoftwareVertexProcessing(BOOL bSoftware)
    
    auto res = pimpl_->SetSoftwareVertexProcessing(bSoftware);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetSoftwareVertexProcessing");
                     
 }
                 
@@ -1073,7 +1071,7 @@ BOOL ProxyBase<IDirect3DDevice9>::GetSoftwareVertexProcessing()
    
    auto res = pimpl_->GetSoftwareVertexProcessing();
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetSoftwareVertexProcessing");
                     
 }
                 
@@ -1083,7 +1081,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetNPatchMode(float nSegments)
    
    auto res = pimpl_->SetNPatchMode(nSegments);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetNPatchMode");
                     
 }
                 
@@ -1093,7 +1091,7 @@ float ProxyBase<IDirect3DDevice9>::GetNPatchMode()
    
    auto res = pimpl_->GetNPatchMode();
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetNPatchMode");
                     
 }
                 
@@ -1103,7 +1101,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::DrawPrimitive(D3DPRIMITIVETYPE PrimitiveTyp
    
    auto res = pimpl_->DrawPrimitive(PrimitiveType, StartVertex, PrimitiveCount);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "DrawPrimitive");
                     
 }
                 
@@ -1113,7 +1111,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::DrawIndexedPrimitive(D3DPRIMITIVETYPE unnam
    
    auto res = pimpl_->DrawIndexedPrimitive(unnamed0, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "DrawIndexedPrimitive");
                     
 }
                 
@@ -1123,7 +1121,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::DrawPrimitiveUP(D3DPRIMITIVETYPE PrimitiveT
    
    auto res = pimpl_->DrawPrimitiveUP(PrimitiveType, PrimitiveCount, pVertexStreamZeroData, VertexStreamZeroStride);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "DrawPrimitiveUP");
                     
 }
                 
@@ -1133,7 +1131,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE Pri
    
    auto res = pimpl_->DrawIndexedPrimitiveUP(PrimitiveType, MinVertexIndex, NumVertices, PrimitiveCount, pIndexData, IndexDataFormat, pVertexStreamZeroData, VertexStreamZeroStride);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "DrawIndexedPrimitiveUP");
                     
 }
                 
@@ -1144,7 +1142,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::ProcessVertices(UINT SrcStartIndex, UINT De
         if (pVertexDecl) {pVertexDecl = unwrapProxy<IDirect3DVertexDeclaration9>(pVertexDecl);}
    auto res = pimpl_->ProcessVertices(SrcStartIndex, DestIndex, VertexCount, pDestBuffer, pVertexDecl, Flags);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "ProcessVertices");
                     
 }
                 
@@ -1158,7 +1156,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateVertexDeclaration(const D3DVERTEXELEM
         if (ppDecl) {*ppDecl = wrapProxy<IDirect3DVertexDeclaration9>(*ppDecl).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "CreateVertexDeclaration");
                     
 }
                 
@@ -1168,7 +1166,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetVertexDeclaration(IDirect3DVertexDeclara
    if (pDecl) {pDecl = unwrapProxy<IDirect3DVertexDeclaration9>(pDecl);}
    auto res = pimpl_->SetVertexDeclaration(pDecl);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetVertexDeclaration");
                     
 }
                 
@@ -1182,7 +1180,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetVertexDeclaration(IDirect3DVertexDeclara
         if (ppDecl) {*ppDecl = wrapProxy<IDirect3DVertexDeclaration9>(*ppDecl).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetVertexDeclaration");
                     
 }
                 
@@ -1192,7 +1190,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetFVF(DWORD FVF)
    
    auto res = pimpl_->SetFVF(FVF);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetFVF");
                     
 }
                 
@@ -1202,7 +1200,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetFVF(DWORD* pFVF)
    
    auto res = pimpl_->GetFVF(pFVF);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetFVF");
                     
 }
                 
@@ -1216,7 +1214,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateVertexShader(const DWORD* pFunction, 
         if (ppShader) {*ppShader = wrapProxy<IDirect3DVertexShader9>(*ppShader).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "CreateVertexShader");
                     
 }
                 
@@ -1226,7 +1224,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetVertexShader(IDirect3DVertexShader9* pSh
    if (pShader) {pShader = unwrapProxy<IDirect3DVertexShader9>(pShader);}
    auto res = pimpl_->SetVertexShader(pShader);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetVertexShader");
                     
 }
                 
@@ -1240,7 +1238,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetVertexShader(IDirect3DVertexShader9** pp
         if (ppShader) {*ppShader = wrapProxy<IDirect3DVertexShader9>(*ppShader).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetVertexShader");
                     
 }
                 
@@ -1250,7 +1248,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetVertexShaderConstantF(UINT StartRegister
    
    auto res = pimpl_->SetVertexShaderConstantF(StartRegister, pConstantData, Vector4fCount);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetVertexShaderConstantF");
                     
 }
                 
@@ -1260,7 +1258,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetVertexShaderConstantF(UINT StartRegister
    
    auto res = pimpl_->GetVertexShaderConstantF(StartRegister, pConstantData, Vector4fCount);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetVertexShaderConstantF");
                     
 }
                 
@@ -1270,7 +1268,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetVertexShaderConstantI(UINT StartRegister
    
    auto res = pimpl_->SetVertexShaderConstantI(StartRegister, pConstantData, Vector4iCount);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetVertexShaderConstantI");
                     
 }
                 
@@ -1280,7 +1278,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetVertexShaderConstantI(UINT StartRegister
    
    auto res = pimpl_->GetVertexShaderConstantI(StartRegister, pConstantData, Vector4iCount);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetVertexShaderConstantI");
                     
 }
                 
@@ -1290,7 +1288,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetVertexShaderConstantB(UINT StartRegister
    
    auto res = pimpl_->SetVertexShaderConstantB(StartRegister, pConstantData, BoolCount);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetVertexShaderConstantB");
                     
 }
                 
@@ -1300,7 +1298,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetVertexShaderConstantB(UINT StartRegister
    
    auto res = pimpl_->GetVertexShaderConstantB(StartRegister, pConstantData, BoolCount);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetVertexShaderConstantB");
                     
 }
                 
@@ -1310,7 +1308,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetStreamSource(UINT StreamNumber, IDirect3
    if (pStreamData) {pStreamData = unwrapProxy<IDirect3DVertexBuffer9>(pStreamData);}
    auto res = pimpl_->SetStreamSource(StreamNumber, pStreamData, OffsetInBytes, Stride);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetStreamSource");
                     
 }
                 
@@ -1324,7 +1322,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetStreamSource(UINT StreamNumber, IDirect3
         if (ppStreamData) {*ppStreamData = wrapProxy<IDirect3DVertexBuffer9>(*ppStreamData).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetStreamSource");
                     
 }
                 
@@ -1334,7 +1332,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetStreamSourceFreq(UINT StreamNumber, UINT
    
    auto res = pimpl_->SetStreamSourceFreq(StreamNumber, Setting);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetStreamSourceFreq");
                     
 }
                 
@@ -1344,7 +1342,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetStreamSourceFreq(UINT StreamNumber, UINT
    
    auto res = pimpl_->GetStreamSourceFreq(StreamNumber, pSetting);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetStreamSourceFreq");
                     
 }
                 
@@ -1354,7 +1352,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetIndices(IDirect3DIndexBuffer9* pIndexDat
    if (pIndexData) {pIndexData = unwrapProxy<IDirect3DIndexBuffer9>(pIndexData);}
    auto res = pimpl_->SetIndices(pIndexData);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetIndices");
                     
 }
                 
@@ -1368,7 +1366,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetIndices(IDirect3DIndexBuffer9** ppIndexD
         if (ppIndexData) {*ppIndexData = wrapProxy<IDirect3DIndexBuffer9>(*ppIndexData).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetIndices");
                     
 }
                 
@@ -1382,7 +1380,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreatePixelShader(const DWORD* pFunction, I
         if (ppShader) {*ppShader = wrapProxy<IDirect3DPixelShader9>(*ppShader).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "CreatePixelShader");
                     
 }
                 
@@ -1392,7 +1390,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetPixelShader(IDirect3DPixelShader9* pShad
    if (pShader) {pShader = unwrapProxy<IDirect3DPixelShader9>(pShader);}
    auto res = pimpl_->SetPixelShader(pShader);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetPixelShader");
                     
 }
                 
@@ -1406,7 +1404,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetPixelShader(IDirect3DPixelShader9** ppSh
         if (ppShader) {*ppShader = wrapProxy<IDirect3DPixelShader9>(*ppShader).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetPixelShader");
                     
 }
                 
@@ -1416,7 +1414,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetPixelShaderConstantF(UINT StartRegister,
    
    auto res = pimpl_->SetPixelShaderConstantF(StartRegister, pConstantData, Vector4fCount);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetPixelShaderConstantF");
                     
 }
                 
@@ -1426,7 +1424,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetPixelShaderConstantF(UINT StartRegister,
    
    auto res = pimpl_->GetPixelShaderConstantF(StartRegister, pConstantData, Vector4fCount);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetPixelShaderConstantF");
                     
 }
                 
@@ -1436,7 +1434,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetPixelShaderConstantI(UINT StartRegister,
    
    auto res = pimpl_->SetPixelShaderConstantI(StartRegister, pConstantData, Vector4iCount);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetPixelShaderConstantI");
                     
 }
                 
@@ -1446,7 +1444,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetPixelShaderConstantI(UINT StartRegister,
    
    auto res = pimpl_->GetPixelShaderConstantI(StartRegister, pConstantData, Vector4iCount);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetPixelShaderConstantI");
                     
 }
                 
@@ -1456,7 +1454,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetPixelShaderConstantB(UINT StartRegister,
    
    auto res = pimpl_->SetPixelShaderConstantB(StartRegister, pConstantData, BoolCount);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "SetPixelShaderConstantB");
                     
 }
                 
@@ -1466,7 +1464,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetPixelShaderConstantB(UINT StartRegister,
    
    auto res = pimpl_->GetPixelShaderConstantB(StartRegister, pConstantData, BoolCount);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "GetPixelShaderConstantB");
                     
 }
                 
@@ -1476,7 +1474,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::DrawRectPatch(UINT Handle, const float* pNu
    
    auto res = pimpl_->DrawRectPatch(Handle, pNumSegs, pRectPatchInfo);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "DrawRectPatch");
                     
 }
                 
@@ -1486,7 +1484,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::DrawTriPatch(UINT Handle, const float* pNum
    
    auto res = pimpl_->DrawTriPatch(Handle, pNumSegs, pTriPatchInfo);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "DrawTriPatch");
                     
 }
                 
@@ -1496,7 +1494,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::DeletePatch(UINT Handle)
    
    auto res = pimpl_->DeletePatch(Handle);
    
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "DeletePatch");
                     
 }
                 
@@ -1510,7 +1508,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateQuery(D3DQUERYTYPE Type, IDirect3DQue
         if (ppQuery) {*ppQuery = wrapProxy<IDirect3DQuery9>(*ppQuery).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DDevice9", "CreateQuery");
                     
 }
                 
@@ -1533,10 +1531,9 @@ size_t ProxyBase<IDirect3DStateBlock9>::addExtRef()
 HRESULT ProxyBase<IDirect3DStateBlock9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     logMethod("IDirect3DStateBlock9", "QueryInterface");
-   
-   auto res = pimpl_->QueryInterface(riid, ppvObj);
-   
-   return res;
+    auto res = pimpl_->QueryInterface(riid, ppvObj);
+    LogQI(riid);
+    return res;
                     
 }
                 
@@ -1574,7 +1571,7 @@ HRESULT ProxyBase<IDirect3DStateBlock9>::GetDevice(IDirect3DDevice9** ppDevice)
         if (ppDevice) {*ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DStateBlock9", "GetDevice");
                     
 }
                 
@@ -1584,7 +1581,7 @@ HRESULT ProxyBase<IDirect3DStateBlock9>::Capture()
    
    auto res = pimpl_->Capture();
    
-   return res;
+   return checkReturn(res, "IDirect3DStateBlock9", "Capture");
                     
 }
                 
@@ -1594,7 +1591,7 @@ HRESULT ProxyBase<IDirect3DStateBlock9>::Apply()
    
    auto res = pimpl_->Apply();
    
-   return res;
+   return checkReturn(res, "IDirect3DStateBlock9", "Apply");
                     
 }
                 
@@ -1617,10 +1614,9 @@ size_t ProxyBase<IDirect3DSwapChain9>::addExtRef()
 HRESULT ProxyBase<IDirect3DSwapChain9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     logMethod("IDirect3DSwapChain9", "QueryInterface");
-   
-   auto res = pimpl_->QueryInterface(riid, ppvObj);
-   
-   return res;
+    auto res = pimpl_->QueryInterface(riid, ppvObj);
+    LogQI(riid);
+    return res;
                     
 }
                 
@@ -1654,7 +1650,7 @@ HRESULT ProxyBase<IDirect3DSwapChain9>::Present(const RECT* pSourceRect, const R
    
    auto res = pimpl_->Present(pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion, dwFlags);
    
-   return res;
+   return checkReturn(res, "IDirect3DSwapChain9", "Present");
                     
 }
                 
@@ -1664,7 +1660,7 @@ HRESULT ProxyBase<IDirect3DSwapChain9>::GetFrontBufferData(IDirect3DSurface9* pD
    if (pDestSurface) {pDestSurface = unwrapProxy<IDirect3DSurface9>(pDestSurface);}
    auto res = pimpl_->GetFrontBufferData(pDestSurface);
    
-   return res;
+   return checkReturn(res, "IDirect3DSwapChain9", "GetFrontBufferData");
                     
 }
                 
@@ -1678,7 +1674,7 @@ HRESULT ProxyBase<IDirect3DSwapChain9>::GetBackBuffer(UINT iBackBuffer, D3DBACKB
         if (ppBackBuffer) {*ppBackBuffer = wrapProxy<IDirect3DSurface9>(*ppBackBuffer).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DSwapChain9", "GetBackBuffer");
                     
 }
                 
@@ -1688,7 +1684,7 @@ HRESULT ProxyBase<IDirect3DSwapChain9>::GetRasterStatus(D3DRASTER_STATUS* pRaste
    
    auto res = pimpl_->GetRasterStatus(pRasterStatus);
    
-   return res;
+   return checkReturn(res, "IDirect3DSwapChain9", "GetRasterStatus");
                     
 }
                 
@@ -1698,7 +1694,7 @@ HRESULT ProxyBase<IDirect3DSwapChain9>::GetDisplayMode(D3DDISPLAYMODE* pMode)
    
    auto res = pimpl_->GetDisplayMode(pMode);
    
-   return res;
+   return checkReturn(res, "IDirect3DSwapChain9", "GetDisplayMode");
                     
 }
                 
@@ -1712,7 +1708,7 @@ HRESULT ProxyBase<IDirect3DSwapChain9>::GetDevice(IDirect3DDevice9** ppDevice)
         if (ppDevice) {*ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DSwapChain9", "GetDevice");
                     
 }
                 
@@ -1722,7 +1718,7 @@ HRESULT ProxyBase<IDirect3DSwapChain9>::GetPresentParameters(D3DPRESENT_PARAMETE
    
    auto res = pimpl_->GetPresentParameters(pPresentationParameters);
    
-   return res;
+   return checkReturn(res, "IDirect3DSwapChain9", "GetPresentParameters");
                     
 }
                 
@@ -1745,10 +1741,9 @@ size_t ProxyBase<IDirect3DVertexDeclaration9>::addExtRef()
 HRESULT ProxyBase<IDirect3DVertexDeclaration9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     logMethod("IDirect3DVertexDeclaration9", "QueryInterface");
-   
-   auto res = pimpl_->QueryInterface(riid, ppvObj);
-   
-   return res;
+    auto res = pimpl_->QueryInterface(riid, ppvObj);
+    LogQI(riid);
+    return res;
                     
 }
                 
@@ -1786,7 +1781,7 @@ HRESULT ProxyBase<IDirect3DVertexDeclaration9>::GetDevice(IDirect3DDevice9** ppD
         if (ppDevice) {*ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DVertexDeclaration9", "GetDevice");
                     
 }
                 
@@ -1796,7 +1791,7 @@ HRESULT ProxyBase<IDirect3DVertexDeclaration9>::GetDeclaration(D3DVERTEXELEMENT9
    
    auto res = pimpl_->GetDeclaration(pElement, pNumElements);
    
-   return res;
+   return checkReturn(res, "IDirect3DVertexDeclaration9", "GetDeclaration");
                     
 }
                 
@@ -1819,10 +1814,9 @@ size_t ProxyBase<IDirect3DVertexShader9>::addExtRef()
 HRESULT ProxyBase<IDirect3DVertexShader9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     logMethod("IDirect3DVertexShader9", "QueryInterface");
-   
-   auto res = pimpl_->QueryInterface(riid, ppvObj);
-   
-   return res;
+    auto res = pimpl_->QueryInterface(riid, ppvObj);
+    LogQI(riid);
+    return res;
                     
 }
                 
@@ -1860,7 +1854,7 @@ HRESULT ProxyBase<IDirect3DVertexShader9>::GetDevice(IDirect3DDevice9** ppDevice
         if (ppDevice) {*ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DVertexShader9", "GetDevice");
                     
 }
                 
@@ -1870,7 +1864,7 @@ HRESULT ProxyBase<IDirect3DVertexShader9>::GetFunction(void* unnamed0, UINT* pSi
    
    auto res = pimpl_->GetFunction(unnamed0, pSizeOfData);
    
-   return res;
+   return checkReturn(res, "IDirect3DVertexShader9", "GetFunction");
                     
 }
                 
@@ -1893,10 +1887,9 @@ size_t ProxyBase<IDirect3DPixelShader9>::addExtRef()
 HRESULT ProxyBase<IDirect3DPixelShader9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     logMethod("IDirect3DPixelShader9", "QueryInterface");
-   
-   auto res = pimpl_->QueryInterface(riid, ppvObj);
-   
-   return res;
+    auto res = pimpl_->QueryInterface(riid, ppvObj);
+    LogQI(riid);
+    return res;
                     
 }
                 
@@ -1934,7 +1927,7 @@ HRESULT ProxyBase<IDirect3DPixelShader9>::GetDevice(IDirect3DDevice9** ppDevice)
         if (ppDevice) {*ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DPixelShader9", "GetDevice");
                     
 }
                 
@@ -1944,7 +1937,7 @@ HRESULT ProxyBase<IDirect3DPixelShader9>::GetFunction(void* unnamed0, UINT* pSiz
    
    auto res = pimpl_->GetFunction(unnamed0, pSizeOfData);
    
-   return res;
+   return checkReturn(res, "IDirect3DPixelShader9", "GetFunction");
                     
 }
                 
@@ -1967,10 +1960,9 @@ size_t ProxyBase<IDirect3DTexture9>::addExtRef()
 HRESULT ProxyBase<IDirect3DTexture9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     logMethod("IDirect3DTexture9", "QueryInterface");
-   
-   auto res = pimpl_->QueryInterface(riid, ppvObj);
-   
-   return res;
+    auto res = pimpl_->QueryInterface(riid, ppvObj);
+    LogQI(riid);
+    return res;
                     
 }
                 
@@ -2008,7 +2000,7 @@ HRESULT ProxyBase<IDirect3DTexture9>::GetDevice(IDirect3DDevice9** ppDevice)
         if (ppDevice) {*ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DTexture9", "GetDevice");
                     
 }
                 
@@ -2018,7 +2010,7 @@ HRESULT ProxyBase<IDirect3DTexture9>::SetPrivateData(REFGUID refguid, const void
    
    auto res = pimpl_->SetPrivateData(refguid, pData, SizeOfData, Flags);
    
-   return res;
+   return checkReturn(res, "IDirect3DTexture9", "SetPrivateData");
                     
 }
                 
@@ -2028,7 +2020,7 @@ HRESULT ProxyBase<IDirect3DTexture9>::GetPrivateData(REFGUID refguid, void* pDat
    
    auto res = pimpl_->GetPrivateData(refguid, pData, pSizeOfData);
    
-   return res;
+   return checkReturn(res, "IDirect3DTexture9", "GetPrivateData");
                     
 }
                 
@@ -2038,7 +2030,7 @@ HRESULT ProxyBase<IDirect3DTexture9>::FreePrivateData(REFGUID refguid)
    
    auto res = pimpl_->FreePrivateData(refguid);
    
-   return res;
+   return checkReturn(res, "IDirect3DTexture9", "FreePrivateData");
                     
 }
                 
@@ -2048,7 +2040,7 @@ DWORD ProxyBase<IDirect3DTexture9>::SetPriority(DWORD PriorityNew)
    
    auto res = pimpl_->SetPriority(PriorityNew);
    
-   return res;
+   return checkReturn(res, "IDirect3DTexture9", "SetPriority");
                     
 }
                 
@@ -2058,7 +2050,7 @@ DWORD ProxyBase<IDirect3DTexture9>::GetPriority()
    
    auto res = pimpl_->GetPriority();
    
-   return res;
+   return checkReturn(res, "IDirect3DTexture9", "GetPriority");
                     
 }
                 
@@ -2078,7 +2070,7 @@ D3DRESOURCETYPE ProxyBase<IDirect3DTexture9>::GetType()
    
    auto res = pimpl_->GetType();
    
-   return res;
+   return checkReturn(res, "IDirect3DTexture9", "GetType");
                     
 }
                 
@@ -2088,7 +2080,7 @@ DWORD ProxyBase<IDirect3DTexture9>::SetLOD(DWORD LODNew)
    
    auto res = pimpl_->SetLOD(LODNew);
    
-   return res;
+   return checkReturn(res, "IDirect3DTexture9", "SetLOD");
                     
 }
                 
@@ -2098,7 +2090,7 @@ DWORD ProxyBase<IDirect3DTexture9>::GetLOD()
    
    auto res = pimpl_->GetLOD();
    
-   return res;
+   return checkReturn(res, "IDirect3DTexture9", "GetLOD");
                     
 }
                 
@@ -2108,7 +2100,7 @@ DWORD ProxyBase<IDirect3DTexture9>::GetLevelCount()
    
    auto res = pimpl_->GetLevelCount();
    
-   return res;
+   return checkReturn(res, "IDirect3DTexture9", "GetLevelCount");
                     
 }
                 
@@ -2118,7 +2110,7 @@ HRESULT ProxyBase<IDirect3DTexture9>::SetAutoGenFilterType(D3DTEXTUREFILTERTYPE 
    
    auto res = pimpl_->SetAutoGenFilterType(FilterType);
    
-   return res;
+   return checkReturn(res, "IDirect3DTexture9", "SetAutoGenFilterType");
                     
 }
                 
@@ -2128,7 +2120,7 @@ D3DTEXTUREFILTERTYPE ProxyBase<IDirect3DTexture9>::GetAutoGenFilterType()
    
    auto res = pimpl_->GetAutoGenFilterType();
    
-   return res;
+   return checkReturn(res, "IDirect3DTexture9", "GetAutoGenFilterType");
                     
 }
                 
@@ -2148,7 +2140,7 @@ HRESULT ProxyBase<IDirect3DTexture9>::GetLevelDesc(UINT Level, D3DSURFACE_DESC* 
    
    auto res = pimpl_->GetLevelDesc(Level, pDesc);
    
-   return res;
+   return checkReturn(res, "IDirect3DTexture9", "GetLevelDesc");
                     
 }
                 
@@ -2162,7 +2154,7 @@ HRESULT ProxyBase<IDirect3DTexture9>::GetSurfaceLevel(UINT Level, IDirect3DSurfa
         if (ppSurfaceLevel) {*ppSurfaceLevel = wrapProxy<IDirect3DSurface9>(*ppSurfaceLevel).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DTexture9", "GetSurfaceLevel");
                     
 }
                 
@@ -2172,7 +2164,7 @@ HRESULT ProxyBase<IDirect3DTexture9>::LockRect(UINT Level, D3DLOCKED_RECT* pLock
    
    auto res = pimpl_->LockRect(Level, pLockedRect, pRect, Flags);
    
-   return res;
+   return checkReturn(res, "IDirect3DTexture9", "LockRect");
                     
 }
                 
@@ -2182,7 +2174,7 @@ HRESULT ProxyBase<IDirect3DTexture9>::UnlockRect(UINT Level)
    
    auto res = pimpl_->UnlockRect(Level);
    
-   return res;
+   return checkReturn(res, "IDirect3DTexture9", "UnlockRect");
                     
 }
                 
@@ -2192,7 +2184,7 @@ HRESULT ProxyBase<IDirect3DTexture9>::AddDirtyRect(const RECT* pDirtyRect)
    
    auto res = pimpl_->AddDirtyRect(pDirtyRect);
    
-   return res;
+   return checkReturn(res, "IDirect3DTexture9", "AddDirtyRect");
                     
 }
                 
@@ -2215,10 +2207,9 @@ size_t ProxyBase<IDirect3DVolumeTexture9>::addExtRef()
 HRESULT ProxyBase<IDirect3DVolumeTexture9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     logMethod("IDirect3DVolumeTexture9", "QueryInterface");
-   
-   auto res = pimpl_->QueryInterface(riid, ppvObj);
-   
-   return res;
+    auto res = pimpl_->QueryInterface(riid, ppvObj);
+    LogQI(riid);
+    return res;
                     
 }
                 
@@ -2256,7 +2247,7 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::GetDevice(IDirect3DDevice9** ppDevic
         if (ppDevice) {*ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DVolumeTexture9", "GetDevice");
                     
 }
                 
@@ -2266,7 +2257,7 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::SetPrivateData(REFGUID refguid, cons
    
    auto res = pimpl_->SetPrivateData(refguid, pData, SizeOfData, Flags);
    
-   return res;
+   return checkReturn(res, "IDirect3DVolumeTexture9", "SetPrivateData");
                     
 }
                 
@@ -2276,7 +2267,7 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::GetPrivateData(REFGUID refguid, void
    
    auto res = pimpl_->GetPrivateData(refguid, pData, pSizeOfData);
    
-   return res;
+   return checkReturn(res, "IDirect3DVolumeTexture9", "GetPrivateData");
                     
 }
                 
@@ -2286,7 +2277,7 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::FreePrivateData(REFGUID refguid)
    
    auto res = pimpl_->FreePrivateData(refguid);
    
-   return res;
+   return checkReturn(res, "IDirect3DVolumeTexture9", "FreePrivateData");
                     
 }
                 
@@ -2296,7 +2287,7 @@ DWORD ProxyBase<IDirect3DVolumeTexture9>::SetPriority(DWORD PriorityNew)
    
    auto res = pimpl_->SetPriority(PriorityNew);
    
-   return res;
+   return checkReturn(res, "IDirect3DVolumeTexture9", "SetPriority");
                     
 }
                 
@@ -2306,7 +2297,7 @@ DWORD ProxyBase<IDirect3DVolumeTexture9>::GetPriority()
    
    auto res = pimpl_->GetPriority();
    
-   return res;
+   return checkReturn(res, "IDirect3DVolumeTexture9", "GetPriority");
                     
 }
                 
@@ -2326,7 +2317,7 @@ D3DRESOURCETYPE ProxyBase<IDirect3DVolumeTexture9>::GetType()
    
    auto res = pimpl_->GetType();
    
-   return res;
+   return checkReturn(res, "IDirect3DVolumeTexture9", "GetType");
                     
 }
                 
@@ -2336,7 +2327,7 @@ DWORD ProxyBase<IDirect3DVolumeTexture9>::SetLOD(DWORD LODNew)
    
    auto res = pimpl_->SetLOD(LODNew);
    
-   return res;
+   return checkReturn(res, "IDirect3DVolumeTexture9", "SetLOD");
                     
 }
                 
@@ -2346,7 +2337,7 @@ DWORD ProxyBase<IDirect3DVolumeTexture9>::GetLOD()
    
    auto res = pimpl_->GetLOD();
    
-   return res;
+   return checkReturn(res, "IDirect3DVolumeTexture9", "GetLOD");
                     
 }
                 
@@ -2356,7 +2347,7 @@ DWORD ProxyBase<IDirect3DVolumeTexture9>::GetLevelCount()
    
    auto res = pimpl_->GetLevelCount();
    
-   return res;
+   return checkReturn(res, "IDirect3DVolumeTexture9", "GetLevelCount");
                     
 }
                 
@@ -2366,7 +2357,7 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::SetAutoGenFilterType(D3DTEXTUREFILTE
    
    auto res = pimpl_->SetAutoGenFilterType(FilterType);
    
-   return res;
+   return checkReturn(res, "IDirect3DVolumeTexture9", "SetAutoGenFilterType");
                     
 }
                 
@@ -2376,7 +2367,7 @@ D3DTEXTUREFILTERTYPE ProxyBase<IDirect3DVolumeTexture9>::GetAutoGenFilterType()
    
    auto res = pimpl_->GetAutoGenFilterType();
    
-   return res;
+   return checkReturn(res, "IDirect3DVolumeTexture9", "GetAutoGenFilterType");
                     
 }
                 
@@ -2396,7 +2387,7 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::GetLevelDesc(UINT Level, D3DVOLUME_D
    
    auto res = pimpl_->GetLevelDesc(Level, pDesc);
    
-   return res;
+   return checkReturn(res, "IDirect3DVolumeTexture9", "GetLevelDesc");
                     
 }
                 
@@ -2410,7 +2401,7 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::GetVolumeLevel(UINT Level, IDirect3D
         if (ppVolumeLevel) {*ppVolumeLevel = wrapProxy<IDirect3DVolume9>(*ppVolumeLevel).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DVolumeTexture9", "GetVolumeLevel");
                     
 }
                 
@@ -2420,7 +2411,7 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::LockBox(UINT Level, D3DLOCKED_BOX* p
    
    auto res = pimpl_->LockBox(Level, pLockedVolume, pBox, Flags);
    
-   return res;
+   return checkReturn(res, "IDirect3DVolumeTexture9", "LockBox");
                     
 }
                 
@@ -2430,7 +2421,7 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::UnlockBox(UINT Level)
    
    auto res = pimpl_->UnlockBox(Level);
    
-   return res;
+   return checkReturn(res, "IDirect3DVolumeTexture9", "UnlockBox");
                     
 }
                 
@@ -2440,7 +2431,7 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::AddDirtyBox(const D3DBOX* pDirtyBox)
    
    auto res = pimpl_->AddDirtyBox(pDirtyBox);
    
-   return res;
+   return checkReturn(res, "IDirect3DVolumeTexture9", "AddDirtyBox");
                     
 }
                 
@@ -2463,10 +2454,9 @@ size_t ProxyBase<IDirect3DCubeTexture9>::addExtRef()
 HRESULT ProxyBase<IDirect3DCubeTexture9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     logMethod("IDirect3DCubeTexture9", "QueryInterface");
-   
-   auto res = pimpl_->QueryInterface(riid, ppvObj);
-   
-   return res;
+    auto res = pimpl_->QueryInterface(riid, ppvObj);
+    LogQI(riid);
+    return res;
                     
 }
                 
@@ -2504,7 +2494,7 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::GetDevice(IDirect3DDevice9** ppDevice)
         if (ppDevice) {*ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DCubeTexture9", "GetDevice");
                     
 }
                 
@@ -2514,7 +2504,7 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::SetPrivateData(REFGUID refguid, const 
    
    auto res = pimpl_->SetPrivateData(refguid, pData, SizeOfData, Flags);
    
-   return res;
+   return checkReturn(res, "IDirect3DCubeTexture9", "SetPrivateData");
                     
 }
                 
@@ -2524,7 +2514,7 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::GetPrivateData(REFGUID refguid, void* 
    
    auto res = pimpl_->GetPrivateData(refguid, pData, pSizeOfData);
    
-   return res;
+   return checkReturn(res, "IDirect3DCubeTexture9", "GetPrivateData");
                     
 }
                 
@@ -2534,7 +2524,7 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::FreePrivateData(REFGUID refguid)
    
    auto res = pimpl_->FreePrivateData(refguid);
    
-   return res;
+   return checkReturn(res, "IDirect3DCubeTexture9", "FreePrivateData");
                     
 }
                 
@@ -2544,7 +2534,7 @@ DWORD ProxyBase<IDirect3DCubeTexture9>::SetPriority(DWORD PriorityNew)
    
    auto res = pimpl_->SetPriority(PriorityNew);
    
-   return res;
+   return checkReturn(res, "IDirect3DCubeTexture9", "SetPriority");
                     
 }
                 
@@ -2554,7 +2544,7 @@ DWORD ProxyBase<IDirect3DCubeTexture9>::GetPriority()
    
    auto res = pimpl_->GetPriority();
    
-   return res;
+   return checkReturn(res, "IDirect3DCubeTexture9", "GetPriority");
                     
 }
                 
@@ -2574,7 +2564,7 @@ D3DRESOURCETYPE ProxyBase<IDirect3DCubeTexture9>::GetType()
    
    auto res = pimpl_->GetType();
    
-   return res;
+   return checkReturn(res, "IDirect3DCubeTexture9", "GetType");
                     
 }
                 
@@ -2584,7 +2574,7 @@ DWORD ProxyBase<IDirect3DCubeTexture9>::SetLOD(DWORD LODNew)
    
    auto res = pimpl_->SetLOD(LODNew);
    
-   return res;
+   return checkReturn(res, "IDirect3DCubeTexture9", "SetLOD");
                     
 }
                 
@@ -2594,7 +2584,7 @@ DWORD ProxyBase<IDirect3DCubeTexture9>::GetLOD()
    
    auto res = pimpl_->GetLOD();
    
-   return res;
+   return checkReturn(res, "IDirect3DCubeTexture9", "GetLOD");
                     
 }
                 
@@ -2604,7 +2594,7 @@ DWORD ProxyBase<IDirect3DCubeTexture9>::GetLevelCount()
    
    auto res = pimpl_->GetLevelCount();
    
-   return res;
+   return checkReturn(res, "IDirect3DCubeTexture9", "GetLevelCount");
                     
 }
                 
@@ -2614,7 +2604,7 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::SetAutoGenFilterType(D3DTEXTUREFILTERT
    
    auto res = pimpl_->SetAutoGenFilterType(FilterType);
    
-   return res;
+   return checkReturn(res, "IDirect3DCubeTexture9", "SetAutoGenFilterType");
                     
 }
                 
@@ -2624,7 +2614,7 @@ D3DTEXTUREFILTERTYPE ProxyBase<IDirect3DCubeTexture9>::GetAutoGenFilterType()
    
    auto res = pimpl_->GetAutoGenFilterType();
    
-   return res;
+   return checkReturn(res, "IDirect3DCubeTexture9", "GetAutoGenFilterType");
                     
 }
                 
@@ -2644,7 +2634,7 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::GetLevelDesc(UINT Level, D3DSURFACE_DE
    
    auto res = pimpl_->GetLevelDesc(Level, pDesc);
    
-   return res;
+   return checkReturn(res, "IDirect3DCubeTexture9", "GetLevelDesc");
                     
 }
                 
@@ -2658,7 +2648,7 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::GetCubeMapSurface(D3DCUBEMAP_FACES Fac
         if (ppCubeMapSurface) {*ppCubeMapSurface = wrapProxy<IDirect3DSurface9>(*ppCubeMapSurface).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DCubeTexture9", "GetCubeMapSurface");
                     
 }
                 
@@ -2668,7 +2658,7 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::LockRect(D3DCUBEMAP_FACES FaceType, UI
    
    auto res = pimpl_->LockRect(FaceType, Level, pLockedRect, pRect, Flags);
    
-   return res;
+   return checkReturn(res, "IDirect3DCubeTexture9", "LockRect");
                     
 }
                 
@@ -2678,7 +2668,7 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::UnlockRect(D3DCUBEMAP_FACES FaceType, 
    
    auto res = pimpl_->UnlockRect(FaceType, Level);
    
-   return res;
+   return checkReturn(res, "IDirect3DCubeTexture9", "UnlockRect");
                     
 }
                 
@@ -2688,7 +2678,7 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::AddDirtyRect(D3DCUBEMAP_FACES FaceType
    
    auto res = pimpl_->AddDirtyRect(FaceType, pDirtyRect);
    
-   return res;
+   return checkReturn(res, "IDirect3DCubeTexture9", "AddDirtyRect");
                     
 }
                 
@@ -2711,10 +2701,9 @@ size_t ProxyBase<IDirect3DVertexBuffer9>::addExtRef()
 HRESULT ProxyBase<IDirect3DVertexBuffer9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     logMethod("IDirect3DVertexBuffer9", "QueryInterface");
-   
-   auto res = pimpl_->QueryInterface(riid, ppvObj);
-   
-   return res;
+    auto res = pimpl_->QueryInterface(riid, ppvObj);
+    LogQI(riid);
+    return res;
                     
 }
                 
@@ -2752,7 +2741,7 @@ HRESULT ProxyBase<IDirect3DVertexBuffer9>::GetDevice(IDirect3DDevice9** ppDevice
         if (ppDevice) {*ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DVertexBuffer9", "GetDevice");
                     
 }
                 
@@ -2762,7 +2751,7 @@ HRESULT ProxyBase<IDirect3DVertexBuffer9>::SetPrivateData(REFGUID refguid, const
    
    auto res = pimpl_->SetPrivateData(refguid, pData, SizeOfData, Flags);
    
-   return res;
+   return checkReturn(res, "IDirect3DVertexBuffer9", "SetPrivateData");
                     
 }
                 
@@ -2772,7 +2761,7 @@ HRESULT ProxyBase<IDirect3DVertexBuffer9>::GetPrivateData(REFGUID refguid, void*
    
    auto res = pimpl_->GetPrivateData(refguid, pData, pSizeOfData);
    
-   return res;
+   return checkReturn(res, "IDirect3DVertexBuffer9", "GetPrivateData");
                     
 }
                 
@@ -2782,7 +2771,7 @@ HRESULT ProxyBase<IDirect3DVertexBuffer9>::FreePrivateData(REFGUID refguid)
    
    auto res = pimpl_->FreePrivateData(refguid);
    
-   return res;
+   return checkReturn(res, "IDirect3DVertexBuffer9", "FreePrivateData");
                     
 }
                 
@@ -2792,7 +2781,7 @@ DWORD ProxyBase<IDirect3DVertexBuffer9>::SetPriority(DWORD PriorityNew)
    
    auto res = pimpl_->SetPriority(PriorityNew);
    
-   return res;
+   return checkReturn(res, "IDirect3DVertexBuffer9", "SetPriority");
                     
 }
                 
@@ -2802,7 +2791,7 @@ DWORD ProxyBase<IDirect3DVertexBuffer9>::GetPriority()
    
    auto res = pimpl_->GetPriority();
    
-   return res;
+   return checkReturn(res, "IDirect3DVertexBuffer9", "GetPriority");
                     
 }
                 
@@ -2822,7 +2811,7 @@ D3DRESOURCETYPE ProxyBase<IDirect3DVertexBuffer9>::GetType()
    
    auto res = pimpl_->GetType();
    
-   return res;
+   return checkReturn(res, "IDirect3DVertexBuffer9", "GetType");
                     
 }
                 
@@ -2832,7 +2821,7 @@ HRESULT ProxyBase<IDirect3DVertexBuffer9>::Lock(UINT OffsetToLock, UINT SizeToLo
    
    auto res = pimpl_->Lock(OffsetToLock, SizeToLock, ppbData, Flags);
    
-   return res;
+   return checkReturn(res, "IDirect3DVertexBuffer9", "Lock");
                     
 }
                 
@@ -2842,7 +2831,7 @@ HRESULT ProxyBase<IDirect3DVertexBuffer9>::Unlock()
    
    auto res = pimpl_->Unlock();
    
-   return res;
+   return checkReturn(res, "IDirect3DVertexBuffer9", "Unlock");
                     
 }
                 
@@ -2852,7 +2841,7 @@ HRESULT ProxyBase<IDirect3DVertexBuffer9>::GetDesc(D3DVERTEXBUFFER_DESC* pDesc)
    
    auto res = pimpl_->GetDesc(pDesc);
    
-   return res;
+   return checkReturn(res, "IDirect3DVertexBuffer9", "GetDesc");
                     
 }
                 
@@ -2875,10 +2864,9 @@ size_t ProxyBase<IDirect3DIndexBuffer9>::addExtRef()
 HRESULT ProxyBase<IDirect3DIndexBuffer9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     logMethod("IDirect3DIndexBuffer9", "QueryInterface");
-   
-   auto res = pimpl_->QueryInterface(riid, ppvObj);
-   
-   return res;
+    auto res = pimpl_->QueryInterface(riid, ppvObj);
+    LogQI(riid);
+    return res;
                     
 }
                 
@@ -2916,7 +2904,7 @@ HRESULT ProxyBase<IDirect3DIndexBuffer9>::GetDevice(IDirect3DDevice9** ppDevice)
         if (ppDevice) {*ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DIndexBuffer9", "GetDevice");
                     
 }
                 
@@ -2926,7 +2914,7 @@ HRESULT ProxyBase<IDirect3DIndexBuffer9>::SetPrivateData(REFGUID refguid, const 
    
    auto res = pimpl_->SetPrivateData(refguid, pData, SizeOfData, Flags);
    
-   return res;
+   return checkReturn(res, "IDirect3DIndexBuffer9", "SetPrivateData");
                     
 }
                 
@@ -2936,7 +2924,7 @@ HRESULT ProxyBase<IDirect3DIndexBuffer9>::GetPrivateData(REFGUID refguid, void* 
    
    auto res = pimpl_->GetPrivateData(refguid, pData, pSizeOfData);
    
-   return res;
+   return checkReturn(res, "IDirect3DIndexBuffer9", "GetPrivateData");
                     
 }
                 
@@ -2946,7 +2934,7 @@ HRESULT ProxyBase<IDirect3DIndexBuffer9>::FreePrivateData(REFGUID refguid)
    
    auto res = pimpl_->FreePrivateData(refguid);
    
-   return res;
+   return checkReturn(res, "IDirect3DIndexBuffer9", "FreePrivateData");
                     
 }
                 
@@ -2956,7 +2944,7 @@ DWORD ProxyBase<IDirect3DIndexBuffer9>::SetPriority(DWORD PriorityNew)
    
    auto res = pimpl_->SetPriority(PriorityNew);
    
-   return res;
+   return checkReturn(res, "IDirect3DIndexBuffer9", "SetPriority");
                     
 }
                 
@@ -2966,7 +2954,7 @@ DWORD ProxyBase<IDirect3DIndexBuffer9>::GetPriority()
    
    auto res = pimpl_->GetPriority();
    
-   return res;
+   return checkReturn(res, "IDirect3DIndexBuffer9", "GetPriority");
                     
 }
                 
@@ -2986,7 +2974,7 @@ D3DRESOURCETYPE ProxyBase<IDirect3DIndexBuffer9>::GetType()
    
    auto res = pimpl_->GetType();
    
-   return res;
+   return checkReturn(res, "IDirect3DIndexBuffer9", "GetType");
                     
 }
                 
@@ -2996,7 +2984,7 @@ HRESULT ProxyBase<IDirect3DIndexBuffer9>::Lock(UINT OffsetToLock, UINT SizeToLoc
    
    auto res = pimpl_->Lock(OffsetToLock, SizeToLock, ppbData, Flags);
    
-   return res;
+   return checkReturn(res, "IDirect3DIndexBuffer9", "Lock");
                     
 }
                 
@@ -3006,7 +2994,7 @@ HRESULT ProxyBase<IDirect3DIndexBuffer9>::Unlock()
    
    auto res = pimpl_->Unlock();
    
-   return res;
+   return checkReturn(res, "IDirect3DIndexBuffer9", "Unlock");
                     
 }
                 
@@ -3016,7 +3004,7 @@ HRESULT ProxyBase<IDirect3DIndexBuffer9>::GetDesc(D3DINDEXBUFFER_DESC* pDesc)
    
    auto res = pimpl_->GetDesc(pDesc);
    
-   return res;
+   return checkReturn(res, "IDirect3DIndexBuffer9", "GetDesc");
                     
 }
                 
@@ -3039,10 +3027,9 @@ size_t ProxyBase<IDirect3DSurface9>::addExtRef()
 HRESULT ProxyBase<IDirect3DSurface9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     logMethod("IDirect3DSurface9", "QueryInterface");
-   
-   auto res = pimpl_->QueryInterface(riid, ppvObj);
-   
-   return res;
+    auto res = pimpl_->QueryInterface(riid, ppvObj);
+    LogQI(riid);
+    return res;
                     
 }
                 
@@ -3080,7 +3067,7 @@ HRESULT ProxyBase<IDirect3DSurface9>::GetDevice(IDirect3DDevice9** ppDevice)
         if (ppDevice) {*ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DSurface9", "GetDevice");
                     
 }
                 
@@ -3090,7 +3077,7 @@ HRESULT ProxyBase<IDirect3DSurface9>::SetPrivateData(REFGUID refguid, const void
    
    auto res = pimpl_->SetPrivateData(refguid, pData, SizeOfData, Flags);
    
-   return res;
+   return checkReturn(res, "IDirect3DSurface9", "SetPrivateData");
                     
 }
                 
@@ -3100,7 +3087,7 @@ HRESULT ProxyBase<IDirect3DSurface9>::GetPrivateData(REFGUID refguid, void* pDat
    
    auto res = pimpl_->GetPrivateData(refguid, pData, pSizeOfData);
    
-   return res;
+   return checkReturn(res, "IDirect3DSurface9", "GetPrivateData");
                     
 }
                 
@@ -3110,7 +3097,7 @@ HRESULT ProxyBase<IDirect3DSurface9>::FreePrivateData(REFGUID refguid)
    
    auto res = pimpl_->FreePrivateData(refguid);
    
-   return res;
+   return checkReturn(res, "IDirect3DSurface9", "FreePrivateData");
                     
 }
                 
@@ -3120,7 +3107,7 @@ DWORD ProxyBase<IDirect3DSurface9>::SetPriority(DWORD PriorityNew)
    
    auto res = pimpl_->SetPriority(PriorityNew);
    
-   return res;
+   return checkReturn(res, "IDirect3DSurface9", "SetPriority");
                     
 }
                 
@@ -3130,7 +3117,7 @@ DWORD ProxyBase<IDirect3DSurface9>::GetPriority()
    
    auto res = pimpl_->GetPriority();
    
-   return res;
+   return checkReturn(res, "IDirect3DSurface9", "GetPriority");
                     
 }
                 
@@ -3150,7 +3137,7 @@ D3DRESOURCETYPE ProxyBase<IDirect3DSurface9>::GetType()
    
    auto res = pimpl_->GetType();
    
-   return res;
+   return checkReturn(res, "IDirect3DSurface9", "GetType");
                     
 }
                 
@@ -3160,7 +3147,7 @@ HRESULT ProxyBase<IDirect3DSurface9>::GetContainer(REFIID riid, void** ppContain
    
    auto res = pimpl_->GetContainer(riid, ppContainer);
    
-   return res;
+   return checkReturn(res, "IDirect3DSurface9", "GetContainer");
                     
 }
                 
@@ -3170,7 +3157,7 @@ HRESULT ProxyBase<IDirect3DSurface9>::GetDesc(D3DSURFACE_DESC* pDesc)
    
    auto res = pimpl_->GetDesc(pDesc);
    
-   return res;
+   return checkReturn(res, "IDirect3DSurface9", "GetDesc");
                     
 }
                 
@@ -3180,7 +3167,7 @@ HRESULT ProxyBase<IDirect3DSurface9>::LockRect(D3DLOCKED_RECT* pLockedRect, cons
    
    auto res = pimpl_->LockRect(pLockedRect, pRect, Flags);
    
-   return res;
+   return checkReturn(res, "IDirect3DSurface9", "LockRect");
                     
 }
                 
@@ -3190,7 +3177,7 @@ HRESULT ProxyBase<IDirect3DSurface9>::UnlockRect()
    
    auto res = pimpl_->UnlockRect();
    
-   return res;
+   return checkReturn(res, "IDirect3DSurface9", "UnlockRect");
                     
 }
                 
@@ -3200,7 +3187,7 @@ HRESULT ProxyBase<IDirect3DSurface9>::GetDC(HDC* phdc)
    
    auto res = pimpl_->GetDC(phdc);
    
-   return res;
+   return checkReturn(res, "IDirect3DSurface9", "GetDC");
                     
 }
                 
@@ -3210,7 +3197,7 @@ HRESULT ProxyBase<IDirect3DSurface9>::ReleaseDC(HDC hdc)
    
    auto res = pimpl_->ReleaseDC(hdc);
    
-   return res;
+   return checkReturn(res, "IDirect3DSurface9", "ReleaseDC");
                     
 }
                 
@@ -3233,10 +3220,9 @@ size_t ProxyBase<IDirect3DVolume9>::addExtRef()
 HRESULT ProxyBase<IDirect3DVolume9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     logMethod("IDirect3DVolume9", "QueryInterface");
-   
-   auto res = pimpl_->QueryInterface(riid, ppvObj);
-   
-   return res;
+    auto res = pimpl_->QueryInterface(riid, ppvObj);
+    LogQI(riid);
+    return res;
                     
 }
                 
@@ -3274,7 +3260,7 @@ HRESULT ProxyBase<IDirect3DVolume9>::GetDevice(IDirect3DDevice9** ppDevice)
         if (ppDevice) {*ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DVolume9", "GetDevice");
                     
 }
                 
@@ -3284,7 +3270,7 @@ HRESULT ProxyBase<IDirect3DVolume9>::SetPrivateData(REFGUID refguid, const void*
    
    auto res = pimpl_->SetPrivateData(refguid, pData, SizeOfData, Flags);
    
-   return res;
+   return checkReturn(res, "IDirect3DVolume9", "SetPrivateData");
                     
 }
                 
@@ -3294,7 +3280,7 @@ HRESULT ProxyBase<IDirect3DVolume9>::GetPrivateData(REFGUID refguid, void* pData
    
    auto res = pimpl_->GetPrivateData(refguid, pData, pSizeOfData);
    
-   return res;
+   return checkReturn(res, "IDirect3DVolume9", "GetPrivateData");
                     
 }
                 
@@ -3304,7 +3290,7 @@ HRESULT ProxyBase<IDirect3DVolume9>::FreePrivateData(REFGUID refguid)
    
    auto res = pimpl_->FreePrivateData(refguid);
    
-   return res;
+   return checkReturn(res, "IDirect3DVolume9", "FreePrivateData");
                     
 }
                 
@@ -3314,7 +3300,7 @@ HRESULT ProxyBase<IDirect3DVolume9>::GetContainer(REFIID riid, void** ppContaine
    
    auto res = pimpl_->GetContainer(riid, ppContainer);
    
-   return res;
+   return checkReturn(res, "IDirect3DVolume9", "GetContainer");
                     
 }
                 
@@ -3324,7 +3310,7 @@ HRESULT ProxyBase<IDirect3DVolume9>::GetDesc(D3DVOLUME_DESC* pDesc)
    
    auto res = pimpl_->GetDesc(pDesc);
    
-   return res;
+   return checkReturn(res, "IDirect3DVolume9", "GetDesc");
                     
 }
                 
@@ -3334,7 +3320,7 @@ HRESULT ProxyBase<IDirect3DVolume9>::LockBox(D3DLOCKED_BOX* pLockedVolume, const
    
    auto res = pimpl_->LockBox(pLockedVolume, pBox, Flags);
    
-   return res;
+   return checkReturn(res, "IDirect3DVolume9", "LockBox");
                     
 }
                 
@@ -3344,7 +3330,7 @@ HRESULT ProxyBase<IDirect3DVolume9>::UnlockBox()
    
    auto res = pimpl_->UnlockBox();
    
-   return res;
+   return checkReturn(res, "IDirect3DVolume9", "UnlockBox");
                     
 }
                 
@@ -3367,10 +3353,9 @@ size_t ProxyBase<IDirect3DQuery9>::addExtRef()
 HRESULT ProxyBase<IDirect3DQuery9>::QueryInterface(REFIID riid, void** ppvObj)
 {
     logMethod("IDirect3DQuery9", "QueryInterface");
-   
-   auto res = pimpl_->QueryInterface(riid, ppvObj);
-   
-   return res;
+    auto res = pimpl_->QueryInterface(riid, ppvObj);
+    LogQI(riid);
+    return res;
                     
 }
                 
@@ -3408,7 +3393,7 @@ HRESULT ProxyBase<IDirect3DQuery9>::GetDevice(IDirect3DDevice9** ppDevice)
         if (ppDevice) {*ppDevice = wrapProxy<IDirect3DDevice9>(*ppDevice).get();}
     }
                         
-   return res;
+   return checkReturn(res, "IDirect3DQuery9", "GetDevice");
                     
 }
                 
@@ -3418,7 +3403,7 @@ D3DQUERYTYPE ProxyBase<IDirect3DQuery9>::GetType()
    
    auto res = pimpl_->GetType();
    
-   return res;
+   return checkReturn(res, "IDirect3DQuery9", "GetType");
                     
 }
                 
@@ -3428,7 +3413,7 @@ DWORD ProxyBase<IDirect3DQuery9>::GetDataSize()
    
    auto res = pimpl_->GetDataSize();
    
-   return res;
+   return checkReturn(res, "IDirect3DQuery9", "GetDataSize");
                     
 }
                 
@@ -3438,7 +3423,7 @@ HRESULT ProxyBase<IDirect3DQuery9>::Issue(DWORD dwIssueFlags)
    
    auto res = pimpl_->Issue(dwIssueFlags);
    
-   return res;
+   return checkReturn(res, "IDirect3DQuery9", "Issue");
                     
 }
                 
@@ -3448,7 +3433,7 @@ HRESULT ProxyBase<IDirect3DQuery9>::GetData(void* pData, DWORD dwSize, DWORD dwG
    
    auto res = pimpl_->GetData(pData, dwSize, dwGetDataFlags);
    
-   return res;
+   return checkReturn(res, "IDirect3DQuery9", "GetData");
                     
 }
                 

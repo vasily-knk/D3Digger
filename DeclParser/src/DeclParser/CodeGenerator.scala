@@ -151,10 +151,11 @@ class CodeGenerator extends InterfacesProcessor {
                       |    }
                       |    return refCount;
                     """.stripMargin.format(pimplCall)
-                /*case "QueryInterface" =>
-                    """    assert(false); // Not implemented
-                      |    return E_FAIL;
-                    """.stripMargin*/
+                case "QueryInterface" =>
+                    """    auto res = %s;
+                      |    LogQI(%s);
+                      |    return res;
+                    """.stripMargin.format(pimplCall, args(0).name.get)
                 case _ => {
                     val unwraps = m.args.filter({case arg => checkArgWrap(arg.argType) == WrapType.In })
                     val wraps = m.args.filter({case arg => checkArgWrap(arg.argType) == WrapType.Out})
@@ -172,7 +173,7 @@ class CodeGenerator extends InterfacesProcessor {
 
 
                     val storeStr = if (checkVoid(m.retType)) "" else "auto res = "
-                    val returnStr = if (checkVoid(m.retType)) "" else "return res"
+                    val returnStr = if (checkVoid(m.retType)) "" else "return checkReturn(res, \"%s\", \"%s\")".format(i.name, m.name)
 
                     """   %s
                       |   %s%s;

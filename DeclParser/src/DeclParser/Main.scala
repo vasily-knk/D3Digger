@@ -5,53 +5,26 @@ import BaseTypes._
 import DeclParser.Main
 
 object Main extends App {
-    def checkTypeName(name: String) = {
-        val pattern = """IDirect3D(\w*)9""".r
-
-        name match {
-            case pattern(str) => true
-            case _ => false
+    def printReturns(interfaces: Interfaces){
+        def checkMethod(m: StdMethod) = {
+            val l = m.args.filter((arg) => !CodeGenerator.checkTypeName(arg.argType.name) && arg.argType.ptrDepth == 2)
+            !l.isEmpty
         }
+
+        interfaces.foreach((i) => {
+            i.methods.foreach((m) => {
+                if (checkMethod(m)) {
+                    println(i.name + "." + m.name)
+                }
+            })
+        })
     }
 
-    object WrapType extends Enumeration {
-        type WrapType = Value
-        val None, In, Out = Value
-    }
-    def checkArgWrap(argType: ArgType) : WrapType.Value = {
-        if (!checkTypeName(argType.name))
-            WrapType.None
-        else if (argType.ptrDepth == 1)
-            WrapType.In
-        else if (argType.ptrDepth == 2)
-            WrapType.Out
-        else
-            WrapType.None
-    }
 
     val text = Source.fromFile("src.txt").mkString
 
     val interfaces = new ParserImpl().parse(text)
-
-    /*
-    interfaces.foreach((i) => {
-        println("Interface " + i.name + ": ")
-        i.methods.foreach((m) => {
-            val ins  = m.args.filter({case arg => checkArgWrap(arg.argType) == WrapType.In })
-            val outs = m.args.filter({case arg => checkArgWrap(arg.argType) == WrapType.Out})
-            if (!ins.isEmpty || !outs.isEmpty) {
-                println(" Method " + m.name)
-                if (!ins.isEmpty)
-                    println("  In:" + ins.mkString(", "))
-                if (!outs.isEmpty)
-                    println("  Out:" + outs.mkString(", "))
-
-                if (!ins.isEmpty && !outs.isEmpty)
-                    throw new RuntimeException("AAA!")
-            }
-        })
-    })
-    */
+    //printReturns(interfaces)
 
     new CodeGenerator().process(interfaces)
 }

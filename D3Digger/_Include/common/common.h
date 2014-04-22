@@ -6,6 +6,7 @@
 
 #include <d3d9.h>
 #include <D3dx9tex.h>
+#include <atlbase.h>
 
 #include <memory>
 using std::shared_ptr;

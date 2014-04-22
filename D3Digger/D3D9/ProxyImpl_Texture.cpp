@@ -16,6 +16,8 @@ ProxyImplTexture::ProxyImplTexture(IBase *pimpl)
 
 void ProxyImplTexture::save()
 {
+    return;
+
     if (!saved_)
     {
         size_t n = getGlobal().numTextures++;

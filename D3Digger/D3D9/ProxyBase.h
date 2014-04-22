@@ -8,6 +8,21 @@ struct ProxyBase;
 
 void logMethod(const char *interfaceName, const char *methodName);
 
+void LogQI(REFIID);
+
+template<typename T>
+inline T checkReturn(T const &val, const char *interfaceName, const char *methodName)
+{
+    (void)interfaceName;
+    (void)methodName;
+    return val;
+}
+/*
+
+template<>
+HRESULT checkReturn(HRESULT const &val, const char *interfaceName, const char *methodName);*/
+
+
 #define MY_BEGIN_INTERFACE(name) \
     template<> \
     struct ProxyBase<name> \
