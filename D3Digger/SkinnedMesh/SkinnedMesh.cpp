@@ -1397,7 +1397,7 @@ void DrawMeshContainer( IDirect3DDevice9* pd3dDevice, LPD3DXMESHCONTAINER pMeshC
                 if( g_dwBehaviorFlags & D3DCREATE_HARDWARE_VERTEXPROCESSING )
                     return;
 
-                V( pd3dDevice->SetSoftwareVertexProcessing( TRUE ) );
+                V( pd3dDevice->SetSoftwareVertexProcessing( FALSE ) );
             }
 
             pBoneComb = reinterpret_cast<LPD3DXBONECOMBINATION>( pMeshContainer->pBoneCombinationBuf->GetBufferPointer

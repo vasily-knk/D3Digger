@@ -1,8 +1,9 @@
 #pragma once
 
-#include <SDKDDKVer.h>
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 
-#define WIN32_LEAN_AND_MEAN       
+#include <SDKDDKVer.h>
 
 #include <d3d9.h>
 #include <D3dx9tex.h>
@@ -61,3 +62,6 @@ typedef boost::thread Thread;
 typedef boost::asio::io_service IOService;
 
 #include <boost/assign.hpp>
+
+#include <boost/optional.hpp>
+using boost::optional;

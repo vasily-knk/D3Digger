@@ -10,15 +10,10 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\D3D9\D3D9.vcxproj">
-      <Project>{f24b1049-c508-448b-b5a5-786a907fa091}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{4D12769E-D951-4E07-BE69-EAC33153F8D3}</ProjectGuid>
+    <ProjectGuid>{4B8A4321-4F5C-403E-A15F-3D36D7969243}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>ZZZ_Stalker</RootNamespace>
+    <RootNamespace>ZZZ_ME</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -55,13 +50,11 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>
-      </Command>
-    </PostBuildEvent>
     <CustomBuildStep>
-      <Command>copy /V /Y $(OutDir)d3d9.dll D:\Games\Stalker\bin\
-copy /V /Y $(OutDir)d3d9.pdb D:\Games\Stalker\bin\</Command>
+      <Command>copy /V /Y $(OutDir)d3d9.dll "D:\Games\Mirror's Edge\Binaries"
+copy /V /Y $(OutDir)d3d9.pdb "D:\Games\Mirror's Edge\Binaries"</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
       <Outputs>hello.txt</Outputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>

@@ -81,7 +81,9 @@
     <ClInclude Include="ProxyBase.h" />
     <ClInclude Include="ProxyImpl.h" />
     <ClInclude Include="ProxyImpl_Device.h" />
+    <ClInclude Include="ProxyImpl_IndexBuffer.h" />
     <ClInclude Include="ProxyImpl_Texture.h" />
+    <ClInclude Include="ProxyImpl_VertexBuffer.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
@@ -98,7 +100,9 @@
     <ClCompile Include="ProxyBase.cpp" />
     <ClCompile Include="ProxyImpl.cpp" />
     <ClCompile Include="ProxyImpl_Device.cpp" />
+    <ClCompile Include="ProxyImpl_IndexBuffer.cpp" />
     <ClCompile Include="ProxyImpl_Texture.cpp" />
+    <ClCompile Include="ProxyImpl_VertexBuffer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

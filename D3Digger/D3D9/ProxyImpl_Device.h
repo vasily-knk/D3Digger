@@ -6,6 +6,7 @@ struct ProxyImplDevice
     : ProxyBase<IDirect3DDevice9>
 {
     typedef IDirect3DDevice9 IBase;
+    typedef ProxyBase<IDirect3DDevice9> MyProxyBase;
 
     ProxyImplDevice(IBase *pimpl);
     HRESULT STDMETHODCALLTYPE SetTexture(DWORD Stage, IDirect3DBaseTexture9* pTexture) override;
@@ -17,10 +18,23 @@ struct ProxyImplDevice
     HRESULT STDMETHODCALLTYPE SetVertexShaderConstantB( UINT StartRegister,CONST BOOL* pConstantData,UINT  BoolCount) override;
     HRESULT STDMETHODCALLTYPE DrawPrimitiveUP( D3DPRIMITIVETYPE PrimitiveType,UINT PrimitiveCount,CONST void* pVertexStreamZeroData,UINT VertexStreamZeroStride) override;
     HRESULT STDMETHODCALLTYPE DrawIndexedPrimitiveUP( D3DPRIMITIVETYPE PrimitiveType,UINT MinVertexIndex,UINT NumVertices,UINT PrimitiveCount,CONST void* pIndexData,D3DFORMAT IndexDataFormat,CONST void* pVertexStreamZeroData,UINT VertexStreamZeroStride) override;
+    
+    HRESULT STDMETHODCALLTYPE SetStreamSource(UINT StreamNumber,IDirect3DVertexBuffer9* pStreamData,UINT OffsetInBytes,UINT Stride) override;
+
+    HRESULT STDMETHODCALLTYPE DrawPrimitive(D3DPRIMITIVETYPE PrimitiveType,UINT StartVertex,UINT PrimitiveCount) override;
+    HRESULT STDMETHODCALLTYPE DrawIndexedPrimitive(D3DPRIMITIVETYPE,INT BaseVertexIndex,UINT MinVertexIndex,UINT NumVertices,UINT startIndex,UINT primCount) override;
+
+
+public:
+    void appendVBLock(size_t size);
+    bool getDisableVBLocks() const { return disableVBLocks_; } ;
+    int getCurrentFrame() const { return currentFrame_; }
+    optional<int> getLastAllowedLockFrame() const { return lastAllowedLockFrame_; }
 
 private:
     void dumpFrameStats();
     static size_t primCount2NumVerts(D3DPRIMITIVETYPE PrimitiveType, size_t PrimitiveCount);
+    void processRenderTargets();
 
 private:
     struct FrameStats
@@ -41,4 +55,15 @@ private:
     vector<FrameStats> frameStats_;
     FrameStats currentFramesStats_;
     ofstream frameStatsStream_;
+
+    bool oReleased;
+    bool disableVBLocks_;
+    
+private:
+    int currentFrame_;
+    optional<int> lastAllowedLockFrame_;
+    set<size_t> dirtyVBs_;
+    set<size_t> renderTargets_;
+
+    vector<IProxy<IDirect3DVertexBuffer9> *> vbs_;
 };

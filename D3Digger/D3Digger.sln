@@ -12,6 +12,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_Include", "_Include\_Inclu
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZZZ_Stalker", "ZZZ_Stalker\ZZZ_Stalker.vcxproj", "{4D12769E-D951-4E07-BE69-EAC33153F8D3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZZZ_ME", "ZZZ_ME\ZZZ_ME.vcxproj", "{4B8A4321-4F5C-403E-A15F-3D36D7969243}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -61,6 +63,15 @@ Global
 		{4D12769E-D951-4E07-BE69-EAC33153F8D3}.Release|Win32.ActiveCfg = Release|Win32
 		{4D12769E-D951-4E07-BE69-EAC33153F8D3}.Release|Win32.Build.0 = Release|Win32
 		{4D12769E-D951-4E07-BE69-EAC33153F8D3}.Release|x64.ActiveCfg = Release|Win32
+		{4B8A4321-4F5C-403E-A15F-3D36D7969243}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4B8A4321-4F5C-403E-A15F-3D36D7969243}.Debug|Win32.Build.0 = Debug|Win32
+		{4B8A4321-4F5C-403E-A15F-3D36D7969243}.Debug|x64.ActiveCfg = Debug|Win32
+		{4B8A4321-4F5C-403E-A15F-3D36D7969243}.Profile|Win32.ActiveCfg = Release|Win32
+		{4B8A4321-4F5C-403E-A15F-3D36D7969243}.Profile|Win32.Build.0 = Release|Win32
+		{4B8A4321-4F5C-403E-A15F-3D36D7969243}.Profile|x64.ActiveCfg = Release|Win32
+		{4B8A4321-4F5C-403E-A15F-3D36D7969243}.Release|Win32.ActiveCfg = Release|Win32
+		{4B8A4321-4F5C-403E-A15F-3D36D7969243}.Release|Win32.Build.0 = Release|Win32
+		{4B8A4321-4F5C-403E-A15F-3D36D7969243}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

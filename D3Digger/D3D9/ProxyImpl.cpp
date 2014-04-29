@@ -8,8 +8,6 @@
     X(IDirect3DSurface9          ) \
     X(IDirect3DVolumeTexture9    ) \
     X(IDirect3DCubeTexture9      ) \
-    X(IDirect3DVertexBuffer9     ) \
-    X(IDirect3DIndexBuffer9      ) \
     X(IDirect3DStateBlock9       ) \
     X(IDirect3DVertexDeclaration9) \
     X(IDirect3DVertexShader9     ) \
