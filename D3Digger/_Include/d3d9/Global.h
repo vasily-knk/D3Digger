@@ -2,19 +2,15 @@
 
 #include "IProxy.h"
 
-struct Global
+struct IGlobal
+    : Interface
 {
-    Global()
-        : log("d3d9_log.txt")
-        , numTextures(0)
-    {
+    typedef unordered_map<IUnknown *, shared_ptr<IProxy<IUnknown>>> ProxyMapping;
 
-    }
-    unordered_map<IUnknown *, shared_ptr<IProxy<IUnknown>>> mapping;
-    ofstream log;
-    size_t numTextures;
+    virtual ProxyMapping &proxyMapping() = 0;
+    virtual ostream &log() = 0;
 };
 
-Global &getGlobal();
+IGlobal &getGlobal();
 
-#define LOG(str) getGlobal().log << str << std::endl << std::flush;
+#define LOG(str) getGlobal().log() << str << std::endl << std::flush;

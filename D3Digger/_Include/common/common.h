@@ -15,9 +15,6 @@ using std::make_shared;
 using std::enable_shared_from_this;
 using std::dynamic_pointer_cast;
 
-#include <simex/common/event.h>
-using boost::signals2::scoped_connection;
-
 #include <functional>
 using std::bind;
 using std::function;
@@ -39,6 +36,8 @@ using std::vector;
 using std::ofstream;
 using std::ifstream;
 using std::endl;
+using std::istream;
+using std::ostream;
 
 #include <utility>
 using std::pair;
@@ -50,6 +49,15 @@ using std::string;
 using std::stringstream;
 
 #include <iomanip>
+#include <algorithm>
+#include <numeric> 
 
 #include "interface.h"
 
+#include <boost/thread.hpp>
+typedef boost::thread Thread;
+
+#include <boost/asio.hpp>
+typedef boost::asio::io_service IOService;
+
+#include <boost/assign.hpp>

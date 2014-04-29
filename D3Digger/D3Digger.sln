@@ -10,6 +10,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkinnedMesh", "SkinnedMesh\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_Include", "_Include\_Include.vcxproj", "{F9681CB6-1570-402A-9C36-8B765B5504D9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZZZ_Stalker", "ZZZ_Stalker\ZZZ_Stalker.vcxproj", "{4D12769E-D951-4E07-BE69-EAC33153F8D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -50,6 +52,15 @@ Global
 		{F9681CB6-1570-402A-9C36-8B765B5504D9}.Release|Win32.ActiveCfg = Release|Win32
 		{F9681CB6-1570-402A-9C36-8B765B5504D9}.Release|Win32.Build.0 = Release|Win32
 		{F9681CB6-1570-402A-9C36-8B765B5504D9}.Release|x64.ActiveCfg = Release|Win32
+		{4D12769E-D951-4E07-BE69-EAC33153F8D3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4D12769E-D951-4E07-BE69-EAC33153F8D3}.Debug|Win32.Build.0 = Debug|Win32
+		{4D12769E-D951-4E07-BE69-EAC33153F8D3}.Debug|x64.ActiveCfg = Debug|Win32
+		{4D12769E-D951-4E07-BE69-EAC33153F8D3}.Profile|Win32.ActiveCfg = Release|Win32
+		{4D12769E-D951-4E07-BE69-EAC33153F8D3}.Profile|Win32.Build.0 = Release|Win32
+		{4D12769E-D951-4E07-BE69-EAC33153F8D3}.Profile|x64.ActiveCfg = Release|Win32
+		{4D12769E-D951-4E07-BE69-EAC33153F8D3}.Release|Win32.ActiveCfg = Release|Win32
+		{4D12769E-D951-4E07-BE69-EAC33153F8D3}.Release|Win32.Build.0 = Release|Win32
+		{4D12769E-D951-4E07-BE69-EAC33153F8D3}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
