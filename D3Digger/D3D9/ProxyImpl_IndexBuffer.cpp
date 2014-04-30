@@ -2,9 +2,9 @@
 #include "ProxyImpl_IndexBuffer.h"
 
 template<>
-shared_ptr<IProxy<IDirect3DIndexBuffer9>> createProxy<IDirect3DIndexBuffer9>(IDirect3DIndexBuffer9 *pimpl)
+IProxyPtr<IDirect3DIndexBuffer9>::Type createProxy<IDirect3DIndexBuffer9>(IDirect3DIndexBuffer9 *pimpl)
 {
-    return make_shared<ProxyImplIndexBuffer>(pimpl);
+    return IProxyPtr<IDirect3DIndexBuffer9>::Type(new ProxyImplIndexBuffer(pimpl));
 }
 
 ProxyImplIndexBuffer::ProxyImplIndexBuffer(IBase *pimpl)

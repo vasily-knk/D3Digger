@@ -65,3 +65,6 @@ typedef boost::asio::io_service IOService;
 
 #include <boost/optional.hpp>
 using boost::optional;
+
+#include <boost/intrusive_ptr.hpp>
+using boost::intrusive_ptr;

@@ -4,9 +4,9 @@
 #include "ProxyImpl_VertexBuffer.h"
 
 template<>
-shared_ptr<IProxy<IDirect3DDevice9>> createProxy<IDirect3DDevice9>(IDirect3DDevice9 *pimpl)
+IProxyPtr<IDirect3DDevice9>::Type createProxy<IDirect3DDevice9>(IDirect3DDevice9 *pimpl)
 {
-    return make_shared<ProxyImplDevice>(pimpl);
+    return IProxyPtr<IDirect3DDevice9>::Type(new ProxyImplDevice(pimpl));
 }
 
 ProxyImplDevice::ProxyImplDevice(IBase *pimpl)
@@ -160,6 +160,11 @@ size_t ProxyImplDevice::primCount2NumVerts(D3DPRIMITIVETYPE PrimitiveType, size_
 void ProxyImplDevice::appendVBLock(size_t size)
 {
     currentFramesStats_.vbLocks += size;
+}
+
+void ProxyImplDevice::appendTexLock(size_t size)
+{
+    currentFramesStats_.texLocks += size;
 }
 
 HRESULT STDMETHODCALLTYPE ProxyImplDevice::SetStreamSource(UINT StreamNumber,IDirect3DVertexBuffer9* pStreamData,UINT OffsetInBytes,UINT Stride)

@@ -12,7 +12,7 @@ void logMethod(const char *interfaceName, const char *methodName)
 {
     (void)interfaceName;
     (void)methodName;
-
+    LOG(interfaceName << "." << methodName);
 }
 
 void LogQI(REFIID)

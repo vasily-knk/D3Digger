@@ -3,9 +3,9 @@
 #include "ProxyImpl_Device.h"
 
 template<>
-shared_ptr<IProxy<IDirect3DVertexBuffer9>> createProxy<IDirect3DVertexBuffer9>(IDirect3DVertexBuffer9 *pimpl)
+IProxyPtr<IDirect3DVertexBuffer9>::Type createProxy<IDirect3DVertexBuffer9>(IDirect3DVertexBuffer9 *pimpl)
 {
-    return make_shared<ProxyImplVertexBuffer>(pimpl);
+    return IProxyPtr<IDirect3DVertexBuffer9>::Type(new ProxyImplVertexBuffer(pimpl));
 }
 
 ProxyImplVertexBuffer::ProxyImplVertexBuffer(IBase *pimpl)
@@ -19,7 +19,6 @@ HRESULT ProxyImplVertexBuffer::Lock(UINT OffsetToLock,UINT SizeToLock,void** ppb
     auto dev = getDevice();
     int currentFrame = dev->getCurrentFrame();
     optional<int> lastAllowedLockedFrame = dev->getLastAllowedLockFrame();
-    dev->Release();
 
     lastLockFrame_ = currentFrame;
 
@@ -71,14 +70,13 @@ void ProxyImplVertexBuffer::updateLockStats(size_t size)
 {
     auto dev = getDevice();
     dev->appendVBLock(size);
-    dev->Release();
 }
 
-shared_ptr<ProxyImplDevice> ProxyImplVertexBuffer::getDevice() const
+ProxyImplDevicePtr ProxyImplVertexBuffer::getDevice() 
 {
     IDirect3DDevice9 *d = nullptr;
-    pimpl_->GetDevice(&d);
-    shared_ptr<ProxyImplDevice> dev = dynamic_pointer_cast<ProxyImplDevice>(wrapProxy<IDirect3DDevice9>(d));
+    MyProxyBase::GetDevice(&d);
+    auto dev = ProxyImplDevicePtr(dynamic_cast<ProxyImplDevice*>(d));
 
     assert(dev);
     return dev;
@@ -89,4 +87,15 @@ size_t ProxyImplVertexBuffer::getSize() const
     D3DVERTEXBUFFER_DESC desc;
     pimpl_->GetDesc(&desc);
     return desc.Size;
+}
+
+void ProxyImplVertexBuffer::initDevice()
+{
+/*
+    IDirect3DDevice9 *d = nullptr;
+    MyProxyBase::GetDevice(&d);
+    device_ = ProxyImplDevicePtr(dynamic_cast<ProxyImplDevice*>(d));
+
+    assert(device_);
+*/
 }

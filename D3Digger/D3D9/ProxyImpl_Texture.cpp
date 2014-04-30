@@ -1,21 +1,27 @@
 #include "stdafx.h"
 #include "ProxyImpl_Texture.h"
+#include "ProxyImpl_Device.h"
 
 template<>
-shared_ptr<IProxy<IDirect3DTexture9>> createProxy<IDirect3DTexture9>(IDirect3DTexture9 *pimpl)
+IProxyPtr<IDirect3DTexture9>::Type createProxy<IDirect3DTexture9>(IDirect3DTexture9 *pimpl)
 {
-    return make_shared<ProxyImplTexture>(pimpl);
+    return IProxyPtr<IDirect3DTexture9>::Type(new ProxyImplTexture(pimpl));
 }
 
 ProxyImplTexture::ProxyImplTexture(IBase *pimpl)
     : ProxyBase<IBase>(pimpl)
-    , saved_(false)
 {
 
 }
 
-void ProxyImplTexture::save()
+HRESULT ProxyImplTexture::LockRect(UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags)
 {
-    return;
-
+    return MyProxyBase::LockRect(Level, pLockedRect, pRect, Flags);
 }
+
+HRESULT ProxyImplTexture::UnlockRect(UINT Level)
+{
+    return MyProxyBase::UnlockRect(Level);
+}
+
+

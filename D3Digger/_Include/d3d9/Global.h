@@ -5,7 +5,7 @@
 struct IGlobal
     : Interface
 {
-    typedef unordered_map<IUnknown *, shared_ptr<IProxy<IUnknown>>> ProxyMapping;
+    typedef unordered_map<IUnknown *, IProxyPtr<IUnknown>::Type> ProxyMapping;
 
     virtual ProxyMapping &proxyMapping() = 0;
     virtual ostream &log() = 0;

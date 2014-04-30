@@ -97,7 +97,9 @@ class CodeGenerator extends InterfacesProcessor {
         pw.println(
             """ProxyBase<%s>::ProxyBase(%s *pimpl)
               |    : pimpl_(pimpl)
-              |    , extRefCount_(1)
+              |    , extRefCount_(0)
+              |    , goingToDie_(false)
+              |    , refCount_(0)
               |{
               |}
             """.stripMargin.format(i.name, i.name))
@@ -109,12 +111,12 @@ class CodeGenerator extends InterfacesProcessor {
               |}
             """.stripMargin.format(i.name, i.name))
 
-        pw.println(
+        /*pw.println(
             """size_t ProxyBase<%s>::addExtRef()
               |{
               |    return ++extRefCount_;
               |}
-            """.stripMargin.format(i.name))
+            """.stripMargin.format(i.name))*/
 
 
         i.methods.foreach((m) => {
@@ -136,20 +138,27 @@ class CodeGenerator extends InterfacesProcessor {
 
             val body = m.name match {
                 case "AddRef" =>
-                    """    auto refCount = %s;
+                    """    refCount_ = %s;
                       |    ++extRefCount_;
-                      |    return refCount;
+                      |    assert(refCount_ >= extRefCount_);
+                      |    return refCount_;
                     """.stripMargin.format(pimplCall)
                 case "Release" =>
-                    """    auto sharedThis = shared_from_this();
-                      |    auto refCount = %s;
+                    """    refCount_ = %s;
                       |    --extRefCount_;
-                      |    if (extRefCount_ == 0)
+                      |    assert(refCount_ >= extRefCount_);
+                      |    if (!goingToDie_)
                       |    {
-                      |        detachProxy(pimpl_);
-                      |        pimpl_ = nullptr;
+                      |        assert(extRefCount_ > 0);
+                      |        if (extRefCount_ == 1)
+                      |        {
+                      |            goingToDie_ = true;
+                      |            detachProxy(pimpl_);
+                      |            assert(extRefCount_ == 0);
+                      |            delete this;
+                      |        }
                       |    }
-                      |    return refCount;
+                      |    return refCount_;
                     """.stripMargin.format(pimplCall)
                 case "QueryInterface" =>
                     """    auto res = %s;

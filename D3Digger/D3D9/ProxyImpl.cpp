@@ -17,9 +17,9 @@
 
 #define CREATE_PROXY_DEFINITION(name) \
     template<> \
-    shared_ptr<IProxy<name>> createProxy<name>(name *pimpl) \
+    IProxyPtr<name>::Type createProxy<name>(name *pimpl) \
     { \
-        return make_shared<ProxyBase<name>>(pimpl); \
+        return IProxyPtr<name>::Type(new ProxyBase<name>(pimpl)); \
     }
 
 FOR_X(CREATE_PROXY_DEFINITION)
@@ -28,9 +28,10 @@ FOR_X(CREATE_PROXY_DEFINITION)
 #undef FOR_X
 
 template<>
-shared_ptr<IProxy<IDirect3DBaseTexture9>> createProxy<IDirect3DBaseTexture9>(IDirect3DBaseTexture9 *pimpl)
+IProxyPtr<IDirect3DBaseTexture9>::Type createProxy<IDirect3DBaseTexture9>(IDirect3DBaseTexture9 *pimpl)
 {
     assert(false);
-    return shared_ptr<IProxy<IDirect3DBaseTexture9>>();
+    (void)pimpl;
+    return IProxyPtr<IDirect3DBaseTexture9>::Type();
 }
 

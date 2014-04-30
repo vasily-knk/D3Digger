@@ -6,10 +6,11 @@ struct ProxyImplTexture
     : ProxyBase<IDirect3DTexture9>
 {
     typedef IDirect3DTexture9 IBase;
+    typedef ProxyBase<IBase> MyProxyBase;
     
     ProxyImplTexture(IBase *pimpl);
-    void save();
 
-private:
-    bool saved_;
+    HRESULT STDMETHODCALLTYPE LockRect(UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags) override;
+    HRESULT STDMETHODCALLTYPE UnlockRect(UINT Level) override;
+
 };

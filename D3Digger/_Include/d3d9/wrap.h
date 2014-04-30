@@ -4,7 +4,7 @@
 #include "Global.h"
 
 template<typename T>
-inline shared_ptr<IProxy<T>> wrapProxy(T *p)
+inline typename IProxyPtr<T>::Type wrapProxy(T *p)
 {
     typedef T IBase;
     auto id = static_cast<IUnknown*>(p);
@@ -16,13 +16,8 @@ inline shared_ptr<IProxy<T>> wrapProxy(T *p)
         auto v = make_pair(id, createProxy<IBase>(p));
         mapping.insert(v);
     }
-    else
-    {
-        mapping.at(id)->addExtRef();
-    }
 
-
-    shared_ptr<IProxy<IBase>> proxy = dynamic_pointer_cast<IProxy<IBase>>(mapping.at(id));
+    IProxyPtr<IBase>::Type proxy = dynamic_pointer_cast<IProxy<IBase>>(mapping.at(id));
     return proxy;
 }
 

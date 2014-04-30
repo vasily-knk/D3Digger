@@ -1,36 +1,42 @@
 #pragma once
 
+#include "IProxyExt.h"
+
 template<typename T>
 struct IProxy;
 
 template<typename T>
-shared_ptr<IProxy<T>> createProxy(T *pimpl);
+struct IProxyPtr
+{
+    typedef intrusive_ptr<IProxy<T>> Type;
+};
+
+template<typename T>
+typename IProxyPtr<T>::Type createProxy(T *pimpl);
 
 #include "undef.h"
 
 #define MY_BEGIN_INTERFACE_(name, parent)   \
     template<> struct IProxy<name>;         \
     template<>                              \
-    shared_ptr<IProxy<name>> createProxy(name *pimpl); \
+    typename IProxyPtr<name>::Type createProxy(name *pimpl); \
                                             \
     template<>                              \
     struct IProxy<name>                     \
-        : name, IProxy<parent>              \
+        : name, IProxyExt<name>, IProxy<parent> \
     {                                       \
-        virtual name *getPImpl() = 0;       \
-        virtual size_t addExtRef() = 0;
+        virtual name *getPImpl() = 0;       
       
 #define MY_BEGIN_INTERFACE(name)            \
     template<> struct IProxy<name>;         \
     template<>                              \
-    shared_ptr<IProxy<name>> createProxy(name *pimpl); \
+    typename IProxyPtr<name>::Type createProxy(name *pimpl); \
                                             \
     template<>                              \
     struct IProxy<name>                     \
-        : name, Interface                   \
+        : name, IProxyExt<name>, Interface  \
     {                                       \
-        virtual name *getPImpl() = 0;       \
-        virtual size_t addExtRef() = 0;
+        virtual name *getPImpl() = 0;       
 
 #define MY_END_INTERFACE }
 
@@ -42,3 +48,12 @@ shared_ptr<IProxy<T>> createProxy(T *pimpl);
 #include "decl.h"
 #include "undef.h"
 
+inline void intrusive_ptr_add_ref(IProxy<IUnknown> *ptr)
+{
+    ptr->AddRef();
+}
+
+inline void intrusive_ptr_release(IProxy<IUnknown> *ptr)
+{
+    ptr->Release();
+}

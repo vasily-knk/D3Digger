@@ -27,6 +27,7 @@ struct ProxyImplDevice
 
 public:
     void appendVBLock(size_t size);
+    void appendTexLock(size_t size);
     bool getDisableVBLocks() const { return disableVBLocks_; } ;
     int getCurrentFrame() const { return currentFrame_; }
     optional<int> getLastAllowedLockFrame() const { return lastAllowedLockFrame_; }

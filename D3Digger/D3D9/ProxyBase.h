@@ -27,11 +27,9 @@ HRESULT checkReturn(HRESULT const &val, const char *interfaceName, const char *m
     template<> \
     struct ProxyBase<name> \
         : IProxy<name> \
-        , enable_shared_from_this<ProxyBase<name>> \
     { \
         typedef name IBase; \
         IBase *getPImpl() override; \
-        size_t addExtRef() override; \
         ProxyBase(IBase *pimpl);
 
 #define MY_BEGIN_INTERFACE_(name, parent) MY_BEGIN_INTERFACE(name)
@@ -40,6 +38,8 @@ HRESULT checkReturn(HRESULT const &val, const char *interfaceName, const char *m
 protected: \
     IBase *pimpl_; \
     size_t extRefCount_; \
+    bool goingToDie_; \
+    size_t refCount_; \
 }
 
 #define MY_STDMETHOD(name, args) HRESULT STDMETHODCALLTYPE name args override

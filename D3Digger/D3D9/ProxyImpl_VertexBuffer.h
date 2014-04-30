@@ -22,8 +22,9 @@ struct ProxyImplVertexBuffer
 
 private:
     void updateLockStats(size_t size);
-    shared_ptr<ProxyImplDevice> getDevice() const;
-    
+    ProxyImplDevicePtr getDevice();
+    void initDevice();
+
 private:
     vector<uint8_t> buffer_;
     optional<int> lastLockFrame_;
