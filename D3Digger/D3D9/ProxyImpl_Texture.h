@@ -13,6 +13,9 @@ struct ProxyImplTexture
     HRESULT STDMETHODCALLTYPE LockRect(UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags) override;
     HRESULT STDMETHODCALLTYPE UnlockRect(UINT Level) override;
 
+private:
+    void updateLockStats(size_t size);
+    ProxyImplDevicePtr getDevice();
 };
 
 template<>

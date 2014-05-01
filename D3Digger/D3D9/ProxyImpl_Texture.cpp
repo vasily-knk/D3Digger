@@ -20,3 +20,18 @@ HRESULT ProxyImplTexture::UnlockRect(UINT Level)
 }
 
 
+ProxyImplDevicePtr ProxyImplTexture::getDevice() 
+{
+    IDirect3DDevice9 *d = nullptr;
+    pimpl_->GetDevice(&d);
+    auto dev = dynamic_pointer_cast<ProxyImplDevice>(wrapProxySmart(d));
+
+    assert(dev);
+    return dev;
+}
+
+void ProxyImplTexture::updateLockStats(size_t size)
+{
+    auto dev = getDevice();
+    dev->appendTexLock(size);
+}

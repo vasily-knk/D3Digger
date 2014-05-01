@@ -23,7 +23,6 @@ struct ProxyImplVertexBuffer
 private:
     void updateLockStats(size_t size);
     ProxyImplDevicePtr getDevice();
-    void initDevice();
 
 private:
     vector<uint8_t> buffer_;

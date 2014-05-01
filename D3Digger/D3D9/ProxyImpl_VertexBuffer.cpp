@@ -11,7 +11,6 @@ ProxyImplVertexBuffer::ProxyImplVertexBuffer(IBase *pimpl)
 
 HRESULT ProxyImplVertexBuffer::Lock(UINT OffsetToLock,UINT SizeToLock,void** ppbData,DWORD Flags)
 {
-
     //return MyProxyBase::Lock(OffsetToLock, SizeToLock, ppbData, Flags);
 
     auto dev = getDevice();
@@ -24,8 +23,8 @@ HRESULT ProxyImplVertexBuffer::Lock(UINT OffsetToLock,UINT SizeToLock,void** ppb
 
     size_t realSize = SizeToLock != 0 ? SizeToLock : getSize();
 
-//     if ((Flags & D3DLOCK_READONLY) == 0)
-//         updateLockStats(realSize);
+    if ((Flags & D3DLOCK_READONLY) == 0)
+        updateLockStats(realSize);
     
     assert(!lock_);
     
@@ -50,7 +49,6 @@ HRESULT ProxyImplVertexBuffer::Lock(UINT OffsetToLock,UINT SizeToLock,void** ppb
 
 HRESULT STDMETHODCALLTYPE ProxyImplVertexBuffer::Unlock()
 {
-    
     //return MyProxyBase::Unlock();
 
     assert(lastLockFrame_);
@@ -90,13 +88,3 @@ size_t ProxyImplVertexBuffer::getSize() const
     return desc.Size;
 }
 
-void ProxyImplVertexBuffer::initDevice()
-{
-/*
-    IDirect3DDevice9 *d = nullptr;
-    MyProxyBase::GetDevice(&d);
-    device_ = ProxyImplDevicePtr(dynamic_cast<ProxyImplDevice*>(d));
-
-    assert(device_);
-*/
-}
