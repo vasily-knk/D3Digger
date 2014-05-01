@@ -41,3 +41,9 @@ private:
 
     optional<LockType> lock_;
 };
+
+template<>
+struct ProxyImplHelper<IDirect3DVertexBuffer9>
+{
+    typedef ProxyImplVertexBuffer Type;
+};

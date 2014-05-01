@@ -9,3 +9,9 @@ struct ProxyImplIndexBuffer
 
     ProxyImplIndexBuffer(IBase *pimpl);
 };
+
+template<>
+struct ProxyImplHelper<IDirect3DIndexBuffer9>
+{
+    typedef ProxyImplIndexBuffer Type;
+};

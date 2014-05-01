@@ -99,7 +99,8 @@ class CodeGenerator extends InterfacesProcessor {
               |    : pimpl_(pimpl)
               |    , extRefCount_(1)
               |    , goingToDie_(false)
-              |    , refCount_(0)
+              |    , refCount_(117)
+              |    , innerRefCountLocked_(false)
               |{
               |}
             """.stripMargin.format(i.name, i.name))
@@ -112,11 +113,25 @@ class CodeGenerator extends InterfacesProcessor {
             """.stripMargin.format(i.name, i.name))
 
         /*pw.println(
+            """void ProxyBase<%s>::lockInnerRefCount()
+              |{
+              |    innerRefCountLocked_ = true;
+              |}
+            """.stripMargin.format(i.name))
+
+        pw.println(
+            """void ProxyBase<%s>::unlockInnerRefCount()
+              |{
+              |    innerRefCountLocked_ = false;
+              |}
+            """.stripMargin.format(i.name))*/
+
+        pw.println(
             """size_t ProxyBase<%s>::addExtRef()
               |{
               |    return ++extRefCount_;
               |}
-            """.stripMargin.format(i.name))*/
+            """.stripMargin.format(i.name))
 
 
         i.methods.foreach((m) => {
@@ -138,13 +153,17 @@ class CodeGenerator extends InterfacesProcessor {
 
             val body = m.name match {
                 case "AddRef" =>
-                    """    refCount_ = %s;
+                    """    if (!innerRefCountLocked_)
+                      |        refCount_ = %s;
+                      |    else
+                      |        refCount_ = 0;
                       |    ++extRefCount_;
-                      |    assert(refCount_ >= extRefCount_);
+                      |    assert(refCount_ >= extRefCount_ || innerRefCountLocked_);
                       |    return refCount_;
                     """.stripMargin.format(pimplCall)
                 case "Release" =>
-                    """    refCount_ = %s;
+                    """    assert(!innerRefCountLocked_);
+                      |    refCount_ = %s;
                       |    --extRefCount_;
                       |    assert(refCount_ >= extRefCount_);
                       |    if (!goingToDie_)
@@ -155,7 +174,9 @@ class CodeGenerator extends InterfacesProcessor {
                       |            goingToDie_ = true;
                       |            detachProxy(pimpl_);
                       |            assert(extRefCount_ == 0);
+                      |            auto tempRefCount = refCount_;
                       |            delete this;
+                      |            return tempRefCount;
                       |        }
                       |    }
                       |    return refCount_;
@@ -170,11 +191,17 @@ class CodeGenerator extends InterfacesProcessor {
                     val wraps = m.args.filter({case arg => checkArgWrap(arg.argType) == WrapType.Out})
 
                     val unwrapStrs = unwraps.map({case arg => "if (%s) {%s = unwrapProxy<%s>(%s);}".format(arg.name.get, arg.name.get, arg.argType.name, arg.name.get)})
-                    val wrapStrs = wraps.map({case arg => "if (%s) {*%s = wrapProxy<%s>(*%s).get();}".format(arg.name.get, arg.name.get, arg.argType.name, arg.name.get)})
+                    val wrapStrs = wraps.map({case arg =>
+                        """if (%s)
+                          |        {
+                          |            auto proxy = wrapProxy<%s>(*%s);
+                          |            *%s = proxy;
+                          |        }
+                        """.stripMargin.format(arg.name.get, arg.argType.name, arg.name.get, arg.name.get)})
 
                     val unwrapsStr = unwrapStrs.mkString("\r\n        ")
                     val wrapsStr = if (wrapStrs.isEmpty) "" else
-                        """    if (SUCCEEDED(res))
+                                                          """    if (SUCCEEDED(res))
                           |    {
                           |        %s
                           |    }

@@ -2,11 +2,6 @@
 #include "ProxyImpl_VertexBuffer.h"
 #include "ProxyImpl_Device.h"
 
-template<>
-IProxyPtr<IDirect3DVertexBuffer9>::Type createProxy<IDirect3DVertexBuffer9>(IDirect3DVertexBuffer9 *pimpl)
-{
-    return IProxyPtr<IDirect3DVertexBuffer9>::Type(new ProxyImplVertexBuffer(pimpl), true);
-}
 
 ProxyImplVertexBuffer::ProxyImplVertexBuffer(IBase *pimpl)
     : ProxyBase<IBase>(pimpl)
@@ -16,6 +11,9 @@ ProxyImplVertexBuffer::ProxyImplVertexBuffer(IBase *pimpl)
 
 HRESULT ProxyImplVertexBuffer::Lock(UINT OffsetToLock,UINT SizeToLock,void** ppbData,DWORD Flags)
 {
+
+    //return MyProxyBase::Lock(OffsetToLock, SizeToLock, ppbData, Flags);
+
     auto dev = getDevice();
     int currentFrame = dev->getCurrentFrame();
     optional<int> lastAllowedLockedFrame = dev->getLastAllowedLockFrame();
@@ -26,8 +24,8 @@ HRESULT ProxyImplVertexBuffer::Lock(UINT OffsetToLock,UINT SizeToLock,void** ppb
 
     size_t realSize = SizeToLock != 0 ? SizeToLock : getSize();
 
-    if ((Flags & D3DLOCK_READONLY) == 0)
-        updateLockStats(realSize);
+//     if ((Flags & D3DLOCK_READONLY) == 0)
+//         updateLockStats(realSize);
     
     assert(!lock_);
     
@@ -52,6 +50,9 @@ HRESULT ProxyImplVertexBuffer::Lock(UINT OffsetToLock,UINT SizeToLock,void** ppb
 
 HRESULT STDMETHODCALLTYPE ProxyImplVertexBuffer::Unlock()
 {
+    
+    //return MyProxyBase::Unlock();
+
     assert(lastLockFrame_);
     assert(lock_);
 
@@ -75,8 +76,8 @@ void ProxyImplVertexBuffer::updateLockStats(size_t size)
 ProxyImplDevicePtr ProxyImplVertexBuffer::getDevice() 
 {
     IDirect3DDevice9 *d = nullptr;
-    MyProxyBase::GetDevice(&d);
-    auto dev = ProxyImplDevicePtr(dynamic_cast<ProxyImplDevice*>(d));
+    pimpl_->GetDevice(&d);
+    auto dev = dynamic_pointer_cast<ProxyImplDevice>(wrapProxySmart(d));
 
     assert(dev);
     return dev;

@@ -3,13 +3,6 @@
 #include "ProxyImpl_Texture.h"
 #include "ProxyImpl_VertexBuffer.h"
 
-template<>
-IProxyPtr<IDirect3DDevice9>::Type createProxy<IDirect3DDevice9>(IDirect3DDevice9 *pimpl)
-{
-    IProxyPtr<IDirect3DDevice9>::Type ptr(new ProxyImplDevice(pimpl), true);
-    return ptr;
-}
-
 ProxyImplDevice::ProxyImplDevice(IBase *pimpl)
     : ProxyBase<IBase>(pimpl)
     , frameStatsStream_("frame_stats.txt")

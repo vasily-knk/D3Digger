@@ -4,7 +4,7 @@
 #include "Global.h"
 
 template<typename T>
-inline typename IProxyPtr<T>::Type wrapProxy(T *p)
+inline typename IProxyPtr<T>::RawType wrapProxy(T *p)
 {
     typedef T IBase;
     auto id = static_cast<IUnknown*>(p);
@@ -13,16 +13,23 @@ inline typename IProxyPtr<T>::Type wrapProxy(T *p)
 
     if (mapping.count(id) == 0)
     {
-        IProxyPtr<IBase>::Type proxy = createProxy<IBase>(p);
-        auto v = make_pair(id, proxy);
-        mapping.insert(v);
+        IProxyPtr<IBase>::RawType proxy = createProxy<IBase>(p);
+        mapping.insert(make_pair(id, IProxyPtr<IBase>::Type(proxy, true)));
         return proxy;
     }
     else
     {
-        IProxyPtr<IBase>::Type proxy = dynamic_pointer_cast<IProxy<IBase>>(mapping.at(id));
-        return proxy;
+        IProxyPtr<IUnknown>::RawType ptr = mapping.at(id).get();
+        ptr->addExtRef();
+        return dynamic_cast<IProxy<T> *>(ptr);
     }
+}
+
+template<typename T>
+inline typename IProxyPtr<T>::Type wrapProxySmart(T *p)
+{
+    typename IProxyPtr<T>::RawType raw = wrapProxy(p);
+    return typename IProxyPtr<T>::Type(raw, false);
 }
 
 template<typename T>

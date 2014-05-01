@@ -14,3 +14,9 @@ struct ProxyImplTexture
     HRESULT STDMETHODCALLTYPE UnlockRect(UINT Level) override;
 
 };
+
+template<>
+struct ProxyImplHelper<IDirect3DTexture9>
+{
+    typedef ProxyImplTexture Type;
+};

@@ -68,3 +68,9 @@ private:
 
     vector<IProxy<IDirect3DVertexBuffer9> *> vbs_;
 };
+
+template<>
+struct ProxyImplHelper<IDirect3DDevice9>
+{
+    typedef ProxyImplDevice Type;
+};

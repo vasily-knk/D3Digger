@@ -9,34 +9,37 @@ template<typename T>
 struct IProxyPtr
 {
     typedef intrusive_ptr<IProxy<T>> Type;
+    typedef IProxy<T> *RawType;
 };
 
 template<typename T>
-typename IProxyPtr<T>::Type createProxy(T *pimpl);
+typename IProxyPtr<T>::RawType createProxy(T *pimpl);
 
 #include "undef.h"
 
 #define MY_BEGIN_INTERFACE_(name, parent)   \
     template<> struct IProxy<name>;         \
     template<>                              \
-    typename IProxyPtr<name>::Type createProxy(name *pimpl); \
+    typename IProxyPtr<name>::RawType createProxy(name *pimpl); \
                                             \
     template<>                              \
     struct IProxy<name>                     \
         : name, IProxyExt<name>, IProxy<parent> \
     {                                       \
-        virtual name *getPImpl() = 0;       
+        virtual name *getPImpl() = 0;       \
+        virtual size_t addExtRef() = 0;
       
 #define MY_BEGIN_INTERFACE(name)            \
     template<> struct IProxy<name>;         \
     template<>                              \
-    typename IProxyPtr<name>::Type createProxy(name *pimpl); \
+    typename IProxyPtr<name>::RawType createProxy(name *pimpl); \
                                             \
     template<>                              \
     struct IProxy<name>                     \
         : name, IProxyExt<name>, Interface  \
     {                                       \
-        virtual name *getPImpl() = 0;       
+        virtual name *getPImpl() = 0;       \
+        virtual size_t addExtRef() = 0;
 
 #define MY_END_INTERFACE }
 

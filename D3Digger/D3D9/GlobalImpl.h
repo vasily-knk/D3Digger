@@ -11,6 +11,11 @@ struct GlobalImpl
 
     }
 
+    ~GlobalImpl()
+    {
+        assert(proxyMapping_.empty());
+    }
+
     ProxyMapping &proxyMapping() override
     {
         return proxyMapping_;
