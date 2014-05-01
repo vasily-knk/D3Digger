@@ -13,12 +13,16 @@ inline typename IProxyPtr<T>::Type wrapProxy(T *p)
 
     if (mapping.count(id) == 0)
     {
-        auto v = make_pair(id, createProxy<IBase>(p));
+        IProxyPtr<IBase>::Type proxy = createProxy<IBase>(p);
+        auto v = make_pair(id, proxy);
         mapping.insert(v);
+        return proxy;
     }
-
-    IProxyPtr<IBase>::Type proxy = dynamic_pointer_cast<IProxy<IBase>>(mapping.at(id));
-    return proxy;
+    else
+    {
+        IProxyPtr<IBase>::Type proxy = dynamic_pointer_cast<IProxy<IBase>>(mapping.at(id));
+        return proxy;
+    }
 }
 
 template<typename T>

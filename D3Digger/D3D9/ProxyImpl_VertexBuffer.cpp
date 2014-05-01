@@ -5,7 +5,7 @@
 template<>
 IProxyPtr<IDirect3DVertexBuffer9>::Type createProxy<IDirect3DVertexBuffer9>(IDirect3DVertexBuffer9 *pimpl)
 {
-    return IProxyPtr<IDirect3DVertexBuffer9>::Type(new ProxyImplVertexBuffer(pimpl));
+    return IProxyPtr<IDirect3DVertexBuffer9>::Type(new ProxyImplVertexBuffer(pimpl), true);
 }
 
 ProxyImplVertexBuffer::ProxyImplVertexBuffer(IBase *pimpl)

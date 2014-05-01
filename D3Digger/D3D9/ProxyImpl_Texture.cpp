@@ -5,7 +5,7 @@
 template<>
 IProxyPtr<IDirect3DTexture9>::Type createProxy<IDirect3DTexture9>(IDirect3DTexture9 *pimpl)
 {
-    return IProxyPtr<IDirect3DTexture9>::Type(new ProxyImplTexture(pimpl));
+    return IProxyPtr<IDirect3DTexture9>::Type(new ProxyImplTexture(pimpl), true);
 }
 
 ProxyImplTexture::ProxyImplTexture(IBase *pimpl)

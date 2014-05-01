@@ -3,7 +3,6 @@
 
 
 #define FOR_X(X) \
-    X(IDirect3D9                 ) \
     X(IDirect3DSwapChain9        ) \
     X(IDirect3DSurface9          ) \
     X(IDirect3DVolumeTexture9    ) \
@@ -19,7 +18,8 @@
     template<> \
     IProxyPtr<name>::Type createProxy<name>(name *pimpl) \
     { \
-        return IProxyPtr<name>::Type(new ProxyBase<name>(pimpl)); \
+        IProxyPtr<name>::Type ptr(new ProxyBase<name>(pimpl), true); \
+        return ptr; \
     }
 
 FOR_X(CREATE_PROXY_DEFINITION)

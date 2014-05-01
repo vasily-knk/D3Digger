@@ -6,6 +6,12 @@
 #include "ProxyImpl.h"
 
 
+template<>
+IProxyPtr<IDirect3D9>::Type createProxy<IDirect3D9>(IDirect3D9 *pimpl)
+{
+    IProxyPtr<IDirect3D9>::Type ptr(new ProxyBase<IDirect3D9>(pimpl), true);
+    return ptr;
+}
 
 HMODULE getSystemDLL()
 {                        
@@ -22,6 +28,7 @@ IDirect3D9* WINAPI Direct3DCreate9(UINT SDKVersion)
     Creator creator = reinterpret_cast<Creator>(GetProcAddress(dll, "Direct3DCreate9"));
 
     IDirect3D9 *pimpl = creator(SDKVersion);
-    return wrapProxy<IDirect3D9>(pimpl).get();
+    auto proxy = wrapProxy<IDirect3D9>(pimpl);
+    return proxy.get();
 }
 

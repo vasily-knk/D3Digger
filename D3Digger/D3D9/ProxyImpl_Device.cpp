@@ -6,7 +6,8 @@
 template<>
 IProxyPtr<IDirect3DDevice9>::Type createProxy<IDirect3DDevice9>(IDirect3DDevice9 *pimpl)
 {
-    return IProxyPtr<IDirect3DDevice9>::Type(new ProxyImplDevice(pimpl));
+    IProxyPtr<IDirect3DDevice9>::Type ptr(new ProxyImplDevice(pimpl), true);
+    return ptr;
 }
 
 ProxyImplDevice::ProxyImplDevice(IBase *pimpl)

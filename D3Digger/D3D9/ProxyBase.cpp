@@ -3,7 +3,7 @@
             
 ProxyBase<IDirect3D9>::ProxyBase(IDirect3D9 *pimpl)
     : pimpl_(pimpl)
-    , extRefCount_(0)
+    , extRefCount_(1)
     , goingToDie_(false)
     , refCount_(0)
 {
@@ -200,7 +200,7 @@ HRESULT ProxyBase<IDirect3D9>::CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType,
                 
 ProxyBase<IDirect3DDevice9>::ProxyBase(IDirect3DDevice9 *pimpl)
     : pimpl_(pimpl)
-    , extRefCount_(0)
+    , extRefCount_(1)
     , goingToDie_(false)
     , refCount_(0)
 {
@@ -1522,7 +1522,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateQuery(D3DQUERYTYPE Type, IDirect3DQue
                 
 ProxyBase<IDirect3DStateBlock9>::ProxyBase(IDirect3DStateBlock9 *pimpl)
     : pimpl_(pimpl)
-    , extRefCount_(0)
+    , extRefCount_(1)
     , goingToDie_(false)
     , refCount_(0)
 {
@@ -1609,7 +1609,7 @@ HRESULT ProxyBase<IDirect3DStateBlock9>::Apply()
                 
 ProxyBase<IDirect3DSwapChain9>::ProxyBase(IDirect3DSwapChain9 *pimpl)
     : pimpl_(pimpl)
-    , extRefCount_(0)
+    , extRefCount_(1)
     , goingToDie_(false)
     , refCount_(0)
 {
@@ -1740,7 +1740,7 @@ HRESULT ProxyBase<IDirect3DSwapChain9>::GetPresentParameters(D3DPRESENT_PARAMETE
                 
 ProxyBase<IDirect3DVertexDeclaration9>::ProxyBase(IDirect3DVertexDeclaration9 *pimpl)
     : pimpl_(pimpl)
-    , extRefCount_(0)
+    , extRefCount_(1)
     , goingToDie_(false)
     , refCount_(0)
 {
@@ -1817,7 +1817,7 @@ HRESULT ProxyBase<IDirect3DVertexDeclaration9>::GetDeclaration(D3DVERTEXELEMENT9
                 
 ProxyBase<IDirect3DVertexShader9>::ProxyBase(IDirect3DVertexShader9 *pimpl)
     : pimpl_(pimpl)
-    , extRefCount_(0)
+    , extRefCount_(1)
     , goingToDie_(false)
     , refCount_(0)
 {
@@ -1894,7 +1894,7 @@ HRESULT ProxyBase<IDirect3DVertexShader9>::GetFunction(void* unnamed0, UINT* pSi
                 
 ProxyBase<IDirect3DPixelShader9>::ProxyBase(IDirect3DPixelShader9 *pimpl)
     : pimpl_(pimpl)
-    , extRefCount_(0)
+    , extRefCount_(1)
     , goingToDie_(false)
     , refCount_(0)
 {
@@ -1971,7 +1971,7 @@ HRESULT ProxyBase<IDirect3DPixelShader9>::GetFunction(void* unnamed0, UINT* pSiz
                 
 ProxyBase<IDirect3DTexture9>::ProxyBase(IDirect3DTexture9 *pimpl)
     : pimpl_(pimpl)
-    , extRefCount_(0)
+    , extRefCount_(1)
     , goingToDie_(false)
     , refCount_(0)
 {
@@ -2222,7 +2222,7 @@ HRESULT ProxyBase<IDirect3DTexture9>::AddDirtyRect(const RECT* pDirtyRect)
                 
 ProxyBase<IDirect3DVolumeTexture9>::ProxyBase(IDirect3DVolumeTexture9 *pimpl)
     : pimpl_(pimpl)
-    , extRefCount_(0)
+    , extRefCount_(1)
     , goingToDie_(false)
     , refCount_(0)
 {
@@ -2473,7 +2473,7 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::AddDirtyBox(const D3DBOX* pDirtyBox)
                 
 ProxyBase<IDirect3DCubeTexture9>::ProxyBase(IDirect3DCubeTexture9 *pimpl)
     : pimpl_(pimpl)
-    , extRefCount_(0)
+    , extRefCount_(1)
     , goingToDie_(false)
     , refCount_(0)
 {
@@ -2724,7 +2724,7 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::AddDirtyRect(D3DCUBEMAP_FACES FaceType
                 
 ProxyBase<IDirect3DVertexBuffer9>::ProxyBase(IDirect3DVertexBuffer9 *pimpl)
     : pimpl_(pimpl)
-    , extRefCount_(0)
+    , extRefCount_(1)
     , goingToDie_(false)
     , refCount_(0)
 {
@@ -2891,7 +2891,7 @@ HRESULT ProxyBase<IDirect3DVertexBuffer9>::GetDesc(D3DVERTEXBUFFER_DESC* pDesc)
                 
 ProxyBase<IDirect3DIndexBuffer9>::ProxyBase(IDirect3DIndexBuffer9 *pimpl)
     : pimpl_(pimpl)
-    , extRefCount_(0)
+    , extRefCount_(1)
     , goingToDie_(false)
     , refCount_(0)
 {
@@ -3058,7 +3058,7 @@ HRESULT ProxyBase<IDirect3DIndexBuffer9>::GetDesc(D3DINDEXBUFFER_DESC* pDesc)
                 
 ProxyBase<IDirect3DSurface9>::ProxyBase(IDirect3DSurface9 *pimpl)
     : pimpl_(pimpl)
-    , extRefCount_(0)
+    , extRefCount_(1)
     , goingToDie_(false)
     , refCount_(0)
 {
@@ -3255,7 +3255,7 @@ HRESULT ProxyBase<IDirect3DSurface9>::ReleaseDC(HDC hdc)
                 
 ProxyBase<IDirect3DVolume9>::ProxyBase(IDirect3DVolume9 *pimpl)
     : pimpl_(pimpl)
-    , extRefCount_(0)
+    , extRefCount_(1)
     , goingToDie_(false)
     , refCount_(0)
 {
@@ -3392,7 +3392,7 @@ HRESULT ProxyBase<IDirect3DVolume9>::UnlockBox()
                 
 ProxyBase<IDirect3DQuery9>::ProxyBase(IDirect3DQuery9 *pimpl)
     : pimpl_(pimpl)
-    , extRefCount_(0)
+    , extRefCount_(1)
     , goingToDie_(false)
     , refCount_(0)
 {

@@ -97,7 +97,7 @@ class CodeGenerator extends InterfacesProcessor {
         pw.println(
             """ProxyBase<%s>::ProxyBase(%s *pimpl)
               |    : pimpl_(pimpl)
-              |    , extRefCount_(0)
+              |    , extRefCount_(1)
               |    , goingToDie_(false)
               |    , refCount_(0)
               |{

@@ -4,7 +4,7 @@
 template<>
 IProxyPtr<IDirect3DIndexBuffer9>::Type createProxy<IDirect3DIndexBuffer9>(IDirect3DIndexBuffer9 *pimpl)
 {
-    return IProxyPtr<IDirect3DIndexBuffer9>::Type(new ProxyImplIndexBuffer(pimpl));
+    return IProxyPtr<IDirect3DIndexBuffer9>::Type(new ProxyImplIndexBuffer(pimpl), true);
 }
 
 ProxyImplIndexBuffer::ProxyImplIndexBuffer(IBase *pimpl)
