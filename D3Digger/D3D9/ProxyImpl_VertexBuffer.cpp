@@ -71,11 +71,11 @@ void ProxyImplVertexBuffer::updateLockStats(size_t size)
     dev->appendVBLock(size);
 }
 
-ProxyImplDevicePtr ProxyImplVertexBuffer::getDevice() 
+DeviceProxyPtr ProxyImplVertexBuffer::getDevice() 
 {
     IDirect3DDevice9 *d = nullptr;
     pimpl_->GetDevice(&d);
-    auto dev = dynamic_pointer_cast<ProxyImplDevice>(wrapProxySmart(d));
+    DeviceProxyPtr dev = wrapProxySmart(d);
 
     assert(dev);
     return dev;

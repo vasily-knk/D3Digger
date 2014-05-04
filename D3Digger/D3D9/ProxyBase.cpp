@@ -46,9 +46,8 @@ ULONG ProxyBase<IDirect3D9>::Release()
 {
     logMethod("IDirect3D9", "Release");
     assert(!innerRefCountLocked_);
-    refCount_ = pimpl_->Release();
+    bool dead = false;
     --extRefCount_;
-    assert(refCount_ >= extRefCount_);
     if (!goingToDie_)
     {
         assert(extRefCount_ > 0);
@@ -57,11 +56,18 @@ ULONG ProxyBase<IDirect3D9>::Release()
             goingToDie_ = true;
             detachProxy(pimpl_);
             assert(extRefCount_ == 0);
-            auto tempRefCount = refCount_;
-            delete this;
-            return tempRefCount;
+            dead = true;
         }
     }
+
+    refCount_ = pimpl_->Release();
+    assert(refCount_ >= extRefCount_);
+    if (dead)
+    {
+        delete this;
+        return 0;
+    }
+
     return refCount_;
                     
 }
@@ -260,9 +266,8 @@ ULONG ProxyBase<IDirect3DDevice9>::Release()
 {
     logMethod("IDirect3DDevice9", "Release");
     assert(!innerRefCountLocked_);
-    refCount_ = pimpl_->Release();
+    bool dead = false;
     --extRefCount_;
-    assert(refCount_ >= extRefCount_);
     if (!goingToDie_)
     {
         assert(extRefCount_ > 0);
@@ -271,11 +276,18 @@ ULONG ProxyBase<IDirect3DDevice9>::Release()
             goingToDie_ = true;
             detachProxy(pimpl_);
             assert(extRefCount_ == 0);
-            auto tempRefCount = refCount_;
-            delete this;
-            return tempRefCount;
+            dead = true;
         }
     }
+
+    refCount_ = pimpl_->Release();
+    assert(refCount_ >= extRefCount_);
+    if (dead)
+    {
+        delete this;
+        return 0;
+    }
+
     return refCount_;
                     
 }
@@ -1724,9 +1736,8 @@ ULONG ProxyBase<IDirect3DStateBlock9>::Release()
 {
     logMethod("IDirect3DStateBlock9", "Release");
     assert(!innerRefCountLocked_);
-    refCount_ = pimpl_->Release();
+    bool dead = false;
     --extRefCount_;
-    assert(refCount_ >= extRefCount_);
     if (!goingToDie_)
     {
         assert(extRefCount_ > 0);
@@ -1735,11 +1746,18 @@ ULONG ProxyBase<IDirect3DStateBlock9>::Release()
             goingToDie_ = true;
             detachProxy(pimpl_);
             assert(extRefCount_ == 0);
-            auto tempRefCount = refCount_;
-            delete this;
-            return tempRefCount;
+            dead = true;
         }
     }
+
+    refCount_ = pimpl_->Release();
+    assert(refCount_ >= extRefCount_);
+    if (dead)
+    {
+        delete this;
+        return 0;
+    }
+
     return refCount_;
                     
 }
@@ -1828,9 +1846,8 @@ ULONG ProxyBase<IDirect3DSwapChain9>::Release()
 {
     logMethod("IDirect3DSwapChain9", "Release");
     assert(!innerRefCountLocked_);
-    refCount_ = pimpl_->Release();
+    bool dead = false;
     --extRefCount_;
-    assert(refCount_ >= extRefCount_);
     if (!goingToDie_)
     {
         assert(extRefCount_ > 0);
@@ -1839,11 +1856,18 @@ ULONG ProxyBase<IDirect3DSwapChain9>::Release()
             goingToDie_ = true;
             detachProxy(pimpl_);
             assert(extRefCount_ == 0);
-            auto tempRefCount = refCount_;
-            delete this;
-            return tempRefCount;
+            dead = true;
         }
     }
+
+    refCount_ = pimpl_->Release();
+    assert(refCount_ >= extRefCount_);
+    if (dead)
+    {
+        delete this;
+        return 0;
+    }
+
     return refCount_;
                     
 }
@@ -1981,9 +2005,8 @@ ULONG ProxyBase<IDirect3DVertexDeclaration9>::Release()
 {
     logMethod("IDirect3DVertexDeclaration9", "Release");
     assert(!innerRefCountLocked_);
-    refCount_ = pimpl_->Release();
+    bool dead = false;
     --extRefCount_;
-    assert(refCount_ >= extRefCount_);
     if (!goingToDie_)
     {
         assert(extRefCount_ > 0);
@@ -1992,11 +2015,18 @@ ULONG ProxyBase<IDirect3DVertexDeclaration9>::Release()
             goingToDie_ = true;
             detachProxy(pimpl_);
             assert(extRefCount_ == 0);
-            auto tempRefCount = refCount_;
-            delete this;
-            return tempRefCount;
+            dead = true;
         }
     }
+
+    refCount_ = pimpl_->Release();
+    assert(refCount_ >= extRefCount_);
+    if (dead)
+    {
+        delete this;
+        return 0;
+    }
+
     return refCount_;
                     
 }
@@ -2075,9 +2105,8 @@ ULONG ProxyBase<IDirect3DVertexShader9>::Release()
 {
     logMethod("IDirect3DVertexShader9", "Release");
     assert(!innerRefCountLocked_);
-    refCount_ = pimpl_->Release();
+    bool dead = false;
     --extRefCount_;
-    assert(refCount_ >= extRefCount_);
     if (!goingToDie_)
     {
         assert(extRefCount_ > 0);
@@ -2086,11 +2115,18 @@ ULONG ProxyBase<IDirect3DVertexShader9>::Release()
             goingToDie_ = true;
             detachProxy(pimpl_);
             assert(extRefCount_ == 0);
-            auto tempRefCount = refCount_;
-            delete this;
-            return tempRefCount;
+            dead = true;
         }
     }
+
+    refCount_ = pimpl_->Release();
+    assert(refCount_ >= extRefCount_);
+    if (dead)
+    {
+        delete this;
+        return 0;
+    }
+
     return refCount_;
                     
 }
@@ -2169,9 +2205,8 @@ ULONG ProxyBase<IDirect3DPixelShader9>::Release()
 {
     logMethod("IDirect3DPixelShader9", "Release");
     assert(!innerRefCountLocked_);
-    refCount_ = pimpl_->Release();
+    bool dead = false;
     --extRefCount_;
-    assert(refCount_ >= extRefCount_);
     if (!goingToDie_)
     {
         assert(extRefCount_ > 0);
@@ -2180,11 +2215,18 @@ ULONG ProxyBase<IDirect3DPixelShader9>::Release()
             goingToDie_ = true;
             detachProxy(pimpl_);
             assert(extRefCount_ == 0);
-            auto tempRefCount = refCount_;
-            delete this;
-            return tempRefCount;
+            dead = true;
         }
     }
+
+    refCount_ = pimpl_->Release();
+    assert(refCount_ >= extRefCount_);
+    if (dead)
+    {
+        delete this;
+        return 0;
+    }
+
     return refCount_;
                     
 }
@@ -2263,9 +2305,8 @@ ULONG ProxyBase<IDirect3DTexture9>::Release()
 {
     logMethod("IDirect3DTexture9", "Release");
     assert(!innerRefCountLocked_);
-    refCount_ = pimpl_->Release();
+    bool dead = false;
     --extRefCount_;
-    assert(refCount_ >= extRefCount_);
     if (!goingToDie_)
     {
         assert(extRefCount_ > 0);
@@ -2274,11 +2315,18 @@ ULONG ProxyBase<IDirect3DTexture9>::Release()
             goingToDie_ = true;
             detachProxy(pimpl_);
             assert(extRefCount_ == 0);
-            auto tempRefCount = refCount_;
-            delete this;
-            return tempRefCount;
+            dead = true;
         }
     }
+
+    refCount_ = pimpl_->Release();
+    assert(refCount_ >= extRefCount_);
+    if (dead)
+    {
+        delete this;
+        return 0;
+    }
+
     return refCount_;
                     
 }
@@ -2536,9 +2584,8 @@ ULONG ProxyBase<IDirect3DVolumeTexture9>::Release()
 {
     logMethod("IDirect3DVolumeTexture9", "Release");
     assert(!innerRefCountLocked_);
-    refCount_ = pimpl_->Release();
+    bool dead = false;
     --extRefCount_;
-    assert(refCount_ >= extRefCount_);
     if (!goingToDie_)
     {
         assert(extRefCount_ > 0);
@@ -2547,11 +2594,18 @@ ULONG ProxyBase<IDirect3DVolumeTexture9>::Release()
             goingToDie_ = true;
             detachProxy(pimpl_);
             assert(extRefCount_ == 0);
-            auto tempRefCount = refCount_;
-            delete this;
-            return tempRefCount;
+            dead = true;
         }
     }
+
+    refCount_ = pimpl_->Release();
+    assert(refCount_ >= extRefCount_);
+    if (dead)
+    {
+        delete this;
+        return 0;
+    }
+
     return refCount_;
                     
 }
@@ -2809,9 +2863,8 @@ ULONG ProxyBase<IDirect3DCubeTexture9>::Release()
 {
     logMethod("IDirect3DCubeTexture9", "Release");
     assert(!innerRefCountLocked_);
-    refCount_ = pimpl_->Release();
+    bool dead = false;
     --extRefCount_;
-    assert(refCount_ >= extRefCount_);
     if (!goingToDie_)
     {
         assert(extRefCount_ > 0);
@@ -2820,11 +2873,18 @@ ULONG ProxyBase<IDirect3DCubeTexture9>::Release()
             goingToDie_ = true;
             detachProxy(pimpl_);
             assert(extRefCount_ == 0);
-            auto tempRefCount = refCount_;
-            delete this;
-            return tempRefCount;
+            dead = true;
         }
     }
+
+    refCount_ = pimpl_->Release();
+    assert(refCount_ >= extRefCount_);
+    if (dead)
+    {
+        delete this;
+        return 0;
+    }
+
     return refCount_;
                     
 }
@@ -3082,9 +3142,8 @@ ULONG ProxyBase<IDirect3DVertexBuffer9>::Release()
 {
     logMethod("IDirect3DVertexBuffer9", "Release");
     assert(!innerRefCountLocked_);
-    refCount_ = pimpl_->Release();
+    bool dead = false;
     --extRefCount_;
-    assert(refCount_ >= extRefCount_);
     if (!goingToDie_)
     {
         assert(extRefCount_ > 0);
@@ -3093,11 +3152,18 @@ ULONG ProxyBase<IDirect3DVertexBuffer9>::Release()
             goingToDie_ = true;
             detachProxy(pimpl_);
             assert(extRefCount_ == 0);
-            auto tempRefCount = refCount_;
-            delete this;
-            return tempRefCount;
+            dead = true;
         }
     }
+
+    refCount_ = pimpl_->Release();
+    assert(refCount_ >= extRefCount_);
+    if (dead)
+    {
+        delete this;
+        return 0;
+    }
+
     return refCount_;
                     
 }
@@ -3266,9 +3332,8 @@ ULONG ProxyBase<IDirect3DIndexBuffer9>::Release()
 {
     logMethod("IDirect3DIndexBuffer9", "Release");
     assert(!innerRefCountLocked_);
-    refCount_ = pimpl_->Release();
+    bool dead = false;
     --extRefCount_;
-    assert(refCount_ >= extRefCount_);
     if (!goingToDie_)
     {
         assert(extRefCount_ > 0);
@@ -3277,11 +3342,18 @@ ULONG ProxyBase<IDirect3DIndexBuffer9>::Release()
             goingToDie_ = true;
             detachProxy(pimpl_);
             assert(extRefCount_ == 0);
-            auto tempRefCount = refCount_;
-            delete this;
-            return tempRefCount;
+            dead = true;
         }
     }
+
+    refCount_ = pimpl_->Release();
+    assert(refCount_ >= extRefCount_);
+    if (dead)
+    {
+        delete this;
+        return 0;
+    }
+
     return refCount_;
                     
 }
@@ -3450,9 +3522,8 @@ ULONG ProxyBase<IDirect3DSurface9>::Release()
 {
     logMethod("IDirect3DSurface9", "Release");
     assert(!innerRefCountLocked_);
-    refCount_ = pimpl_->Release();
+    bool dead = false;
     --extRefCount_;
-    assert(refCount_ >= extRefCount_);
     if (!goingToDie_)
     {
         assert(extRefCount_ > 0);
@@ -3461,11 +3532,18 @@ ULONG ProxyBase<IDirect3DSurface9>::Release()
             goingToDie_ = true;
             detachProxy(pimpl_);
             assert(extRefCount_ == 0);
-            auto tempRefCount = refCount_;
-            delete this;
-            return tempRefCount;
+            dead = true;
         }
     }
+
+    refCount_ = pimpl_->Release();
+    assert(refCount_ >= extRefCount_);
+    if (dead)
+    {
+        delete this;
+        return 0;
+    }
+
     return refCount_;
                     
 }
@@ -3664,9 +3742,8 @@ ULONG ProxyBase<IDirect3DVolume9>::Release()
 {
     logMethod("IDirect3DVolume9", "Release");
     assert(!innerRefCountLocked_);
-    refCount_ = pimpl_->Release();
+    bool dead = false;
     --extRefCount_;
-    assert(refCount_ >= extRefCount_);
     if (!goingToDie_)
     {
         assert(extRefCount_ > 0);
@@ -3675,11 +3752,18 @@ ULONG ProxyBase<IDirect3DVolume9>::Release()
             goingToDie_ = true;
             detachProxy(pimpl_);
             assert(extRefCount_ == 0);
-            auto tempRefCount = refCount_;
-            delete this;
-            return tempRefCount;
+            dead = true;
         }
     }
+
+    refCount_ = pimpl_->Release();
+    assert(refCount_ >= extRefCount_);
+    if (dead)
+    {
+        delete this;
+        return 0;
+    }
+
     return refCount_;
                     
 }
@@ -3818,9 +3902,8 @@ ULONG ProxyBase<IDirect3DQuery9>::Release()
 {
     logMethod("IDirect3DQuery9", "Release");
     assert(!innerRefCountLocked_);
-    refCount_ = pimpl_->Release();
+    bool dead = false;
     --extRefCount_;
-    assert(refCount_ >= extRefCount_);
     if (!goingToDie_)
     {
         assert(extRefCount_ > 0);
@@ -3829,11 +3912,18 @@ ULONG ProxyBase<IDirect3DQuery9>::Release()
             goingToDie_ = true;
             detachProxy(pimpl_);
             assert(extRefCount_ == 0);
-            auto tempRefCount = refCount_;
-            delete this;
-            return tempRefCount;
+            dead = true;
         }
     }
+
+    refCount_ = pimpl_->Release();
+    assert(refCount_ >= extRefCount_);
+    if (dead)
+    {
+        delete this;
+        return 0;
+    }
+
     return refCount_;
                     
 }

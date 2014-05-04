@@ -4,12 +4,12 @@
 #include "ProxyImpl_VertexBuffer.h"
 #include "ProxyImpl_IndexBuffer.h"
 #include "ProxyImpl_Texture.h"
+#include "ProxyImpl_Surface.h"
 
 
 #define FOR_X(X) \
     X(IDirect3D9                 ) \
     X(IDirect3DSwapChain9        ) \
-    X(IDirect3DSurface9          ) \
     X(IDirect3DVolumeTexture9    ) \
     X(IDirect3DCubeTexture9      ) \
     X(IDirect3DStateBlock9       ) \
@@ -35,6 +35,7 @@ FOR_X(CREATE_PROXY_DEFINITION)
 #define FOR_X(X) \
     X(IDirect3DDevice9         ) \
     X(IDirect3DTexture9        ) \
+    X(IDirect3DSurface9        ) \
     X(IDirect3DIndexBuffer9    ) \
     X(IDirect3DVertexBuffer9   )
 

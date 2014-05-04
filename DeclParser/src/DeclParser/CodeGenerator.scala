@@ -163,9 +163,8 @@ class CodeGenerator extends InterfacesProcessor {
                     """.stripMargin.format(pimplCall)
                 case "Release" =>
                     """    assert(!innerRefCountLocked_);
-                      |    refCount_ = %s;
+                      |    bool dead = false;
                       |    --extRefCount_;
-                      |    assert(refCount_ >= extRefCount_);
                       |    if (!goingToDie_)
                       |    {
                       |        assert(extRefCount_ > 0);
@@ -174,11 +173,18 @@ class CodeGenerator extends InterfacesProcessor {
                       |            goingToDie_ = true;
                       |            detachProxy(pimpl_);
                       |            assert(extRefCount_ == 0);
-                      |            auto tempRefCount = refCount_;
-                      |            delete this;
-                      |            return tempRefCount;
+                      |            dead = true;
                       |        }
                       |    }
+                      |
+                      |    refCount_ = %s;
+                      |    assert(refCount_ >= extRefCount_);
+                      |    if (dead)
+                      |    {
+                      |        delete this;
+                      |        return 0;
+                      |    }
+                      |
                       |    return refCount_;
                     """.stripMargin.format(pimplCall)
                 case "QueryInterface" =>

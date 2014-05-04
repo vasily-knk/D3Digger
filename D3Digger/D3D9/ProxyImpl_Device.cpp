@@ -15,6 +15,28 @@ ProxyImplDevice::ProxyImplDevice(IBase *pimpl)
     std::ostream_iterator<string> out_it (frameStatsStream_, "; ");
     std::copy(names.begin(), names.end(), out_it);
     frameStatsStream_ << endl;
+
+    init();
+}
+
+
+HRESULT ProxyImplDevice::Reset(D3DPRESENT_PARAMETERS *pPresentationParameters)
+{
+    notex_.reset();
+    
+    HRESULT res = MyProxyBase::Reset(pPresentationParameters);
+    init();
+    
+    return res;
+}
+
+void ProxyImplDevice::init()
+{
+    IDirect3DTexture9 *notexPimpl = nullptr;
+    HRESULT res = D3DXCreateTextureFromFileA(pimpl_, "notex.png", &notexPimpl);
+    assert(SUCCEEDED(res));
+
+    notex_ = wrapProxySmart(notexPimpl);
 }
 
 HRESULT ProxyImplDevice::SetTexture(DWORD Stage, IDirect3DBaseTexture9* pBaseTex)
@@ -25,7 +47,7 @@ HRESULT ProxyImplDevice::SetTexture(DWORD Stage, IDirect3DBaseTexture9* pBaseTex
     {
         if (pBaseTex->GetType() == D3DRTYPE_TEXTURE)
         {
-            IDirect3DTexture9 *pTexture = dynamic_cast<IDirect3DTexture9 *>(pBaseTex);
+            TextureProxyPtr pTexture(dynamic_cast<TextureProxyRawPtr>(pBaseTex), true);
             assert(pTexture);
 
             D3DSURFACE_DESC desc;
@@ -33,6 +55,12 @@ HRESULT ProxyImplDevice::SetTexture(DWORD Stage, IDirect3DBaseTexture9* pBaseTex
             assert(SUCCEEDED(res));
             if ((desc.Usage & D3DUSAGE_RENDERTARGET) != 0)
                 renderTargets_.insert(Stage);
+            else
+            {
+                auto texUpdateFrame = pTexture->lastUpdateFrame();
+                if (!texUpdateFrame || *texUpdateFrame > lastAllowedLockFrame_)
+                    return pimpl_->SetTexture(Stage, notex_->getPImpl());
+            }
         }
     }
 
@@ -45,10 +73,7 @@ HRESULT ProxyImplDevice::Present(CONST RECT* pSourceRect, CONST RECT* pDestRect,
     
     if (oState && oReleased)
     {
-        if (lastAllowedLockFrame_)
-            lastAllowedLockFrame_.reset();
-        else
-            lastAllowedLockFrame_ = currentFrame_;
+        lastAllowedLockFrame_ = currentFrame_;
     }
     
     oReleased = !oState;
@@ -117,7 +142,7 @@ HRESULT ProxyImplDevice::DrawPrimitiveUP(D3DPRIMITIVETYPE PrimitiveType,UINT Pri
     size_t numVerts = primCount2NumVerts(PrimitiveType, PrimitiveCount);
     currentFramesStats_.drawUps += numVerts * VertexStreamZeroStride;       
     
-    if (lastAllowedLockFrame_ && *lastAllowedLockFrame_ < currentFrame_ && renderTargets_.empty())
+    if (getLastAllowedLockFrame() && *getLastAllowedLockFrame() < currentFrame_ && renderTargets_.empty())
         return D3D_OK;        
 
     return ProxyBase<IDirect3DDevice9>::DrawPrimitiveUP(PrimitiveType, PrimitiveCount, pVertexStreamZeroData, VertexStreamZeroStride); 
@@ -129,7 +154,7 @@ HRESULT ProxyImplDevice::DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE PrimitiveType,U
     size_t numIndices = primCount2NumVerts(PrimitiveType, PrimitiveCount);
     currentFramesStats_.drawUps += NumVertices * VertexStreamZeroStride + numIndices * indexSize;
 
-    if (lastAllowedLockFrame_ && *lastAllowedLockFrame_ < currentFrame_ && renderTargets_.empty())
+    if (getLastAllowedLockFrame() && *getLastAllowedLockFrame() < currentFrame_ && renderTargets_.empty())
         return D3D_OK;        
 
     return ProxyBase<IDirect3DDevice9>::DrawIndexedPrimitiveUP(PrimitiveType, MinVertexIndex, NumVertices, PrimitiveCount, pIndexData, IndexDataFormat, pVertexStreamZeroData, VertexStreamZeroStride);
@@ -173,7 +198,7 @@ HRESULT STDMETHODCALLTYPE ProxyImplDevice::SetStreamSource(UINT StreamNumber,IDi
         assert(vb);
         assert(!vb->isLocked());
 
-        if (lastAllowedLockFrame_ && vb->lastLockFrame() && *vb->lastLockFrame() > *lastAllowedLockFrame_)
+        if (getLastAllowedLockFrame() && vb->lastLockFrame() && *vb->lastLockFrame() > *getLastAllowedLockFrame())
             dirtyVBs_.insert(StreamNumber);
 
         vbs_.at(StreamNumber) = vb;
@@ -206,6 +231,27 @@ HRESULT STDMETHODCALLTYPE ProxyImplDevice::DrawIndexedPrimitive(D3DPRIMITIVETYPE
         return D3D_OK;
 
     return MyProxyBase::DrawIndexedPrimitive(PrimitiveType, BaseVertexIndex, MinVertexIndex, NumVertices, startIndex, primCount);
+}
+
+HRESULT ProxyImplDevice::UpdateSurface(IDirect3DSurface9* pSourceSurface, const RECT* pSourceRect, IDirect3DSurface9* pDestinationSurface, const POINT* pDestPoint)
+{
+    if (pDestinationSurface)
+    {
+        SurfaceProxyPtr dst(dynamic_cast<SurfaceProxyRawPtr>(pDestinationSurface), true);
+        dst->invalidate();
+    }
+    return MyProxyBase::UpdateSurface(pSourceSurface, pSourceRect, pDestinationSurface, pDestPoint);
+}
+
+HRESULT ProxyImplDevice::UpdateTexture(IDirect3DBaseTexture9* pSourceTexture, IDirect3DBaseTexture9* pDestinationTexture)
+{
+    if (pDestinationTexture)
+    {
+        TextureProxyPtr dst(dynamic_cast<TextureProxyRawPtr>(pDestinationTexture), true);
+        dst->invalidate();
+    }
+
+    return MyProxyBase::UpdateTexture(pSourceTexture, pDestinationTexture);
 }
 
 void ProxyImplDevice::processRenderTargets()

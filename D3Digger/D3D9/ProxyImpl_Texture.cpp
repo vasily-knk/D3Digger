@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ProxyImpl_Texture.h"
+#include "ProxyImpl_Surface.h"
 #include "ProxyImpl_Device.h"
 
 
@@ -11,27 +12,49 @@ ProxyImplTexture::ProxyImplTexture(IBase *pimpl)
 
 HRESULT ProxyImplTexture::LockRect(UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags)
 {
-    return MyProxyBase::LockRect(Level, pLockedRect, pRect, Flags);
+    HRESULT res;
+    auto surf = getSurfaceLevel(Level, &res);
+    if (!surf)
+        return res;
+
+    return surf->LockRect(pLockedRect, pRect, Flags);
 }
 
 HRESULT ProxyImplTexture::UnlockRect(UINT Level)
 {
-    return MyProxyBase::UnlockRect(Level);
+    HRESULT res;
+    auto surf = getSurfaceLevel(Level, &res);
+    if (!surf)
+        return res;
+    
+    return surf->UnlockRect();
 }
 
 
-ProxyImplDevicePtr ProxyImplTexture::getDevice() 
+DeviceProxyPtr ProxyImplTexture::getDevice() 
 {
     IDirect3DDevice9 *d = nullptr;
     pimpl_->GetDevice(&d);
-    auto dev = dynamic_pointer_cast<ProxyImplDevice>(wrapProxySmart(d));
+    auto dev = wrapProxySmart(d);
 
     assert(dev);
     return dev;
 }
 
-void ProxyImplTexture::updateLockStats(size_t size)
+void ProxyImplTexture::invalidate()
 {
-    auto dev = getDevice();
-    dev->appendTexLock(size);
+    lastUpdateFrame_ = getDevice()->getCurrentFrame();
+}
+
+SurfaceProxyPtr ProxyImplTexture::getSurfaceLevel(UINT Level, HRESULT *out)
+{
+    IDirect3DSurface9 *p = nullptr;
+    HRESULT res = pimpl_->GetSurfaceLevel(Level, &p);
+    if (out)
+        *out = res;
+
+    if (!SUCCEEDED(res) || !p)
+        return SurfaceProxyPtr();
+    else
+        return wrapProxySmart(p);
 }

@@ -2,6 +2,7 @@
 
 #include "ProxyImpl.h"
 
+
 struct ProxyImplDevice
     : ProxyBase<IDirect3DDevice9>
 {
@@ -23,19 +24,24 @@ struct ProxyImplDevice
 
     HRESULT STDMETHODCALLTYPE DrawPrimitive(D3DPRIMITIVETYPE PrimitiveType,UINT StartVertex,UINT PrimitiveCount) override;
     HRESULT STDMETHODCALLTYPE DrawIndexedPrimitive(D3DPRIMITIVETYPE,INT BaseVertexIndex,UINT MinVertexIndex,UINT NumVertices,UINT startIndex,UINT primCount) override;
+    HRESULT STDMETHODCALLTYPE Reset(D3DPRESENT_PARAMETERS *pPresentationParameters) override;
 
+    HRESULT STDMETHODCALLTYPE UpdateSurface(IDirect3DSurface9* pSourceSurface,CONST RECT* pSourceRect,IDirect3DSurface9* pDestinationSurface,CONST POINT* pDestPoint) override;
+    HRESULT STDMETHODCALLTYPE UpdateTexture(IDirect3DBaseTexture9* pSourceTexture,IDirect3DBaseTexture9* pDestinationTexture) override;
 
 public:
-    void appendVBLock(size_t size);
-    void appendTexLock(size_t size);
-    bool getDisableVBLocks() const { return disableVBLocks_; } ;
-    int getCurrentFrame() const { return currentFrame_; }
-    optional<int> getLastAllowedLockFrame() const { return lastAllowedLockFrame_; }
+    void appendVBLock(size_t size) override;
+    void appendTexLock(size_t size) override;
+    bool getDisableVBLocks() const override { return disableVBLocks_; } ;
+    int getCurrentFrame() const override { return currentFrame_; }
+    optional<int> getLastAllowedLockFrame() const override { return boost::none; }
 
 private:
     void dumpFrameStats();
     static size_t primCount2NumVerts(D3DPRIMITIVETYPE PrimitiveType, size_t PrimitiveCount);
     void processRenderTargets();
+
+    void init();
 
 private:
     struct FrameStats
@@ -67,6 +73,8 @@ private:
     set<size_t> renderTargets_;
 
     vector<IProxy<IDirect3DVertexBuffer9> *> vbs_;
+
+    TextureProxyPtr notex_;
 };
 
 template<>
