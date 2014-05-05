@@ -74,7 +74,7 @@ private:
 
     vector<IProxy<IDirect3DVertexBuffer9> *> vbs_;
 
-    TextureProxyPtr notex_;
+    intrusive_ptr<IDirect3DTexture9> notex_;
 };
 
 template<>

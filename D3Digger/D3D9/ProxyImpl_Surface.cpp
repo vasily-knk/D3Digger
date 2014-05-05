@@ -2,12 +2,12 @@
 #include "ProxyImpl_Surface.h"
 #include "ProxyImpl_Device.h"
 
-/*
+
 namespace
 {
 size_t bytesPerPixel(D3DFORMAT format)
 {
-    switch format
+    switch (format)
     {
     case D3DFMT_R8G8B8               : return 3;
     case D3DFMT_A8R8G8B8             : return 4;
@@ -37,15 +37,15 @@ size_t bytesPerPixel(D3DFORMAT format)
     case D3DFMT_Q8W8V8U8             : return 4;
     case D3DFMT_V16U16               : return 4;
     case D3DFMT_A2W10V10U10          : return 4;
-    case D3DFMT_UYVY                 : return ;
+    case D3DFMT_UYVY                 : return 0;
     case D3DFMT_R8G8_B8G8            : return 4;
-    case D3DFMT_YUY2                 : return ;
+    case D3DFMT_YUY2                 : return 0;
     case D3DFMT_G8R8_G8B8            : return 4;
-    case D3DFMT_DXT1                 : return ;
-    case D3DFMT_DXT2                 : return ;
-    case D3DFMT_DXT3                 : return ;
-    case D3DFMT_DXT4                 : return ;
-    case D3DFMT_DXT5                 : return ;
+    case D3DFMT_DXT1                 : return 0;
+    case D3DFMT_DXT2                 : return 0;
+    case D3DFMT_DXT3                 : return 0;
+    case D3DFMT_DXT4                 : return 0;
+    case D3DFMT_DXT5                 : return 0;
     case D3DFMT_D16_LOCKABLE         : return 2;
     case D3DFMT_D32                  : return 4;
     case D3DFMT_D15S1                : return 2;
@@ -57,27 +57,46 @@ size_t bytesPerPixel(D3DFORMAT format)
     case D3DFMT_D24FS8               : return 4;
 
     case D3DFMT_L16                  : return 2;
-    case D3DFMT_VERTEXDATA           : return ;
+    case D3DFMT_VERTEXDATA           : return 0;
     case D3DFMT_INDEX16              : return 2;
     case D3DFMT_INDEX32              : return 4;
     case D3DFMT_Q16W16V16U16         : return 8;
-    case D3DFMT_MULTI2_ARGB8         : return ;
+    case D3DFMT_MULTI2_ARGB8         : return 0;
     case D3DFMT_R16F                 : return 2;
     case D3DFMT_G16R16F              : return 4;
     case D3DFMT_A16B16G16R16F        : return 8;
     case D3DFMT_R32F                 : return 4;
     case D3DFMT_G32R32F              : return 8;
     case D3DFMT_A32B32G32R32F        : return 16;
-    case D3DFMT_CxV8U8               : return ;
+    case D3DFMT_CxV8U8               : return 0;
+    default: return 0;
     }
+    return 0;
 }
 
-}*/
+}
 
 
 ProxyImplSurface::ProxyImplSurface(IBase *pimpl)
     : ProxyBase<IBase>(pimpl)
 {
+    D3DSURFACE_DESC desc;
+    HRESULT res = GetDesc(&desc);
+    assert(SUCCEEDED(res));
+    if (SUCCEEDED(res))
+    {
+        static set<D3DFORMAT> unsupported;
+        
+        size_t b = bytesPerPixel(desc.Format);
+        if (b == 0 && !unsupported.count(desc.Format))
+        {
+            unsupported.insert(desc.Format);
+            char letters[5];
+            letters[4] = 0;
+            memcpy(letters, &desc.Format, 4);
+            LOG("Unsupported surface format: " << desc.Format << ": " << letters);
+        }
+    }
 }
 
 HRESULT ProxyImplSurface::LockRect(D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags)

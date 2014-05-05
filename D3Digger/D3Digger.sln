@@ -16,6 +16,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZZZ_ME", "ZZZ_ME\ZZZ_ME.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CreateDevice", "CreateDevice\CreateDevice.vcxproj", "{0669E294-4CA3-4516-A07D-25499237605E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZZZ_Crysis", "ZZZ_Crysis\ZZZ_Crysis.vcxproj", "{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -83,6 +85,15 @@ Global
 		{0669E294-4CA3-4516-A07D-25499237605E}.Release|Win32.ActiveCfg = Release|Win32
 		{0669E294-4CA3-4516-A07D-25499237605E}.Release|Win32.Build.0 = Release|Win32
 		{0669E294-4CA3-4516-A07D-25499237605E}.Release|x64.ActiveCfg = Release|Win32
+		{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}.Debug|Win32.Build.0 = Debug|Win32
+		{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}.Debug|x64.ActiveCfg = Debug|Win32
+		{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}.Profile|Win32.ActiveCfg = Release|Win32
+		{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}.Profile|Win32.Build.0 = Release|Win32
+		{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}.Profile|x64.ActiveCfg = Release|Win32
+		{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}.Release|Win32.ActiveCfg = Release|Win32
+		{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}.Release|Win32.Build.0 = Release|Win32
+		{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -62,7 +62,7 @@
     <CustomBuildStep>
       <Command>copy /V /Y $(OutDir)d3d9.dll D:\Games\Stalker\bin\
 copy /V /Y $(OutDir)d3d9.pdb D:\Games\Stalker\bin\</Command>
-      <Outputs>D:\Games\Stalker\bin\d3d9.dll;D:\Games\Stalker\bin\d3d9.pdb</Outputs>
+      <Outputs>hello.txt</Outputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

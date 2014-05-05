@@ -33,10 +33,10 @@ HRESULT ProxyImplDevice::Reset(D3DPRESENT_PARAMETERS *pPresentationParameters)
 void ProxyImplDevice::init()
 {
     IDirect3DTexture9 *notexPimpl = nullptr;
-    HRESULT res = D3DXCreateTextureFromFileA(pimpl_, "notex.png", &notexPimpl);
+    HRESULT res = D3DXCreateTextureFromFileA(pimpl_, "D:\\notex.png", &notexPimpl);
     assert(SUCCEEDED(res));
 
-    notex_ = wrapProxySmart(notexPimpl);
+    notex_ = intrusive_ptr<IDirect3DTexture9>(notexPimpl, false);
 }
 
 HRESULT ProxyImplDevice::SetTexture(DWORD Stage, IDirect3DBaseTexture9* pBaseTex)
@@ -58,8 +58,8 @@ HRESULT ProxyImplDevice::SetTexture(DWORD Stage, IDirect3DBaseTexture9* pBaseTex
             else
             {
                 auto texUpdateFrame = pTexture->lastUpdateFrame();
-                if (!texUpdateFrame || *texUpdateFrame > lastAllowedLockFrame_)
-                    return pimpl_->SetTexture(Stage, notex_->getPImpl());
+                if (!texUpdateFrame || *texUpdateFrame > lastAllowedLockFrame_)             
+                    return pimpl_->SetTexture(Stage, notex_.get());      
             }
         }
     }

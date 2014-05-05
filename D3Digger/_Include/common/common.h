@@ -68,3 +68,6 @@ using boost::optional;
 
 #include <boost/intrusive_ptr.hpp>
 using boost::intrusive_ptr;
+
+#include <boost/thread.hpp>
+namespace this_thread = boost::this_thread;

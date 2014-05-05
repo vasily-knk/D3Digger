@@ -60,3 +60,13 @@ inline void intrusive_ptr_release(IProxy<IUnknown> *ptr)
 {
     ptr->Release();
 }
+
+inline void intrusive_ptr_add_ref(IUnknown *ptr)
+{
+    ptr->AddRef();
+}
+
+inline void intrusive_ptr_release(IUnknown *ptr)
+{
+    ptr->Release();
+}

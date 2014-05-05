@@ -196,6 +196,10 @@ class CodeGenerator extends InterfacesProcessor {
                     val unwraps = m.args.filter({case arg => checkArgWrap(arg.argType) == WrapType.In })
                     val wraps = m.args.filter({case arg => checkArgWrap(arg.argType) == WrapType.Out})
 
+                    if (!wraps.isEmpty) {
+                        println("Wrap: " + i.name + "." + m.name)
+                    }
+
                     val unwrapStrs = unwraps.map({case arg => "if (%s) {%s = unwrapProxy<%s>(%s);}".format(arg.name.get, arg.name.get, arg.argType.name, arg.name.get)})
                     val wrapStrs = wraps.map({case arg =>
                         """if (%s)
