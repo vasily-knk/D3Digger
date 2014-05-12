@@ -5,7 +5,7 @@ import scala.util.parsing.combinator._
 
 object ParserImpl {
     case class StdMethodHR(override val name: String, override val args: Args) extends StdMethod {
-        override val retType = ArgType("HRESULT", false, 0)
+        override val retType = ArgType("HRESULT", false, 0, false)
     }
 
     case class StdMethodRet(override val name: String, override val retType: ArgType, override val args: Args) extends StdMethod
@@ -16,12 +16,17 @@ class ParserImpl extends  JavaTokenParsers with InterfacesParser{
 
     def stars: Parser[Int] = rep("*") ^^ { case lst => lst.size }
 
+    def inType: Parser[Boolean] = ("_IN"?) ^^ {
+      case Some(const) => true
+      case None => false
+    }
+
     def constType: Parser[Boolean] = ("CONST"?) ^^ {
         case Some(const) => true
         case None => false
     }
 
-    def argType: Parser[ArgType] = constType ~ ident ~ stars ^^ { case isConst ~ name ~ depth => ArgType(name, isConst, depth) }
+    def argType: Parser[ArgType] = inType ~ constType ~ ident ~ stars ^^ { case isIn ~ isConst ~ name ~ depth => ArgType(name, isConst, depth, isIn) }
     def arg: Parser[Arg] = argType ~ (ident?) ^^ { case t ~ name => Arg(t, name) }
 
     def emptyArgs: Parser[Args] = "THIS" ^^ { case str => Nil }

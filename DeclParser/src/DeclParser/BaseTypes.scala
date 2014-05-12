@@ -1,7 +1,7 @@
 package DeclParser
 
 object BaseTypes {
-    case class ArgType(name: String, isConst: Boolean, ptrDepth: Int) {
+    case class ArgType(name: String, isConst: Boolean, ptrDepth: Int, isIn: Boolean) {
         override val toString: String = (if (isConst) "const " else "") + name + "*" * ptrDepth
     }
     case class Arg(argType: ArgType, name: Option[String]) {

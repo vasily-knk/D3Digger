@@ -23,4 +23,4 @@ namespace D3D9
 
 	} // namespace Client
 
-} // namespace D3D9
+} // namespace D3D9	

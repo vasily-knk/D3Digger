@@ -60,6 +60,9 @@
     <ClInclude Include="Client\IExectuor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Client\ProxyBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -96,6 +99,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Methods.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Client\ProxyBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

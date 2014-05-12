@@ -1,5 +1,7 @@
 #pragma once
 
+#include "common/signals.h"
+
 namespace D3D9
 {
 	namespace Client
@@ -29,7 +31,7 @@ namespace D3D9
 			typedef IProxy<T> *RawType;
 		};*/
 
-#include "undef.h"
+#include "d3d9/undef.h"
 
 #define MY_BEGIN_INTERFACE_(name, parent)   \
 		template<>                              \
@@ -49,8 +51,8 @@ namespace D3D9
 #define MY_STDMETHOD_(ret_type, name, args) virtual ret_type STDMETHODCALLTYPE name args = 0;
 #define MY_STDMETHOD(name, args) MY_STDMETHOD_(HRESULT, name, args)
 
-#include "decl.h"
-#include "undef.h"
+#include "d3d9/decl.h"
+#include "d3d9/undef.h"
 
 	} // namespace Client
 

@@ -84,6 +84,7 @@
     <ClInclude Include="Client\IProxy.h" />
     <ClInclude Include="Client\IProxyFactory.h" />
     <ClInclude Include="Client\IProxyMap.h" />
+    <ClInclude Include="Client\ProxyBase.h" />
     <ClInclude Include="GlobalImpl.h" />
     <ClInclude Include="ProxyBase.h" />
     <ClInclude Include="ProxyImpl.h" />
@@ -95,6 +96,9 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Client\ProxyBase.cpp">
+      <PreprocessToFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</PreprocessToFile>
+    </ClCompile>
     <ClCompile Include="D3D9.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
