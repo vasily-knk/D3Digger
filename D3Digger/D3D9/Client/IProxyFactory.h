@@ -1,6 +1,6 @@
 #pragma once
 
-#include <IProxy.h>
+#include "IProxy.h"
 
 namespace D3D9
 {

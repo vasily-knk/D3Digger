@@ -10,7 +10,7 @@ typedef boost::signals2::connection Connection;
 	typedef boost::signals2::signal<void arglist>::slot_type name##Slot;               \
 	virtual boost::signals2::connection subscribe##name(name##Slot const& slot)        \
 {                                                                                      \
-	return signal##name##_.connect(slot);                                              \
+	return emit##name .connect(slot);                                              \
 }                                                                                      \
-	boost::signals2::signal<void arglist> signal##name##_;
+	boost::signals2::signal<void arglist> emit##name ;
 

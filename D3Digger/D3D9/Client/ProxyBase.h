@@ -1,6 +1,9 @@
 #pragma once
 
+#include "common/bytes.h"
 #include "IProxy.h"
+#include "IGlobal.h"
+#include "d3d9/Methods.h"
 
 
 namespace D3D9

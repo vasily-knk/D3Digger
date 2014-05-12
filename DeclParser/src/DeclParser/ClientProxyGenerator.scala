@@ -15,6 +15,7 @@ object ClientProxyGenerator {
 
     private def getIns(m: StdMethod): Args = m.args.filter((arg) => arg.argType match {
         case ArgType(_, _, 0, _) => true
+        case ArgType("void", _, 1, _) => false // Fixme
         case ArgType(_, true, 1, _) => true
         case ArgType(typeName, false, 1, _) => checkTypeName(typeName)
         case ArgType(_, _, 2, _) => false
@@ -54,34 +55,79 @@ object ClientProxyGenerator {
 
 class ClientProxyGenerator extends CodeGeneratorBase(ClientProxyGenerator.head, ClientProxyGenerator.namespaces) {
     import ClientProxyGenerator._
-    def interfaceName(interface: Interface) : String = {
+    override def interfaceName(interface: Interface) : String = {
         "ProxyBase<" + interface.name + ">"
     }
-    def interfaceHead(interface: Interface) : String =
-        """ProxyBase<%s>::ProxyBase<%s>(ProxyId id)
+    override def interfaceHead(interface: Interface) : String =
+        """ProxyBase<%s>::ProxyBase(ProxyId id)
           |    : id_(id)
           |    , refcount_(1)
           |{
           |}
           |
-          |""".stripMargin.format(interface.name, interface.name)
+          |""".stripMargin.format(interface.name)
 
-    def methodBody(interface: Interface, method: StdMethod) : String = {
+    override def methodBody(interface: Interface, method: StdMethod) : String = method.name match {
+        case "AddRef" => methodBodyAddRef(interface, method)
+        case "Release" => methodBodyRelease(interface, method)
+        case "QueryInterface" => methodBodyQueryInterface(interface, method)
+        case _ => methodBodyGeneric(interface, method)
+    }
+
+    private def getMethodId(interface: Interface, method: StdMethod) = {
+        "makeMethodId(Interfaces::%s, Methods_%s::%s)".format(interface.name, interface.name, method.name)
+    }
+
+    private def methodBodyAddRef(interface: Interface, method: StdMethod) : String = {
+        """assert(refcount_ > 0);
+          |++refcount_;
+          |return refcount_;
+          |""".stripMargin
+    }
+    private def methodBodyRelease(interface: Interface, method: StdMethod) : String = {
+        """--refcount_;
+          |assert(refcount_ >= 0);
+          |if (refcount_ == 0)
+          |{
+          |    BytesPtr inBytes = bytes::make();
+          |    bytes::put(getId(), inBytes);
+          |    getGlobal().executor().runAsync(%s, inBytes);
+          |    emitDeleted();
+          |    delete this;
+          |    return 0;
+          |} else
+          |    return refcount_;
+          |""".stripMargin.format(getMethodId(interface, method))
+    }
+    private def methodBodyQueryInterface(interface: Interface, method: StdMethod) : String = {
+        val ptrArgName = method.args(1).name.get
+
+        """if (!%s)
+          |    return E_POINTER;
+          |else
+          |{
+          |    *%s = nullptr;
+          |    return E_NOINTERFACE;
+          |}
+          |""".stripMargin.format(ptrArgName, ptrArgName)
+    }
+
+    private def methodBodyGeneric(interface: Interface, method: StdMethod) : String = {
         val ins = getIns(method)
 
         val sb = new StringBuilder
 
         sb ++=
             """BytesPtr inBytes = bytes::make();
-              |inBytes->put(getId());
+              |bytes::put(getId(), inBytes);
               |""".stripMargin
 
         ins.foreach((a) => {
-            sb ++= "inBytes->put(%s);".format(wrapStr(a))
+            sb ++= "bytes::put(%s, inBytes);".format(wrapStr(a))
             sb ++= "\r\n"
         })
 
-        val methodId = "makeMethodId(Interfaces::%s, Methods_%s::%s)".format(interface.name, interface.name, method.name)
+        val methodId = getMethodId(interface, method)
 
         if (isAsync(method)) {
             sb ++= "getGlobal().executor().runAsync(%s, inBytes);\r\n".format(methodId)
@@ -91,18 +137,19 @@ class ClientProxyGenerator extends CodeGeneratorBase(ClientProxyGenerator.head, 
             })
         } else {
             sb ++= "BytesPtr outBytes = getGlobal().executor().runSync(%s, inBytes);\r\n".format(methodId)
+            sb ++= "bytes::getter g(outBytes);\r\n"
 
             val isVoid = method.retType match {
                 case ArgType("void", _, 0, _) => true
-                case _ => false
+                case ArgType(_, _, 0, _) => false
             }
 
             if (!isVoid) {
-                val retType = "sss"
-                sb ++= "%s ret = outBytes.get<%s>();\r\n".format(retType, retType)
+                val retTypeName = method.retType.name
+                sb ++= "%s ret = g.get<%s>();\r\n".format(retTypeName, retTypeName)
             }
 
-            
+
 
             if (!isVoid)
                 sb ++= "return ret;\r\n"

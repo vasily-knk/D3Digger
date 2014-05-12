@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IProxy.h"
+#include "d3d9/Methods.h"
 
 namespace D3D9
 {
@@ -10,8 +11,8 @@ namespace D3D9
 		struct IExecutor
 			: Interface
 		{
-			BytesPtr runSync(ProxyId id, BytesPtr args) = 0;
-			void runAsync(ProxyId id, BytesPtr args) = 0;
+			virtual BytesPtr runSync(MethodId const& id, BytesPtr args) = 0;
+			virtual void runAsync(MethodId const &id, BytesPtr args) = 0;
 		};
 
 	} // namespace Client
