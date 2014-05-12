@@ -21,7 +21,13 @@ object ClientProxyGenerator {
         case ArgType(_, _, 2, _) => false
     })
 
-    private def getOuts(m: StdMethod): Args = List()
+    private def getOuts(m: StdMethod): Args = m.args.filter((arg) => arg.argType match {
+        case ArgType(_, _, 0, _) => false
+        case ArgType("void", _, 1, _) => false // Fixme
+        case ArgType(_, true, 1, _) => false
+        case ArgType(typeName, false, 1, _) => !checkTypeName(typeName)
+        case ArgType(typeName, _, 2, _) => checkTypeName(typeName)
+    })
 
     private def isAsync(m: StdMethod) = {
         val noRet = m.retType match {
@@ -50,7 +56,14 @@ object ClientProxyGenerator {
                 "*%s".format(arg.name.get)
     }
 
-
+    private def unwrapStr(arg: Arg): String = arg.argType match {
+        case ArgType(typeName, false, 1, _) => "g.get<%s>()".format(typeName)
+        case ArgType(typeName, _, 2, _) =>
+            if (checkTypeName(typeName))
+                "getGlobal().proxyMap().getById<%s>(g.get<ProxyId>())".format(typeName)
+            else
+                throw new RuntimeException("Unexpected out arg: " + arg)
+    }
 }
 
 class ClientProxyGenerator extends CodeGeneratorBase(ClientProxyGenerator.head, ClientProxyGenerator.namespaces) {
@@ -114,6 +127,7 @@ class ClientProxyGenerator extends CodeGeneratorBase(ClientProxyGenerator.head, 
 
     private def methodBodyGeneric(interface: Interface, method: StdMethod) : String = {
         val ins = getIns(method)
+        val outs = getOuts(method)
 
         val sb = new StringBuilder
 
@@ -127,16 +141,18 @@ class ClientProxyGenerator extends CodeGeneratorBase(ClientProxyGenerator.head, 
             sb ++= "\r\n"
         })
 
+        sb ++= "\r\n"
+
         val methodId = getMethodId(interface, method)
 
         if (isAsync(method)) {
-            sb ++= "getGlobal().executor().runAsync(%s, inBytes);\r\n".format(methodId)
+            sb ++= "getGlobal().executor().runAsync(%s, inBytes);\r\n\r\n".format(methodId)
             sb ++= (method.retType match {
                 case ArgType("void", _, 0, _) => ""
                 case ArgType("HRESULT", _, 0, _) => "return D3D_OK;\r\n"
             })
         } else {
-            sb ++= "BytesPtr outBytes = getGlobal().executor().runSync(%s, inBytes);\r\n".format(methodId)
+            sb ++= "BytesPtr outBytes = getGlobal().executor().runSync(%s, inBytes);\r\n\r\n".format(methodId)
             sb ++= "bytes::getter g(outBytes);\r\n"
 
             val isVoid = method.retType match {
@@ -149,7 +165,9 @@ class ClientProxyGenerator extends CodeGeneratorBase(ClientProxyGenerator.head, 
                 sb ++= "%s ret = g.get<%s>();\r\n".format(retTypeName, retTypeName)
             }
 
-
+            outs.foreach((a) => {
+                sb ++= "*%s = %s;\r\n".format(a.name.get, unwrapStr(a))
+            })
 
             if (!isVoid)
                 sb ++= "return ret;\r\n"
