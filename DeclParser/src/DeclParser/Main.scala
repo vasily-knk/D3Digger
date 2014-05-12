@@ -2,32 +2,16 @@ package DeclParser
 
 import scala.io.Source
 import BaseTypes._
+import java.io.{File, PrintWriter}
 
 object Main extends App {
-  def printReturns(interfaces: Interfaces){
-      def checkMethod(m: StdMethod) = {
-          val l = m.args.filter((arg) => !CodeGenerator.checkTypeName(arg.argType.name) && arg.argType.ptrDepth == 2)
-          !l.isEmpty
-      }
+    val srcText = Source.fromFile("src.txt").mkString
+    val interfaces = new ParserImpl().parse(srcText)
 
-      interfaces.foreach((i) => {
-          i.methods.foreach((m) => {
-              if (checkMethod(m)) {
-                  println(i.name + "." + m.name)
-              }
-          })
-      })
-  }
+    val generator = new ClientProxyGenerator
+    val dstText = generator.process(interfaces)
 
-
-
-  val text = Source.fromFile("src.txt").mkString
-
-  val interfaces = new ParserImpl().parse(text)
-  //printReturns(interfaces)
-
-  new InOutChecker().process(interfaces)
-
-
-
+    val pw = new PrintWriter(new File("dst.txt"))
+    pw.print(dstText)
+    pw.close()
 }

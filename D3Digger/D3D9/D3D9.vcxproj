@@ -97,7 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client\ProxyBase.cpp">
-      <PreprocessToFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</PreprocessToFile>
+      <PreprocessToFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</PreprocessToFile>
     </ClCompile>
     <ClCompile Include="D3D9.cpp" />
     <ClCompile Include="dllmain.cpp">

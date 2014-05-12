@@ -15,6 +15,8 @@ object BaseTypes {
         def args: Args
     }
 
+    case class StdMethodRet(override val name: String, override val retType: ArgType, override val args: Args) extends StdMethod
+
     type StdMethods = List[StdMethod]
 
     case class Interface(name: String, methods: StdMethods)

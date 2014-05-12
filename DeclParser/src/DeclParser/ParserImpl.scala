@@ -8,7 +8,6 @@ object ParserImpl {
         override val retType = ArgType("HRESULT", false, 0, false)
     }
 
-    case class StdMethodRet(override val name: String, override val retType: ArgType, override val args: Args) extends StdMethod
 }
 
 class ParserImpl extends  JavaTokenParsers with InterfacesParser{
