@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3D9", "D3D9\D3D9.vcxproj", "{F24B1049-C508-448B-B5A5-786A907FA091}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkinnedMesh", "SkinnedMesh\SkinnedMesh_2010.vcxproj", "{D3D09120-96D0-4629-88B8-122C0256058C}"
@@ -15,8 +17,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZZZ_ME", "ZZZ_ME\ZZZ_ME.vcxproj", "{4B8A4321-4F5C-403E-A15F-3D36D7969243}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CreateDevice", "CreateDevice\CreateDevice.vcxproj", "{0669E294-4CA3-4516-A07D-25499237605E}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZZZ_Crysis", "ZZZ_Crysis\ZZZ_Crysis.vcxproj", "{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,15 +85,6 @@ Global
 		{0669E294-4CA3-4516-A07D-25499237605E}.Release|Win32.ActiveCfg = Release|Win32
 		{0669E294-4CA3-4516-A07D-25499237605E}.Release|Win32.Build.0 = Release|Win32
 		{0669E294-4CA3-4516-A07D-25499237605E}.Release|x64.ActiveCfg = Release|Win32
-		{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}.Debug|Win32.ActiveCfg = Debug|Win32
-		{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}.Debug|Win32.Build.0 = Debug|Win32
-		{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}.Debug|x64.ActiveCfg = Debug|Win32
-		{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}.Profile|Win32.ActiveCfg = Release|Win32
-		{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}.Profile|Win32.Build.0 = Release|Win32
-		{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}.Profile|x64.ActiveCfg = Release|Win32
-		{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}.Release|Win32.ActiveCfg = Release|Win32
-		{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}.Release|Win32.Build.0 = Release|Win32
-		{BF3218C3-C8A1-4AD9-A1C9-92AE7CFB6720}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

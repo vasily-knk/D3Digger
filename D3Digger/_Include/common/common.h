@@ -55,8 +55,9 @@ using std::stringstream;
 
 #include "interface.h"
 
-#include <boost/thread.hpp>
-typedef boost::thread Thread;
+#include <thread>
+typedef std::thread Thread;
+namespace this_thread = std::this_thread;
 
 #include <boost/asio.hpp>
 typedef boost::asio::io_service IOService;
@@ -69,5 +70,5 @@ using boost::optional;
 #include <boost/intrusive_ptr.hpp>
 using boost::intrusive_ptr;
 
-#include <boost/thread.hpp>
-namespace this_thread = boost::this_thread;
+#include <boost/filesystem.hpp>
+#include <boost/signals2/signal.hpp>

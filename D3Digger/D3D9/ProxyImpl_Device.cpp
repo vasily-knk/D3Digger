@@ -32,8 +32,11 @@ HRESULT ProxyImplDevice::Reset(D3DPRESENT_PARAMETERS *pPresentationParameters)
 
 void ProxyImplDevice::init()
 {
-    IDirect3DTexture9 *notexPimpl = nullptr;
-    HRESULT res = D3DXCreateTextureFromFileA(pimpl_, "D:\\notex.png", &notexPimpl);
+	auto path = boost::filesystem::initial_path();
+	path /= "notex.png";
+	
+	IDirect3DTexture9 *notexPimpl = nullptr;
+    HRESULT res = D3DXCreateTextureFromFile(pimpl_, path.c_str(), &notexPimpl);
     assert(SUCCEEDED(res));
 
     notex_ = intrusive_ptr<IDirect3DTexture9>(notexPimpl, false);

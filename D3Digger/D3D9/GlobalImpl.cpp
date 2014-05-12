@@ -16,7 +16,7 @@ void logMethod(const char *interfaceName, const char *methodName)
     (void)methodName;
     //LOG(interfaceName << "." << methodName);
 
-    static thread_ops::thread_safe_obj<set<boost::thread::id>> ids;
+    static thread_ops::thread_safe_obj<set<Thread::id>> ids;
     auto m = ids.monitor();
 
     auto threadId = this_thread::get_id();

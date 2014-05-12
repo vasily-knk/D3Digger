@@ -42,5 +42,14 @@
     <ClInclude Include="d3d9\IProxyExt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="d3d9\Methods.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\bytes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\signals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
