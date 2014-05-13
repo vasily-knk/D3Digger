@@ -5,6 +5,8 @@ namespace D3D9
 
 	enum class Interfaces
 	{
+		BASE, 
+
 #include "undef.h"
 #define MY_BEGIN_INTERFACE_(name, parent) name,
 #define MY_BEGIN_INTERFACE(name) name,
@@ -20,6 +22,12 @@ namespace D3D9
 		TOTAL
 	};
 
+
+	enum class Methods_BASE
+	{
+		Direct3DCreate9,
+		TOTAL
+	};
 
 #define MY_BEGIN_INTERFACE(name) enum class Methods_##name {
 #define MY_BEGIN_INTERFACE_(name, parent) MY_BEGIN_INTERFACE(name)

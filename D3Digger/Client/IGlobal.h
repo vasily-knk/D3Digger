@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IProxyMap.h"
-#include "IExectuor.h"
+#include "IExecutor.h"
 
 namespace D3D9
 {

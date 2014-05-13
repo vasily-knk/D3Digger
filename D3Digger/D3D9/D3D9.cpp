@@ -2,27 +2,24 @@
 //
 
 #include "stdafx.h"
-#include "ProxyBase.h"
-#include "ProxyImpl.h"
-
-
-
-HMODULE getSystemDLL()
-{                        
-    static HMODULE dll = LoadLibrary(L"C:\\Windows\\System32\\d3d9.dll");
-    return dll;
-}        
-
+#include "../Client/IGlobal.h"
+#include "d3d9/Methods.h"
 
 IDirect3D9* WINAPI Direct3DCreate9(UINT SDKVersion)
 {
-    typedef IDirect3D9* (WINAPI *Creator)(UINT);
-    
-    HMODULE dll = getSystemDLL();
-    Creator creator = reinterpret_cast<Creator>(GetProcAddress(dll, "Direct3DCreate9"));
+	using namespace D3D9;
+	using namespace D3D9::Client;
 
-    IDirect3D9 *pimpl = creator(SDKVersion);
-    auto proxy = wrapProxy<IDirect3D9>(pimpl);
-    return proxy;
+	IGlobal &global = getGlobal();
+
+    BytesPtr inBytes = bytes::make();
+    bytes::put(SDKVersion, inBytes);
+    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::BASE, Methods_BASE::Direct3DCreate9), inBytes);
+	bytes::getter g(outBytes);
+
+	ProxyId id = g.get<ProxyId>(); 
+	auto ptr = getGlobal().proxyMap().getById<IDirect3D9>(id);
+
+	return ptr;
 }
 

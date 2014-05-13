@@ -15,7 +15,10 @@ object ClientProxyGenerator {
 
     private def getIns(m: StdMethod): Args = m.args.filter((arg) => arg.argType match {
         case ArgType(_, _, 0, _) => true
-        case ArgType("void", _, 1, _) => false // Fixme
+        case ArgType("void", _, 1, _) => {
+            println("void*: " + m.name)
+            false
+        } // Fixme
         case ArgType(_, true, 1, _) => true
         case ArgType(typeName, false, 1, _) => checkTypeName(typeName)
         case ArgType(_, _, 2, _) => false

@@ -2,12 +2,17 @@
 
 #include "common/interface.h"
 #include "IProxy.h"
-#include "IProxyFactory.h"
+#include "ProxyFactory.h"
 
 namespace D3D9
 {
 	namespace Client
 	{
+		struct IProxyMap;
+		typedef shared_ptr<IProxyMap> IProxyMapPtr;
+
+		IProxyMapPtr createProxyMap();		
+		
 		struct IProxyMap
 			: Interface
 		{
@@ -21,8 +26,8 @@ namespace D3D9
 				return converted;
 			}
 		
-		private:
-			typedef function<IProxy<IUnknown> *()> Creator;
+		protected:
+			typedef function<IProxy<IUnknown> *(ProxyId)> Creator;
 			virtual IProxy<IUnknown> *getByIdImpl(ProxyId id, Creator creator) = 0;
 		};
 

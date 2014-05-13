@@ -39,7 +39,9 @@ abstract class CodeGeneratorBase(head: String, namespaces: List[String]) extends
                 case Some(name) => " " + name
             })).mkString(", ")
 
-            val body = methodBody(interface, m)
+            val unshiftedBody = methodBody(interface, m)
+            val bodyLines = unshiftedBody.split("\\r?\\n").map((line) => "    " + line)
+            val body = bodyLines.mkString("\r\n")
 
             """%s %s::%s(%s)
               |{

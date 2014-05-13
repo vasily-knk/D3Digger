@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F24B1049-C508-448B-B5A5-786A907FA091}</ProjectGuid>
+    <ProjectGuid>{659AFDF2-B5F0-4BD2-8661-402A7DAFC3F6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>D3D9</RootNamespace>
   </PropertyGroup>
@@ -19,15 +19,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -43,7 +43,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -59,7 +58,6 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
-      <AdditionalDependencies>D3d9.lib;D3dx9.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -76,29 +74,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Client\IExectuor.h" />
-    <ClInclude Include="Client\IGlobal.h" />
-    <ClInclude Include="Client\IProxy.h" />
-    <ClInclude Include="Client\IProxyFactory.h" />
-    <ClInclude Include="Client\IProxyMap.h" />
-    <ClInclude Include="Client\ProxyBase.h" />
-    <ClInclude Include="GlobalImpl.h" />
-    <ClInclude Include="ProxyBase.h" />
-    <ClInclude Include="ProxyImpl.h" />
-    <ClInclude Include="ProxyImpl_Device.h" />
-    <ClInclude Include="ProxyImpl_IndexBuffer.h" />
-    <ClInclude Include="ProxyImpl_Surface.h" />
-    <ClInclude Include="ProxyImpl_Texture.h" />
-    <ClInclude Include="ProxyImpl_VertexBuffer.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Client\ProxyBase.cpp">
-      <PreprocessToFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</PreprocessToFile>
-    </ClCompile>
     <ClCompile Include="D3D9.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
@@ -108,19 +90,15 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="GlobalImpl.cpp" />
-    <ClCompile Include="Methods.cpp" />
-    <ClCompile Include="ProxyBase.cpp" />
-    <ClCompile Include="ProxyImpl.cpp" />
-    <ClCompile Include="ProxyImpl_Device.cpp" />
-    <ClCompile Include="ProxyImpl_IndexBuffer.cpp" />
-    <ClCompile Include="ProxyImpl_Surface.cpp" />
-    <ClCompile Include="ProxyImpl_Texture.cpp" />
-    <ClCompile Include="ProxyImpl_VertexBuffer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Client\Client.vcxproj">
+      <Project>{6518cc23-871d-46b8-962f-ad1022f14101}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="exports.def" />

@@ -2,11 +2,17 @@
 
 #include "IProxy.h"
 #include "d3d9/Methods.h"
+#include "common/bytes.h"
 
 namespace D3D9
 {
 	namespace Client
 	{
+		struct IExecutor;
+		typedef shared_ptr<IExecutor> IExecutorPtr;
+
+		IExecutorPtr createExecutor();
+
 
 		struct IExecutor
 			: Interface

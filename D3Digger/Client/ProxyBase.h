@@ -23,7 +23,7 @@ namespace D3D9
 	        : IProxy<name> \
 	    { \
 			typedef name IBase; \
-			ProxyId getId() override; \
+			ProxyId getId() override { return id_; }; \
 			DEFINE_SIGNAL(Deleted, ()); \
 			ProxyBase(ProxyId id); 
 
