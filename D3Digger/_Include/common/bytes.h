@@ -43,14 +43,19 @@ size_t size(vector<T> const &vec)
     return res;
 }
 
-
 template<typename T>
-void put(T const &data, bytes_ptr bytes)
+void put(const T &data, bytes_ptr bytes, typename std::enable_if<std::is_pod<T>::value>::type* = nullptr)
 {
     const size_t offset = bytes->size();
     bytes->resize(offset + size(data));
     *reinterpret_cast<T*>(&bytes->at(offset)) = data;
 }
+
+/*template<typename T>
+void put(T data, bytes_ptr bytes, typename std::enable_if<std::is_enum<T>::value>::type* = nullptr)
+{
+    put(static_cast<uint32_t>(data), bytes);
+}*/
 
 template<typename T>
 void put(vector<T> const &vec, bytes_ptr bytes)
@@ -95,7 +100,7 @@ struct getter
     { }
 
     template<typename T>
-    void get(T &data)
+    void get(T &data, typename std::enable_if<std::is_pod<T>::value>::type* = nullptr)
     {
         if(offset_ + size(data) > bytes_->size())
         {

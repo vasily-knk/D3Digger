@@ -74,3 +74,5 @@ using boost::intrusive_ptr;
 #include <boost/signals2/signal.hpp>
 
 #include <boost/foreach.hpp>
+
+#include <type_traits>
