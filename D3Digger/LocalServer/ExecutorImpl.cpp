@@ -55,11 +55,10 @@ void ExecutorImpl::execute(MethodId const &id, BytesPtr srcArgs, BytesPtr dstArg
     // Thread: service
     assert(this_thread::get_id() == serviceThread_.get_id());
 
-    std::unique_lock<mutex> lock(mutex_);
-
     Method method = getMethod(id);
     method(srcArgs, dstArgs);
     
+    std::unique_lock<mutex> lock(mutex_);
     isComplete_ = true;
     cond_.notify_all();
 }
