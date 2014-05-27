@@ -16,9 +16,10 @@ using std::make_shared;
 using std::enable_shared_from_this;
 using std::dynamic_pointer_cast;
 
-#include <functional>
-using std::bind;
-using std::function;
+#include <boost/function.hpp>
+#include <boost/bind.hpp>
+using boost::bind;
+using boost::function;
 
 #include <unordered_set>
 using std::unordered_set;
@@ -76,3 +77,10 @@ using boost::intrusive_ptr;
 #include <boost/foreach.hpp>
 
 #include <type_traits>
+
+#include <mutex>
+using std::mutex;
+
+#include <condition_variable>
+using std::condition_variable;
+
