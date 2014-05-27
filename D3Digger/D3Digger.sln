@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OldStuff", "OldStuff\OldStu
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3D9", "D3D9\D3D9.vcxproj", "{659AFDF2-B5F0-4BD2-8661-402A7DAFC3F6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LocalServer", "LocalServer\LocalServer.vcxproj", "{957EED4D-5F28-4FDB-BADE-256999C9E6CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -110,6 +112,15 @@ Global
 		{659AFDF2-B5F0-4BD2-8661-402A7DAFC3F6}.Release|Win32.ActiveCfg = Release|Win32
 		{659AFDF2-B5F0-4BD2-8661-402A7DAFC3F6}.Release|Win32.Build.0 = Release|Win32
 		{659AFDF2-B5F0-4BD2-8661-402A7DAFC3F6}.Release|x64.ActiveCfg = Release|Win32
+		{957EED4D-5F28-4FDB-BADE-256999C9E6CC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{957EED4D-5F28-4FDB-BADE-256999C9E6CC}.Debug|Win32.Build.0 = Debug|Win32
+		{957EED4D-5F28-4FDB-BADE-256999C9E6CC}.Debug|x64.ActiveCfg = Debug|Win32
+		{957EED4D-5F28-4FDB-BADE-256999C9E6CC}.Profile|Win32.ActiveCfg = Release|Win32
+		{957EED4D-5F28-4FDB-BADE-256999C9E6CC}.Profile|Win32.Build.0 = Release|Win32
+		{957EED4D-5F28-4FDB-BADE-256999C9E6CC}.Profile|x64.ActiveCfg = Release|Win32
+		{957EED4D-5F28-4FDB-BADE-256999C9E6CC}.Release|Win32.ActiveCfg = Release|Win32
+		{957EED4D-5F28-4FDB-BADE-256999C9E6CC}.Release|Win32.Build.0 = Release|Win32
+		{957EED4D-5F28-4FDB-BADE-256999C9E6CC}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

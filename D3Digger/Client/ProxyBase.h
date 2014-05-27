@@ -1,7 +1,7 @@
 #pragma once
 
 #include "common/bytes.h"
-#include "IProxy.h"
+#include "d3d9/IProxy.h"
 #include "IGlobal.h"
 #include "d3d9/Methods.h"
 

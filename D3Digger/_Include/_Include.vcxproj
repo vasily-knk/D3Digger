@@ -18,8 +18,8 @@
     <ClInclude Include="d3d9\decl.h" />
     <ClInclude Include="d3d9\def.h" />
     <ClInclude Include="d3d9\Global.h" />
+    <ClInclude Include="d3d9\IExecutor.h" />
     <ClInclude Include="d3d9\IProxy.h" />
-    <ClInclude Include="d3d9\IProxyExt.h" />
     <ClInclude Include="d3d9\Methods.h" />
     <ClInclude Include="d3d9\undef.h" />
     <ClInclude Include="d3d9\wrap.h" />

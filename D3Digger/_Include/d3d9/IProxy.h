@@ -1,72 +1,59 @@
 #pragma once
 
-#include "IProxyExt.h"
+#include "common/signals.h"
 
-template<typename T>
-struct IProxy;
-
-template<typename T>
-struct IProxyPtr
+namespace D3D9
 {
-    typedef intrusive_ptr<IProxy<T>> Type;
-    typedef IProxy<T> *RawType;
-};
+	namespace Client
+	{
+		typedef uint32_t ProxyId;
+	
+		template<typename T>
+		struct IProxyExt
+		{
 
-template<typename T>
-typename IProxyPtr<T>::RawType createProxy(T *pimpl);
+		};
 
-#include "undef.h"
+		template<>
+		struct IProxyExt<IUnknown>
+		{
+			virtual ProxyId getId() = 0;
+			DECLARE_SIGNAL(Deleted, ());
+		};
+
+		template<typename T>
+		struct IProxy;
+
+		/*template<typename T>
+		struct IProxyPtr
+		{
+			typedef intrusive_ptr<IProxy<T>> Type;
+			typedef IProxy<T> *RawType;
+		};*/
+
+#include "d3d9/undef.h"
 
 #define MY_BEGIN_INTERFACE_(name, parent)   \
-    template<> struct IProxy<name>;         \
-    template<>                              \
-    typename IProxyPtr<name>::RawType createProxy(name *pimpl); \
-                                            \
-    template<>                              \
-    struct IProxy<name>                     \
-        : name, IProxyExt<name>, IProxy<parent> \
-    {                                       \
-        virtual name *getPImpl() = 0;       \
-        virtual size_t addExtRef() = 0;
-      
+		template<>                              \
+		struct IProxy<name>                     \
+			: name, IProxyExt<name>, IProxy<parent> \
+		{                                       
+
+
 #define MY_BEGIN_INTERFACE(name)            \
-    template<> struct IProxy<name>;         \
-    template<>                              \
-    typename IProxyPtr<name>::RawType createProxy(name *pimpl); \
-                                            \
-    template<>                              \
-    struct IProxy<name>                     \
-        : name, IProxyExt<name>, Interface  \
-    {                                       \
-        virtual name *getPImpl() = 0;       \
-        virtual size_t addExtRef() = 0;
+		template<>                              \
+		struct IProxy<name>                     \
+			: name, IProxyExt<name>, Interface  \
+		{                                       
 
-#define MY_END_INTERFACE }
+#define MY_END_INTERFACE };
 
-#define MY_STDMETHOD_(ret_type, name, args) virtual ret_type STDMETHODCALLTYPE name args = 0
+#define MY_STDMETHOD_(ret_type, name, args) virtual ret_type STDMETHODCALLTYPE name args = 0;
 #define MY_STDMETHOD(name, args) MY_STDMETHOD_(HRESULT, name, args)
 
-#define MY_PURE
+#include "d3d9/decl.h"
+#include "d3d9/undef.h"
 
-#include "decl.h"
-#include "undef.h"
+	} // namespace Client
 
-inline void intrusive_ptr_add_ref(IProxy<IUnknown> *ptr)
-{
-    ptr->AddRef();
-}
-
-inline void intrusive_ptr_release(IProxy<IUnknown> *ptr)
-{
-    ptr->Release();
-}
-
-inline void intrusive_ptr_add_ref(IUnknown *ptr)
-{
-    ptr->AddRef();
-}
-
-inline void intrusive_ptr_release(IUnknown *ptr)
-{
-    ptr->Release();
-}
+} // namespace D3D9

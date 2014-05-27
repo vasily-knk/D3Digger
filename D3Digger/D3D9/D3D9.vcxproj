@@ -99,6 +99,9 @@
     <ProjectReference Include="..\Client\Client.vcxproj">
       <Project>{6518cc23-871d-46b8-962f-ad1022f14101}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\LocalServer\LocalServer.vcxproj">
+      <Project>{957eed4d-5f28-4fdb-bade-256999c9e6cc}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="exports.def" />

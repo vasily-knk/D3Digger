@@ -1,7 +1,7 @@
 #pragma once
 
 #include "common/interface.h"
-#include "IProxy.h"
+#include "d3d9/IProxy.h"
 #include "ProxyFactory.h"
 
 namespace D3D9

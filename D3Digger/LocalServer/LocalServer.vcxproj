@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{6518CC23-871D-46B8-962F-AD1022F14101}</ProjectGuid>
+    <ProjectGuid>{957EED4D-5F28-4FDB-BADE-256999C9E6CC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Client</RootNamespace>
+    <RootNamespace>LocalServer</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -71,17 +71,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="IGlobal.h" />
-    <ClInclude Include="ProxyFactory.h" />
-    <ClInclude Include="IProxyMap.h" />
-    <ClInclude Include="ProxyBase.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GlobalImpl.cpp" />
-    <ClCompile Include="ProxyBase.cpp" />
-    <ClCompile Include="ProxyFactory.cpp" />
-    <ClCompile Include="ProxyMapImpl.cpp" />
+    <ClCompile Include="ExecutorImpl.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
