@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "IProcMap.h"
+#include "d3d9/Server/IProcMap.h"
 
 namespace D3D9
 {
@@ -24,6 +24,12 @@ private:
     Bimap bimap_;
     ProxyId nextProxyId_;
 };
+
+IProcMapPtr createProcMap()
+{
+    return make_shared<ProcMapImpl>();
+}
+
 
 ProcMapImpl::ProcMapImpl()
     : nextProxyId_(0)

@@ -22,6 +22,7 @@
     <ClInclude Include="d3d9\InterfacesList.h" />
     <ClInclude Include="d3d9\Methods.h" />
     <ClInclude Include="d3d9\Server\IProc.h" />
+    <ClInclude Include="d3d9\Server\IProcMap.h" />
     <ClInclude Include="d3d9\undef.h" />
     <ClInclude Include="d3d9\wrap.h" />
   </ItemGroup>

@@ -3,6 +3,7 @@
 #include "d3d9/Client/IExecutor.h"
 #include "d3d9/Server/IProc.h"
 #include "d3d9/InterfacesList.h"
+#include "d3d9/Server/IProcMap.h"
 
 namespace D3D9
 {
@@ -34,6 +35,8 @@ private:
     mutex mutex_;
     condition_variable cond_;
     bool isComplete_;
+
+    Server::IProcMapPtr procMap_;
 
 private:
     vector<vector<Method>> getMethods() const;

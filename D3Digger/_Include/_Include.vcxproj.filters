@@ -54,5 +54,8 @@
     <ClInclude Include="d3d9\InterfacesList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="d3d9\Server\IProcMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

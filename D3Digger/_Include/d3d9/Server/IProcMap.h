@@ -14,7 +14,7 @@ typedef uint32_t ProxyId;
 struct IProcMap;
 typedef shared_ptr<IProcMap> IProcMapPtr;
 
-IProcMapPtr createProxyMap();		
+IProcMapPtr createProcMap();		
 
 struct IProcMap 
     : Interface

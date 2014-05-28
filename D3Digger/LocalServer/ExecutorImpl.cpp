@@ -16,6 +16,7 @@ ExecutorImpl::ExecutorImpl()
     : serviceWork_(service_)
     , serviceThread_(bind(&IOService::run, &service_))
     , isComplete_(true)
+    , procMap_(Server::createProcMap())
 {
 
 }
@@ -65,10 +66,24 @@ void ExecutorImpl::execute(MethodId const &id, BytesPtr srcArgs, BytesPtr dstArg
 
 void ExecutorImpl::Direct3DCreate9(BytesPtr srcArgs, BytesPtr dstArgs) const
 {   
-    (void)srcArgs;
-    (void)dstArgs;
+    struct 
+    {
+        UINT SDKVersion;
+    } args;
 
-    bytes::put(uint32_t(0), dstArgs);
+    bytes::getter g(srcArgs);
+    args.SDKVersion = g.get<UINT>();
+    
+    static auto dll = LoadLibrary(L"C:\\Windows\\System32\\d3d9.dll");
+    typedef IDirect3D9* (WINAPI *fn_t)(UINT);
+
+    auto fn = reinterpret_cast<fn_t>(GetProcAddress(dll, "Direct3DCreate9"));
+
+    IDirect3D9 *ptr = fn(args.SDKVersion);
+    assert(ptr);
+
+    uint32_t id = procMap_->getProxyID(ptr);
+    bytes::put(id, dstArgs);
 }
 
 ExecutorImpl::Method ExecutorImpl::getMethod(MethodId const &id) const
