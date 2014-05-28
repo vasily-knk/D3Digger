@@ -2,6 +2,11 @@
 
 #include "IProxy.h"
 
+namespace D3D9
+{
+namespace Client
+{
+
 struct IGlobal
     : Interface
 {
@@ -12,5 +17,9 @@ struct IGlobal
 };
 
 IGlobal &getGlobal();
+
+} // namespace Client
+
+} // namespace D3D9
 
 #define LOG(str) getGlobal().log() << str << std::endl << std::flush;

@@ -33,9 +33,6 @@
     <ClInclude Include="d3d9\wrap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="d3d9\Global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="d3d9\Methods.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -45,10 +42,19 @@
     <ClInclude Include="common\signals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="d3d9\IExecutor.h">
+    <ClInclude Include="d3d9\Client\Global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="d3d9\IProxy.h">
+    <ClInclude Include="d3d9\Client\IExecutor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d9\Client\IProxy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d9\Server\IProc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d9\InterfacesList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

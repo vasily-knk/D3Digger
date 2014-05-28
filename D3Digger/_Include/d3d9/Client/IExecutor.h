@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IProxy.h"
+//#include "IProxy.h"
 #include "d3d9/Methods.h"
 #include "common/bytes.h"
 

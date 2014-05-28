@@ -15,12 +15,14 @@
     <ClInclude Include="common\common.h" />
     <ClInclude Include="common\interface.h" />
     <ClInclude Include="common\signals.h" />
+    <ClInclude Include="d3d9\Client\Global.h" />
+    <ClInclude Include="d3d9\Client\IExecutor.h" />
+    <ClInclude Include="d3d9\Client\IProxy.h" />
     <ClInclude Include="d3d9\decl.h" />
     <ClInclude Include="d3d9\def.h" />
-    <ClInclude Include="d3d9\Global.h" />
-    <ClInclude Include="d3d9\IExecutor.h" />
-    <ClInclude Include="d3d9\IProxy.h" />
+    <ClInclude Include="d3d9\InterfacesList.h" />
     <ClInclude Include="d3d9\Methods.h" />
+    <ClInclude Include="d3d9\Server\IProc.h" />
     <ClInclude Include="d3d9\undef.h" />
     <ClInclude Include="d3d9\wrap.h" />
   </ItemGroup>

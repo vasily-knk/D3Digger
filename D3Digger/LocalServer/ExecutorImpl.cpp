@@ -63,7 +63,22 @@ void ExecutorImpl::execute(MethodId const &id, BytesPtr srcArgs, BytesPtr dstArg
     cond_.notify_all();
 }
 
+void ExecutorImpl::Direct3DCreate9(BytesPtr srcArgs, BytesPtr dstArgs) const
+{   
+    (void)srcArgs;
+    (void)dstArgs;
+
+    int i = 5;
+}
+
+ExecutorImpl::Method ExecutorImpl::getMethod(MethodId const &id) const
+{
+    static auto methods = getMethods();
+    return methods.at(static_cast<size_t>(id.first)).at(id.second);
+}
+
+
 
 } // namespace Client
 
-} // namespac
+} // namespace D3D9
