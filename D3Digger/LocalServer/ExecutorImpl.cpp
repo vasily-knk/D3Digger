@@ -68,7 +68,7 @@ void ExecutorImpl::Direct3DCreate9(BytesPtr srcArgs, BytesPtr dstArgs) const
     (void)srcArgs;
     (void)dstArgs;
 
-    int i = 5;
+    bytes::put(uint32_t(0), dstArgs);
 }
 
 ExecutorImpl::Method ExecutorImpl::getMethod(MethodId const &id) const

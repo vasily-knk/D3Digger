@@ -31,7 +31,6 @@ namespace D3D9
 			virtual IProxy<IUnknown> *getByIdImpl(ProxyId id, Creator creator) = 0;
 		};
 
-		typedef shared_ptr<IProxyMap> IProxyMapPtr;
 	} // namespace Client
 
 } // namespace D3D9

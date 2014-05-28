@@ -42,9 +42,6 @@
     <ClInclude Include="common\signals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="d3d9\Client\Global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="d3d9\Client\IExecutor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
