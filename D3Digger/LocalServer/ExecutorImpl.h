@@ -13,13 +13,16 @@ namespace Client
 struct ExecutorImpl
 	: IExecutor
 {
-	ExecutorImpl();
+    
+    ExecutorImpl();
 	~ExecutorImpl();
             
     BytesPtr runSync(MethodId const& id, BytesPtr args) override;
 	void runAsync(MethodId const &id, BytesPtr args) override;
 
 private:
+    void initProcs();
+
     typedef function<void(BytesPtr, BytesPtr)> Method;
     Method getMethod(MethodId const &id) const;
 

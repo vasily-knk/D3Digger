@@ -1,6 +1,6 @@
 MY_BEGIN_INTERFACE(IUnknown)
 
-    MY_STDMETHOD(QueryInterface, ( REFIID riid, void** ppvObj) ) 
+        MY_STDMETHOD(QueryInterface, ( REFIID riid, void** ppvObj) ) 
     MY_STDMETHOD_(ULONG,AddRef, () ) 
     MY_STDMETHOD_(ULONG,Release, () ) 
 MY_END_INTERFACE

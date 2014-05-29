@@ -18,7 +18,17 @@ ExecutorImpl::ExecutorImpl()
     , isComplete_(true)
     , procMap_(Server::createProcMap())
 {
+    initProcs();
+}
 
+void ExecutorImpl::initProcs()
+{
+    Server::CreateProcArgs args;
+    args.procMap = procMap_;
+
+#define EXECUTORIMPL_INIT_PROC(name) proc##name##_ = Server::createProc<name>(args);
+    D3D9_LIST_FINAL_INTERFACES(EXECUTORIMPL_INIT_PROC)
+#undef EXECUTORIMPL_INIT_PROC
 }
 
 ExecutorImpl::~ExecutorImpl()
