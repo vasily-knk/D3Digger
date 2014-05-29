@@ -57,7 +57,7 @@ class ServerProcGenerator extends CodeGeneratorBase(ServerProcGenerator.head, Se
                         case ArgType("REFGUID", false, 0, isIn) => ArgType("GUID", false, 0, isIn)
 
                         case ArgType(name, false, 0, isIn) => t
-                        case ArgType(name, _, 1, isIn) => ArgType(name, false, 0, isIn)
+                        case ArgType(name, _, 1, isIn) => ArgType("optional<%s>".format(name), false, 0, isIn)
                     }
                 //}
             }
@@ -103,19 +103,45 @@ class ServerProcGenerator extends CodeGeneratorBase(ServerProcGenerator.head, Se
                 sb ++= str
             })
 
-            sb ++= "assert(g.left() == 0);\r\n"
+            //sb ++= "assert(g.left() == 0);\r\n"
 
-            val isVoid = method.retType.name == "void" && method.retType.ptrDepth == 0
+            val isVoid = method.retType match {
+                case ArgType("void", _, 0, _) => true
+                case ArgType(_, _, 0, _) => false
+            }
 
             if (!isVoid)
                 sb ++= method.retType.toString + " " + "res = "
 
-            val callArgs = method.args.map((arg) => {
-                val amp = if (needsAmp(arg.argType)) "&" else ""
-                amp + "args." + arg.name
-            }).mkString(", ")
+            val callArgs0 = method.args.map(_ match {
+                case Arg(argType, name) => Arg(argType, "args." + name)
+            })
 
-            sb ++= "self->" + method.name + "(" + callArgs + ");\r\n"
+            val callArgs = callArgs0.map((arg) => {
+                arg.argType match {
+                    case ArgType(InOuts.IName(name), false, 1, isIn) => arg.name
+                    case ArgType(InOuts.IName(name), false, 2, isIn) => "&" + arg.name
+
+                    case ArgType(name, false, 0, isIn) => arg.name
+                    case ArgType(name, _, 1, isIn) => "opt2ptr(%s)".format(arg.name)
+                }
+            })
+
+
+            sb ++= "self->" + method.name + "(" + callArgs.mkString("," ) + ");\r\n"
+
+            if (!isVoid)
+                sb ++= "bytes::put<%s>(res, dstBytes);\r\n".format(method.retType.name)
+
+            outs.foreach((arg) => {
+                val str = arg.argType match {
+                    case ArgType(InOuts.IName(_), false, 1, _) => "bytes::put<ProxyId>(procMap_->getProxyID(args.%s), dstBytes);".format(arg.name)
+                    case ArgType(typeName, false, 0, _) => "bytes::put<%s>(args.%s, dstBytes);".format(typeName, arg.name)
+                }
+                sb ++= str
+                sb ++= "\r\n"
+            })
+
 
             sb.toString()
         } catch {

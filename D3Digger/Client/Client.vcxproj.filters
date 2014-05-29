@@ -30,6 +30,12 @@
     <ClInclude Include="ProxyFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ProxyImpl_Device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProxyImpl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -45,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ProxyFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProxyImpl_Device.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -26,21 +26,14 @@ object ClientProxyGenerator {
     }
 
     private def wrapStr(arg: Arg): String = arg.argType match {
+        case ArgType(InOuts.IName(innerName), false, 1, _) => "dynamic_cast<IProxy<%s>*>(%s)->getId()".format(InOuts.IName(innerName), arg.name)
         case ArgType(_, _, 0, _) => arg.name
-        case ArgType(typeName, _, 1, _) =>
-            if (InOuts.checkTypeName(typeName))
-                "dynamic_cast<IProxy<%s>*>(%s)->getId()".format(typeName, arg.name)
-            else
-                "*%s".format(arg.name)
+        case ArgType(_, _, 1, _) => "ptr2opt(%s)".format(arg.name)
     }
 
     private def unwrapStr(arg: Arg): String = arg.argType match {
+        case ArgType(InOuts.IName(innerName), false, 2, _) => "getGlobal().proxyMap().getById<%s>(g.get<ProxyId>())".format(InOuts.IName(innerName))
         case ArgType(typeName, false, 1, _) => "g.get<%s>()".format(typeName)
-        case ArgType(typeName, _, 2, _) =>
-            if (InOuts.checkTypeName(typeName))
-                "getGlobal().proxyMap().getById<%s>(g.get<ProxyId>())".format(typeName)
-            else
-                throw new RuntimeException("Unexpected out arg: " + arg)
     }
 }
 

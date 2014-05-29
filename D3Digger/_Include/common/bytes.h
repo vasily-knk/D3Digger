@@ -51,6 +51,20 @@ void put(const T &data, bytes_ptr bytes, typename std::enable_if<std::is_pod<T>:
     *reinterpret_cast<T*>(&bytes->at(offset)) = data;
 }
 
+template<typename T>
+void put(optional<T> const &data, bytes_ptr bytes)
+{
+    if (data)
+    {
+        put(uint8_t(1), bytes);
+        put(*data, bytes);
+    }
+    else
+    {
+        put(uint8_t(0), bytes);
+    }
+}
+
 /*template<typename T>
 void put(T data, bytes_ptr bytes, typename std::enable_if<std::is_enum<T>::value>::type* = nullptr)
 {
@@ -94,10 +108,16 @@ struct getter
         }
     };
     
-    getter(bytes_ptr bytes)
+    getter(bytes_ptr bytes, bool allowLeft = false)
         : bytes_(bytes)
         , offset_(0)
+        , allowLeft_(allowLeft)
     { }
+
+    ~getter()
+    {
+        assert(allowLeft_ || left() == 0);
+    }
 
     size_t left() const 
     {
@@ -116,6 +136,18 @@ struct getter
         }
         data = *reinterpret_cast<T*>(&bytes_->at(offset_));
         offset_ += size(data);
+    }
+
+    template<typename T>
+    void get(optional<T> &opt)
+    {
+        uint8_t flag;
+        get(flag);
+        if (flag)
+        {
+            opt = T();
+            get(*opt);
+        }
     }
 
     template<typename T>
@@ -148,6 +180,7 @@ struct getter
 private:
     bytes_ptr bytes_;
     size_t offset_;
+    bool allowLeft_;
 };
 
 }

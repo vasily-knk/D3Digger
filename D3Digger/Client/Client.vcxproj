@@ -75,12 +75,15 @@
     <ClInclude Include="ProxyFactory.h" />
     <ClInclude Include="IProxyMap.h" />
     <ClInclude Include="ProxyBase.h" />
+    <ClInclude Include="ProxyImpl.h" />
+    <ClInclude Include="ProxyImpl_Device.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GlobalImpl.cpp" />
     <ClCompile Include="ProxyBase.cpp" />
     <ClCompile Include="ProxyFactory.cpp" />
+    <ClCompile Include="ProxyImpl_Device.cpp" />
     <ClCompile Include="ProxyMapImpl.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

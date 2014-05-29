@@ -4,6 +4,7 @@ import BaseTypes._
 
 object InOuts {
     def isIn(arg: Arg) = arg.argType match {
+        case ArgType(_, _, _, true) => true
         case ArgType(_, _, 0, _) => true
 
         case ArgType("void", _, 1, _) => {

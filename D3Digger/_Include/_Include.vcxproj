@@ -14,6 +14,7 @@
     <ClInclude Include="common\bytes.h" />
     <ClInclude Include="common\common.h" />
     <ClInclude Include="common\interface.h" />
+    <ClInclude Include="common\opt_ptr.h" />
     <ClInclude Include="common\signals.h" />
     <ClInclude Include="d3d9\Client\IExecutor.h" />
     <ClInclude Include="d3d9\Client\IProxy.h" />

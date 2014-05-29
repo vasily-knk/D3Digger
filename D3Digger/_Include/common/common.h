@@ -67,6 +67,7 @@ typedef boost::asio::io_service IOService;
 
 #include <boost/optional.hpp>
 using boost::optional;
+using boost::none;
 
 #include <boost/intrusive_ptr.hpp>
 using boost::intrusive_ptr;
@@ -84,3 +85,5 @@ using std::mutex;
 #include <condition_variable>
 using std::condition_variable;
 
+
+#include "opt_ptr.h"

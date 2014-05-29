@@ -57,5 +57,8 @@
     <ClInclude Include="d3d9\Server\IProcMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="common\opt_ptr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
