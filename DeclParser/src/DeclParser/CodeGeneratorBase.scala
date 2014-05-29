@@ -3,7 +3,7 @@ package DeclParser
 import BaseTypes._
 
 abstract class CodeGeneratorBase(head: String, namespaces: List[String]) extends CodeGenerator {
-    def process(interfaces: Interfaces) : String = {
+    final def process(interfaces: Interfaces) : String = {
         val sb = new StringBuilder
 
         sb ++= head
@@ -32,23 +32,21 @@ abstract class CodeGeneratorBase(head: String, namespaces: List[String]) extends
     }
 
     private def processInterface(interface: Interface) : String = {
-        def methodText(m0: StdMethod) : String = {
-            val m = fixUnnamedArgs(m0)
-
-            val argsString = m.args.map((arg) => arg.argType + (arg.name match {
-                case Some(name) => " " + name
-            })).mkString(", ")
-
+        def methodText(m: StdMethod) : String = {
+            val argsString = methodArgs(interface, m)
             val unshiftedBody = methodBody(interface, m)
+
             val bodyLines = unshiftedBody.split("\\r?\\n").map((line) => "    " + line)
             val body = bodyLines.mkString("\r\n")
+
+            val ret = methodRet(interface, m)
 
             """%s %s::%s(%s)
               |{
               |%s
               |}
               |
-              |""".stripMargin.format(m.retType, interfaceName(interface), m.name, argsString, body)
+              |""".stripMargin.format(ret, interfaceName(interface), m.name, argsString, body)
         }
 
         val sb = new StringBuilder
@@ -62,25 +60,12 @@ abstract class CodeGeneratorBase(head: String, namespaces: List[String]) extends
         sb.toString()
     }
 
-    private def fixUnnamedArgs(args: Args) : Args = {
-        var counter: Int = 0
-
-        def newName(): String = {
-            val res = "unnamed" + counter.toString
-            counter += 1
-            res
-        }
-
-        args.map(
-            (arg) => Arg(arg.argType, arg.name match {
-                case Some(s) => Some(s)
-                case None => Some(newName())
-            })
-        )
+    def methodArgs(interface: Interface, method: StdMethod) : String = {
+        method.args.map((arg) => arg.argType + " " + arg.name).mkString(", ")
     }
 
-    private def fixUnnamedArgs(m: StdMethod) : StdMethod = {
-        StdMethodRet(m.name, m.retType, fixUnnamedArgs(m.args))
+    def methodRet(interface: Interface, method: StdMethod) : String = {
+        method.retType.toString
     }
 
     def interfaceName(interface: Interface) : String

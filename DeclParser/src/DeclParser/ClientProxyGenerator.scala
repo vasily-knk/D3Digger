@@ -13,24 +13,8 @@ object ClientProxyGenerator {
 
     private val namespaces = List("D3D9", "Client")
 
-    private def getIns(m: StdMethod): Args = m.args.filter((arg) => arg.argType match {
-        case ArgType(_, _, 0, _) => true
-        case ArgType("void", _, 1, _) => {
-            println("void*: " + m.name)
-            false
-        } // Fixme
-        case ArgType(_, true, 1, _) => true
-        case ArgType(typeName, false, 1, _) => checkTypeName(typeName)
-        case ArgType(_, _, 2, _) => false
-    })
-
-    private def getOuts(m: StdMethod): Args = m.args.filter((arg) => arg.argType match {
-        case ArgType(_, _, 0, _) => false
-        case ArgType("void", _, 1, _) => false // Fixme
-        case ArgType(_, true, 1, _) => false
-        case ArgType(typeName, false, 1, _) => !checkTypeName(typeName)
-        case ArgType(typeName, _, 2, _) => checkTypeName(typeName)
-    })
+    private def getIns(m: StdMethod): Args = m.args.filter(InOuts.isIn)
+    private def getOuts(m: StdMethod): Args = m.args.filter(InOuts.isOut)
 
     private def isAsync(m: StdMethod) = {
         val noRet = m.retType match {
@@ -41,28 +25,19 @@ object ClientProxyGenerator {
         noRet && getOuts(m).isEmpty
     }
 
-    private def checkTypeName(name: String) = {
-        val pattern = """IDirect3D(\w*)9""".r
-
-        name match {
-            case pattern(str) => true
-            case _ => false
-        }
-    }
-
     private def wrapStr(arg: Arg): String = arg.argType match {
-        case ArgType(_, _, 0, _) => arg.name.get
+        case ArgType(_, _, 0, _) => arg.name
         case ArgType(typeName, _, 1, _) =>
-            if (checkTypeName(typeName))
-                "dynamic_cast<IProxy<%s>*>(%s)->getId()".format(typeName, arg.name.get)
+            if (InOuts.checkTypeName(typeName))
+                "dynamic_cast<IProxy<%s>*>(%s)->getId()".format(typeName, arg.name)
             else
-                "*%s".format(arg.name.get)
+                "*%s".format(arg.name)
     }
 
     private def unwrapStr(arg: Arg): String = arg.argType match {
         case ArgType(typeName, false, 1, _) => "g.get<%s>()".format(typeName)
         case ArgType(typeName, _, 2, _) =>
-            if (checkTypeName(typeName))
+            if (InOuts.checkTypeName(typeName))
                 "getGlobal().proxyMap().getById<%s>(g.get<ProxyId>())".format(typeName)
             else
                 throw new RuntimeException("Unexpected out arg: " + arg)
@@ -116,7 +91,7 @@ class ClientProxyGenerator extends CodeGeneratorBase(ClientProxyGenerator.head, 
           |""".stripMargin.format(getMethodId(interface, method))
     }
     private def methodBodyQueryInterface(interface: Interface, method: StdMethod) : String = {
-        val ptrArgName = method.args(1).name.get
+        val ptrArgName = method.args(1).name
 
         """if (!%s)
           |    return E_POINTER;
@@ -169,7 +144,7 @@ class ClientProxyGenerator extends CodeGeneratorBase(ClientProxyGenerator.head, 
             }
 
             outs.foreach((a) => {
-                sb ++= "*%s = %s;\r\n".format(a.name.get, unwrapStr(a))
+                sb ++= "*%s = %s;\r\n".format(a.name, unwrapStr(a))
             })
 
             if (!isVoid)

@@ -75,6 +75,7 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ProcBase.cpp" />
     <ClCompile Include="ProcFactory.cpp" />
     <ClCompile Include="ProcMapImpl.cpp" />
     <ClCompile Include="stdafx.cpp">

@@ -26,7 +26,7 @@ class ParserImpl extends  JavaTokenParsers with InterfacesParser{
     }
 
     def argType: Parser[ArgType] = inType ~ constType ~ ident ~ stars ^^ { case isIn ~ isConst ~ name ~ depth => ArgType(name, isConst, depth, isIn) }
-    def arg: Parser[Arg] = argType ~ (ident?) ^^ { case t ~ name => Arg(t, name) }
+    def arg: Parser[Arg] = argType ~ ident ^^ { case t ~ name => Arg(t, name) }
 
     def emptyArgs: Parser[Args] = "THIS" ^^ { case str => Nil }
     def nonEmptyArgs: Parser[Args] = "THIS_" ~> repsep(arg, ",")

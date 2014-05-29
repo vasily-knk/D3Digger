@@ -30,7 +30,7 @@ struct IProcMap
 
         GUID guid = getGuid<T>();
         T* dst;
-        HRESULT res = p->QueryInterface(guid, &dst);
+        HRESULT res = p->QueryInterface(guid, reinterpret_cast<void**>(&dst));
         assert(SUCCEEDED(res));
         assert(dst);
 

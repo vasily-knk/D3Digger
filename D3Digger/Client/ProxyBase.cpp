@@ -887,12 +887,12 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetTransform(D3DTRANSFORMSTATETYPE State, D
     return ret;
 }
 
-HRESULT ProxyBase<IDirect3DDevice9>::MultiplyTransform(D3DTRANSFORMSTATETYPE unnamed0, const D3DMATRIX* unnamed1)
+HRESULT ProxyBase<IDirect3DDevice9>::MultiplyTransform(D3DTRANSFORMSTATETYPE transform, const D3DMATRIX* matrix)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
-    bytes::put(unnamed0, inBytes);
-    bytes::put(*unnamed1, inBytes);
+    bytes::put(transform, inBytes);
+    bytes::put(*matrix, inBytes);
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::MultiplyTransform), inBytes);
     
@@ -947,19 +947,19 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetMaterial(D3DMATERIAL9* pMaterial)
     return ret;
 }
 
-HRESULT ProxyBase<IDirect3DDevice9>::SetLight(DWORD Index, const D3DLIGHT9* unnamed0)
+HRESULT ProxyBase<IDirect3DDevice9>::SetLight(DWORD Index, const D3DLIGHT9* pLight)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(Index, inBytes);
-    bytes::put(*unnamed0, inBytes);
+    bytes::put(*pLight, inBytes);
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::SetLight), inBytes);
     
     return D3D_OK;
 }
 
-HRESULT ProxyBase<IDirect3DDevice9>::GetLight(DWORD Index, D3DLIGHT9* unnamed0)
+HRESULT ProxyBase<IDirect3DDevice9>::GetLight(DWORD Index, D3DLIGHT9* pLight)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
@@ -969,7 +969,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetLight(DWORD Index, D3DLIGHT9* unnamed0)
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *unnamed0 = g.get<D3DLIGHT9>();
+    *pLight = g.get<D3DLIGHT9>();
     return ret;
 }
 
@@ -1340,11 +1340,11 @@ HRESULT ProxyBase<IDirect3DDevice9>::DrawPrimitive(D3DPRIMITIVETYPE PrimitiveTyp
     return D3D_OK;
 }
 
-HRESULT ProxyBase<IDirect3DDevice9>::DrawIndexedPrimitive(D3DPRIMITIVETYPE unnamed0, INT BaseVertexIndex, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT primCount)
+HRESULT ProxyBase<IDirect3DDevice9>::DrawIndexedPrimitive(D3DPRIMITIVETYPE PrimitiveType, INT BaseVertexIndex, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT primCount)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
-    bytes::put(unnamed0, inBytes);
+    bytes::put(PrimitiveType, inBytes);
     bytes::put(BaseVertexIndex, inBytes);
     bytes::put(MinVertexIndex, inBytes);
     bytes::put(NumVertices, inBytes);
@@ -2164,7 +2164,7 @@ HRESULT ProxyBase<IDirect3DVertexShader9>::GetDevice(IDirect3DDevice9** ppDevice
     return ret;
 }
 
-HRESULT ProxyBase<IDirect3DVertexShader9>::GetFunction(void* unnamed0, UINT* pSizeOfData)
+HRESULT ProxyBase<IDirect3DVertexShader9>::GetFunction(void* pFunction, UINT* pSizeOfData)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
@@ -2230,7 +2230,7 @@ HRESULT ProxyBase<IDirect3DPixelShader9>::GetDevice(IDirect3DDevice9** ppDevice)
     return ret;
 }
 
-HRESULT ProxyBase<IDirect3DPixelShader9>::GetFunction(void* unnamed0, UINT* pSizeOfData)
+HRESULT ProxyBase<IDirect3DPixelShader9>::GetFunction(void* pFunction, UINT* pSizeOfData)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);

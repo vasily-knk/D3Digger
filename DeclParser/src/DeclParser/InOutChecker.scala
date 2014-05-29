@@ -40,10 +40,7 @@ class InOutChecker extends InterfacesProcessor {
         val in = m.args.filter(checkIn)
         val out = m.args.filter(checkOut)
 
-        def argName(arg: Arg) = arg.name match {
-          case Some(name) => name
-          case None => "?"
-        }
+        def argName(arg: Arg) = arg.name
 
         val inNames = in.map(argName)
         val outNames = out.map(argName)

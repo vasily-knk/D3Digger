@@ -99,6 +99,12 @@ struct getter
         , offset_(0)
     { }
 
+    size_t left() const 
+    {
+        assert(offset_ <= bytes_->size());
+        return bytes_->size() - offset_;
+    }
+    
     template<typename T>
     void get(T &data, typename std::enable_if<std::is_pod<T>::value>::type* = nullptr)
     {

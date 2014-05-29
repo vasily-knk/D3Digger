@@ -8,10 +8,15 @@ object Main extends App {
     val srcText = Source.fromFile("src.txt").mkString
     val interfaces = new ParserImpl().parse(srcText)
 
-    val generator = new ClientProxyGenerator
-    val dstText = generator.process(interfaces)
+    def go(proc: CodeGenerator, filename: String) {
+        val text = proc.process(interfaces)
 
-    val pw = new PrintWriter(new File("dst.txt"))
-    pw.print(dstText)
-    pw.close()
+        val pw = new PrintWriter(new File(filename))
+        pw.print(text)
+        pw.close()
+    }
+
+    //new PPChecker().check(interfaces)
+    go(new ClientProxyGenerator, "ProxyBase.cpp")
+    go(new ServerProcGenerator, "ProcBase.cpp")
 }

@@ -4,8 +4,8 @@ object BaseTypes {
     case class ArgType(name: String, isConst: Boolean, ptrDepth: Int, isIn: Boolean) {
         override val toString: String = (if (isConst) "const " else "") + name + "*" * ptrDepth
     }
-    case class Arg(argType: ArgType, name: Option[String]) {
-        override val toString: String = argType + " " + name.getOrElse("")
+    case class Arg(argType: ArgType, name: String) {
+        override val toString: String = argType + " " + name
     }
     type Args = List[Arg]
 

@@ -69,13 +69,13 @@ DECLARE_INTERFACE_(IDirect3DDevice9, IUnknown)
     STDMETHOD(Clear)(THIS_ DWORD Count,CONST D3DRECT* pRects,DWORD Flags,D3DCOLOR Color,float Z,DWORD Stencil) PURE;
     STDMETHOD(SetTransform)(THIS_ D3DTRANSFORMSTATETYPE State,CONST D3DMATRIX* pMatrix) PURE;
     STDMETHOD(GetTransform)(THIS_ D3DTRANSFORMSTATETYPE State,D3DMATRIX* pMatrix) PURE;
-    STDMETHOD(MultiplyTransform)(THIS_ D3DTRANSFORMSTATETYPE,CONST D3DMATRIX*) PURE;
+    STDMETHOD(MultiplyTransform)(THIS_ D3DTRANSFORMSTATETYPE transform,CONST D3DMATRIX* matrix) PURE;
     STDMETHOD(SetViewport)(THIS_ CONST D3DVIEWPORT9* pViewport) PURE;
     STDMETHOD(GetViewport)(THIS_ D3DVIEWPORT9* pViewport) PURE;
     STDMETHOD(SetMaterial)(THIS_ CONST D3DMATERIAL9* pMaterial) PURE;
     STDMETHOD(GetMaterial)(THIS_ D3DMATERIAL9* pMaterial) PURE;
-    STDMETHOD(SetLight)(THIS_ DWORD Index,CONST D3DLIGHT9*) PURE;
-    STDMETHOD(GetLight)(THIS_ DWORD Index,D3DLIGHT9*) PURE;
+    STDMETHOD(SetLight)(THIS_ DWORD Index,CONST D3DLIGHT9* pLight) PURE;
+    STDMETHOD(GetLight)(THIS_ DWORD Index,D3DLIGHT9* pLight) PURE;
     STDMETHOD(LightEnable)(THIS_ DWORD Index,BOOL Enable) PURE;
     STDMETHOD(GetLightEnable)(THIS_ DWORD Index,BOOL* pEnable) PURE;
     STDMETHOD(SetClipPlane)(THIS_ DWORD Index,CONST float* pPlane) PURE;
@@ -105,7 +105,7 @@ DECLARE_INTERFACE_(IDirect3DDevice9, IUnknown)
     STDMETHOD(SetNPatchMode)(THIS_ float nSegments) PURE;
     STDMETHOD_(float, GetNPatchMode)(THIS) PURE;
     STDMETHOD(DrawPrimitive)(THIS_ D3DPRIMITIVETYPE PrimitiveType,UINT StartVertex,UINT PrimitiveCount) PURE;
-    STDMETHOD(DrawIndexedPrimitive)(THIS_ D3DPRIMITIVETYPE,INT BaseVertexIndex,UINT MinVertexIndex,UINT NumVertices,UINT startIndex,UINT primCount) PURE;
+    STDMETHOD(DrawIndexedPrimitive)(THIS_ D3DPRIMITIVETYPE PrimitiveType,INT BaseVertexIndex,UINT MinVertexIndex,UINT NumVertices,UINT startIndex,UINT primCount) PURE;
     STDMETHOD(DrawPrimitiveUP)(THIS_ D3DPRIMITIVETYPE PrimitiveType,UINT PrimitiveCount,CONST void* pVertexStreamZeroData,UINT VertexStreamZeroStride) PURE;
     STDMETHOD(DrawIndexedPrimitiveUP)(THIS_ D3DPRIMITIVETYPE PrimitiveType,UINT MinVertexIndex,UINT NumVertices,UINT PrimitiveCount,CONST void* pIndexData,D3DFORMAT IndexDataFormat,CONST void* pVertexStreamZeroData,UINT VertexStreamZeroStride) PURE;
     STDMETHOD(ProcessVertices)(THIS_ UINT SrcStartIndex,UINT DestIndex,UINT VertexCount,IDirect3DVertexBuffer9* pDestBuffer,IDirect3DVertexDeclaration9* pVertexDecl,DWORD Flags) PURE;
@@ -188,7 +188,7 @@ DECLARE_INTERFACE_(IDirect3DVertexShader9, IUnknown)
     STDMETHOD_(ULONG,Release)(THIS) PURE;
 
     STDMETHOD(GetDevice)(THIS_ IDirect3DDevice9** ppDevice) PURE;
-    STDMETHOD(GetFunction)(THIS_ void*,UINT* pSizeOfData) PURE;
+    STDMETHOD(GetFunction)(THIS_ void* pFunction ,UINT* pSizeOfData) PURE;
 };
 
 DECLARE_INTERFACE_(IDirect3DPixelShader9, IUnknown)
@@ -198,7 +198,7 @@ DECLARE_INTERFACE_(IDirect3DPixelShader9, IUnknown)
     STDMETHOD_(ULONG,Release)(THIS) PURE;
 
     STDMETHOD(GetDevice)(THIS_ IDirect3DDevice9** ppDevice) PURE;
-    STDMETHOD(GetFunction)(THIS_ void*,UINT* pSizeOfData) PURE;
+    STDMETHOD(GetFunction)(THIS_ void* pFunction ,UINT* pSizeOfData) PURE;
 };
 
 DECLARE_INTERFACE_(IDirect3DTexture9, IDirect3DBaseTexture9)
