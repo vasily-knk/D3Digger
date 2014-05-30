@@ -24,7 +24,7 @@ struct ProcBase;
 #define MY_BEGIN_INTERFACE_(name, parent) MY_BEGIN_INTERFACE(name)
 
 #define MY_END_INTERFACE \
-	private: \
+	protected: \
         IProcMapPtr procMap_; \
 	};
 

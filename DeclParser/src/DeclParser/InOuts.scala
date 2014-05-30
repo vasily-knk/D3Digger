@@ -11,8 +11,8 @@ object InOuts {
             false
         } // Fixme
 
-        case ArgType(_, true, 1, _) => true
-        case ArgType(typeName, false, 1, _) => checkTypeName(typeName)
+        case ArgType(_, _, 1, _) => true
+        //case ArgType(typeName, false, 1, _) => checkTypeName(typeName)
         case ArgType(_, _, 2, _) => false
     }
 

@@ -73,12 +73,13 @@ HRESULT ProxyBase<IDirect3D9>::GetAdapterIdentifier(UINT Adapter, DWORD Flags, D
     bytes::put(getId(), inBytes);
     bytes::put(Adapter, inBytes);
     bytes::put(Flags, inBytes);
+    bytes::put(ptr2opt(pIdentifier), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3D9, Methods_IDirect3D9::GetAdapterIdentifier), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pIdentifier = g.get<D3DADAPTER_IDENTIFIER9>();
+    if (pIdentifier) *pIdentifier = g.get<D3DADAPTER_IDENTIFIER9>();
     return ret;
 }
 
@@ -103,12 +104,13 @@ HRESULT ProxyBase<IDirect3D9>::EnumAdapterModes(UINT Adapter, D3DFORMAT Format, 
     bytes::put(Adapter, inBytes);
     bytes::put(Format, inBytes);
     bytes::put(Mode, inBytes);
+    bytes::put(ptr2opt(pMode), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3D9, Methods_IDirect3D9::EnumAdapterModes), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pMode = g.get<D3DDISPLAYMODE>();
+    if (pMode) *pMode = g.get<D3DDISPLAYMODE>();
     return ret;
 }
 
@@ -117,12 +119,13 @@ HRESULT ProxyBase<IDirect3D9>::GetAdapterDisplayMode(UINT Adapter, D3DDISPLAYMOD
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(Adapter, inBytes);
+    bytes::put(ptr2opt(pMode), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3D9, Methods_IDirect3D9::GetAdapterDisplayMode), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pMode = g.get<D3DDISPLAYMODE>();
+    if (pMode) *pMode = g.get<D3DDISPLAYMODE>();
     return ret;
 }
 
@@ -166,12 +169,13 @@ HRESULT ProxyBase<IDirect3D9>::CheckDeviceMultiSampleType(UINT Adapter, D3DDEVTY
     bytes::put(SurfaceFormat, inBytes);
     bytes::put(Windowed, inBytes);
     bytes::put(MultiSampleType, inBytes);
+    bytes::put(ptr2opt(pQualityLevels), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3D9, Methods_IDirect3D9::CheckDeviceMultiSampleType), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pQualityLevels = g.get<DWORD>();
+    if (pQualityLevels) *pQualityLevels = g.get<DWORD>();
     return ret;
 }
 
@@ -210,12 +214,13 @@ HRESULT ProxyBase<IDirect3D9>::GetDeviceCaps(UINT Adapter, D3DDEVTYPE DeviceType
     bytes::put(getId(), inBytes);
     bytes::put(Adapter, inBytes);
     bytes::put(DeviceType, inBytes);
+    bytes::put(ptr2opt(pCaps), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3D9, Methods_IDirect3D9::GetDeviceCaps), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pCaps = g.get<D3DCAPS9>();
+    if (pCaps) *pCaps = g.get<D3DCAPS9>();
     return ret;
 }
 
@@ -246,7 +251,7 @@ HRESULT ProxyBase<IDirect3D9>::CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType,
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pPresentationParameters = g.get<D3DPRESENT_PARAMETERS>();
+    if (pPresentationParameters) *pPresentationParameters = g.get<D3DPRESENT_PARAMETERS>();
     *ppReturnedDeviceInterface = getGlobal().proxyMap().getById<IDirect3DDevice9>(g.get<ProxyId>());
     return ret;
 }
@@ -340,12 +345,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetDeviceCaps(D3DCAPS9* pCaps)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pCaps), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetDeviceCaps), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pCaps = g.get<D3DCAPS9>();
+    if (pCaps) *pCaps = g.get<D3DCAPS9>();
     return ret;
 }
 
@@ -354,12 +360,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetDisplayMode(UINT iSwapChain, D3DDISPLAYM
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(iSwapChain, inBytes);
+    bytes::put(ptr2opt(pMode), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetDisplayMode), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pMode = g.get<D3DDISPLAYMODE>();
+    if (pMode) *pMode = g.get<D3DDISPLAYMODE>();
     return ret;
 }
 
@@ -367,12 +374,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetCreationParameters(D3DDEVICE_CREATION_PA
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pParameters), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetCreationParameters), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pParameters = g.get<D3DDEVICE_CREATION_PARAMETERS>();
+    if (pParameters) *pParameters = g.get<D3DDEVICE_CREATION_PARAMETERS>();
     return ret;
 }
 
@@ -423,7 +431,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateAdditionalSwapChain(D3DPRESENT_PARAME
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pPresentationParameters = g.get<D3DPRESENT_PARAMETERS>();
+    if (pPresentationParameters) *pPresentationParameters = g.get<D3DPRESENT_PARAMETERS>();
     *pSwapChain = getGlobal().proxyMap().getById<IDirect3DSwapChain9>(g.get<ProxyId>());
     return ret;
 }
@@ -458,12 +466,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::Reset(D3DPRESENT_PARAMETERS* pPresentationP
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pPresentationParameters), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::Reset), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pPresentationParameters = g.get<D3DPRESENT_PARAMETERS>();
+    if (pPresentationParameters) *pPresentationParameters = g.get<D3DPRESENT_PARAMETERS>();
     return ret;
 }
 
@@ -502,12 +511,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetRasterStatus(UINT iSwapChain, D3DRASTER_
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(iSwapChain, inBytes);
+    bytes::put(ptr2opt(pRasterStatus), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetRasterStatus), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pRasterStatus = g.get<D3DRASTER_STATUS>();
+    if (pRasterStatus) *pRasterStatus = g.get<D3DRASTER_STATUS>();
     return ret;
 }
 
@@ -538,11 +548,12 @@ void ProxyBase<IDirect3DDevice9>::GetGammaRamp(UINT iSwapChain, D3DGAMMARAMP* pR
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(iSwapChain, inBytes);
+    bytes::put(ptr2opt(pRamp), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetGammaRamp), inBytes);
     
     bytes::getter g(outBytes);
-    *pRamp = g.get<D3DGAMMARAMP>();
+    if (pRamp) *pRamp = g.get<D3DGAMMARAMP>();
 }
 
 HRESULT ProxyBase<IDirect3DDevice9>::CreateTexture(UINT Width, UINT Height, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DTexture9** ppTexture, HANDLE* pSharedHandle)
@@ -555,13 +566,14 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateTexture(UINT Width, UINT Height, UINT
     bytes::put(Usage, inBytes);
     bytes::put(Format, inBytes);
     bytes::put(Pool, inBytes);
+    bytes::put(ptr2opt(pSharedHandle), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateTexture), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
     *ppTexture = getGlobal().proxyMap().getById<IDirect3DTexture9>(g.get<ProxyId>());
-    *pSharedHandle = g.get<HANDLE>();
+    if (pSharedHandle) *pSharedHandle = g.get<HANDLE>();
     return ret;
 }
 
@@ -576,13 +588,14 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateVolumeTexture(UINT Width, UINT Height
     bytes::put(Usage, inBytes);
     bytes::put(Format, inBytes);
     bytes::put(Pool, inBytes);
+    bytes::put(ptr2opt(pSharedHandle), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateVolumeTexture), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
     *ppVolumeTexture = getGlobal().proxyMap().getById<IDirect3DVolumeTexture9>(g.get<ProxyId>());
-    *pSharedHandle = g.get<HANDLE>();
+    if (pSharedHandle) *pSharedHandle = g.get<HANDLE>();
     return ret;
 }
 
@@ -595,13 +608,14 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateCubeTexture(UINT EdgeLength, UINT Lev
     bytes::put(Usage, inBytes);
     bytes::put(Format, inBytes);
     bytes::put(Pool, inBytes);
+    bytes::put(ptr2opt(pSharedHandle), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateCubeTexture), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
     *ppCubeTexture = getGlobal().proxyMap().getById<IDirect3DCubeTexture9>(g.get<ProxyId>());
-    *pSharedHandle = g.get<HANDLE>();
+    if (pSharedHandle) *pSharedHandle = g.get<HANDLE>();
     return ret;
 }
 
@@ -613,13 +627,14 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateVertexBuffer(UINT Length, DWORD Usage
     bytes::put(Usage, inBytes);
     bytes::put(FVF, inBytes);
     bytes::put(Pool, inBytes);
+    bytes::put(ptr2opt(pSharedHandle), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateVertexBuffer), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
     *ppVertexBuffer = getGlobal().proxyMap().getById<IDirect3DVertexBuffer9>(g.get<ProxyId>());
-    *pSharedHandle = g.get<HANDLE>();
+    if (pSharedHandle) *pSharedHandle = g.get<HANDLE>();
     return ret;
 }
 
@@ -631,13 +646,14 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateIndexBuffer(UINT Length, DWORD Usage,
     bytes::put(Usage, inBytes);
     bytes::put(Format, inBytes);
     bytes::put(Pool, inBytes);
+    bytes::put(ptr2opt(pSharedHandle), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateIndexBuffer), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
     *ppIndexBuffer = getGlobal().proxyMap().getById<IDirect3DIndexBuffer9>(g.get<ProxyId>());
-    *pSharedHandle = g.get<HANDLE>();
+    if (pSharedHandle) *pSharedHandle = g.get<HANDLE>();
     return ret;
 }
 
@@ -651,13 +667,14 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateRenderTarget(UINT Width, UINT Height,
     bytes::put(MultiSample, inBytes);
     bytes::put(MultisampleQuality, inBytes);
     bytes::put(Lockable, inBytes);
+    bytes::put(ptr2opt(pSharedHandle), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateRenderTarget), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
     *ppSurface = getGlobal().proxyMap().getById<IDirect3DSurface9>(g.get<ProxyId>());
-    *pSharedHandle = g.get<HANDLE>();
+    if (pSharedHandle) *pSharedHandle = g.get<HANDLE>();
     return ret;
 }
 
@@ -671,13 +688,14 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateDepthStencilSurface(UINT Width, UINT 
     bytes::put(MultiSample, inBytes);
     bytes::put(MultisampleQuality, inBytes);
     bytes::put(Discard, inBytes);
+    bytes::put(ptr2opt(pSharedHandle), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateDepthStencilSurface), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
     *ppSurface = getGlobal().proxyMap().getById<IDirect3DSurface9>(g.get<ProxyId>());
-    *pSharedHandle = g.get<HANDLE>();
+    if (pSharedHandle) *pSharedHandle = g.get<HANDLE>();
     return ret;
 }
 
@@ -767,13 +785,14 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateOffscreenPlainSurface(UINT Width, UIN
     bytes::put(Height, inBytes);
     bytes::put(Format, inBytes);
     bytes::put(Pool, inBytes);
+    bytes::put(ptr2opt(pSharedHandle), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateOffscreenPlainSurface), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
     *ppSurface = getGlobal().proxyMap().getById<IDirect3DSurface9>(g.get<ProxyId>());
-    *pSharedHandle = g.get<HANDLE>();
+    if (pSharedHandle) *pSharedHandle = g.get<HANDLE>();
     return ret;
 }
 
@@ -880,12 +899,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetTransform(D3DTRANSFORMSTATETYPE State, D
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(State, inBytes);
+    bytes::put(ptr2opt(pMatrix), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetTransform), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pMatrix = g.get<D3DMATRIX>();
+    if (pMatrix) *pMatrix = g.get<D3DMATRIX>();
     return ret;
 }
 
@@ -916,12 +936,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetViewport(D3DVIEWPORT9* pViewport)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pViewport), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetViewport), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pViewport = g.get<D3DVIEWPORT9>();
+    if (pViewport) *pViewport = g.get<D3DVIEWPORT9>();
     return ret;
 }
 
@@ -940,12 +961,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetMaterial(D3DMATERIAL9* pMaterial)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pMaterial), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetMaterial), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pMaterial = g.get<D3DMATERIAL9>();
+    if (pMaterial) *pMaterial = g.get<D3DMATERIAL9>();
     return ret;
 }
 
@@ -966,12 +988,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetLight(DWORD Index, D3DLIGHT9* pLight)
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(Index, inBytes);
+    bytes::put(ptr2opt(pLight), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetLight), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pLight = g.get<D3DLIGHT9>();
+    if (pLight) *pLight = g.get<D3DLIGHT9>();
     return ret;
 }
 
@@ -992,12 +1015,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetLightEnable(DWORD Index, BOOL* pEnable)
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(Index, inBytes);
+    bytes::put(ptr2opt(pEnable), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetLightEnable), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pEnable = g.get<BOOL>();
+    if (pEnable) *pEnable = g.get<BOOL>();
     return ret;
 }
 
@@ -1018,12 +1042,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetClipPlane(DWORD Index, float* pPlane)
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(Index, inBytes);
+    bytes::put(ptr2opt(pPlane), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetClipPlane), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pPlane = g.get<float>();
+    if (pPlane) *pPlane = g.get<float>();
     return ret;
 }
 
@@ -1044,12 +1069,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetRenderState(D3DRENDERSTATETYPE State, DW
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(State, inBytes);
+    bytes::put(ptr2opt(pValue), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetRenderState), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pValue = g.get<DWORD>();
+    if (pValue) *pValue = g.get<DWORD>();
     return ret;
 }
 
@@ -1105,12 +1131,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetClipStatus(D3DCLIPSTATUS9* pClipStatus)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pClipStatus), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetClipStatus), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pClipStatus = g.get<D3DCLIPSTATUS9>();
+    if (pClipStatus) *pClipStatus = g.get<D3DCLIPSTATUS9>();
     return ret;
 }
 
@@ -1146,12 +1173,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetTextureStageState(DWORD Stage, D3DTEXTUR
     bytes::put(getId(), inBytes);
     bytes::put(Stage, inBytes);
     bytes::put(Type, inBytes);
+    bytes::put(ptr2opt(pValue), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetTextureStageState), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pValue = g.get<DWORD>();
+    if (pValue) *pValue = g.get<DWORD>();
     return ret;
 }
 
@@ -1174,12 +1202,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetSamplerState(DWORD Sampler, D3DSAMPLERST
     bytes::put(getId(), inBytes);
     bytes::put(Sampler, inBytes);
     bytes::put(Type, inBytes);
+    bytes::put(ptr2opt(pValue), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetSamplerState), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pValue = g.get<DWORD>();
+    if (pValue) *pValue = g.get<DWORD>();
     return ret;
 }
 
@@ -1200,12 +1229,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::ValidateDevice(DWORD* pNumPasses)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pNumPasses), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::ValidateDevice), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pNumPasses = g.get<DWORD>();
+    if (pNumPasses) *pNumPasses = g.get<DWORD>();
     return ret;
 }
 
@@ -1226,12 +1256,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetPaletteEntries(UINT PaletteNumber, PALET
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(PaletteNumber, inBytes);
+    bytes::put(ptr2opt(pEntries), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetPaletteEntries), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pEntries = g.get<PALETTEENTRY>();
+    if (pEntries) *pEntries = g.get<PALETTEENTRY>();
     return ret;
 }
 
@@ -1250,12 +1281,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetCurrentTexturePalette(UINT* PaletteNumbe
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(PaletteNumber), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetCurrentTexturePalette), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *PaletteNumber = g.get<UINT>();
+    if (PaletteNumber) *PaletteNumber = g.get<UINT>();
     return ret;
 }
 
@@ -1274,12 +1306,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetScissorRect(RECT* pRect)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pRect), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetScissorRect), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pRect = g.get<RECT>();
+    if (pRect) *pRect = g.get<RECT>();
     return ret;
 }
 
@@ -1456,12 +1489,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetFVF(DWORD* pFVF)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pFVF), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetFVF), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pFVF = g.get<DWORD>();
+    if (pFVF) *pFVF = g.get<DWORD>();
     return ret;
 }
 
@@ -1521,13 +1555,14 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetVertexShaderConstantF(UINT StartRegister
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(StartRegister, inBytes);
+    bytes::put(ptr2opt(pConstantData), inBytes);
     bytes::put(Vector4fCount, inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetVertexShaderConstantF), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pConstantData = g.get<float>();
+    if (pConstantData) *pConstantData = g.get<float>();
     return ret;
 }
 
@@ -1549,13 +1584,14 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetVertexShaderConstantI(UINT StartRegister
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(StartRegister, inBytes);
+    bytes::put(ptr2opt(pConstantData), inBytes);
     bytes::put(Vector4iCount, inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetVertexShaderConstantI), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pConstantData = g.get<int>();
+    if (pConstantData) *pConstantData = g.get<int>();
     return ret;
 }
 
@@ -1577,13 +1613,14 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetVertexShaderConstantB(UINT StartRegister
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(StartRegister, inBytes);
+    bytes::put(ptr2opt(pConstantData), inBytes);
     bytes::put(BoolCount, inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetVertexShaderConstantB), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pConstantData = g.get<BOOL>();
+    if (pConstantData) *pConstantData = g.get<BOOL>();
     return ret;
 }
 
@@ -1606,14 +1643,16 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetStreamSource(UINT StreamNumber, IDirect3
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(StreamNumber, inBytes);
+    bytes::put(ptr2opt(pOffsetInBytes), inBytes);
+    bytes::put(ptr2opt(pStride), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetStreamSource), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
     *ppStreamData = getGlobal().proxyMap().getById<IDirect3DVertexBuffer9>(g.get<ProxyId>());
-    *pOffsetInBytes = g.get<UINT>();
-    *pStride = g.get<UINT>();
+    if (pOffsetInBytes) *pOffsetInBytes = g.get<UINT>();
+    if (pStride) *pStride = g.get<UINT>();
     return ret;
 }
 
@@ -1634,12 +1673,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetStreamSourceFreq(UINT StreamNumber, UINT
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(StreamNumber, inBytes);
+    bytes::put(ptr2opt(pSetting), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetStreamSourceFreq), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pSetting = g.get<UINT>();
+    if (pSetting) *pSetting = g.get<UINT>();
     return ret;
 }
 
@@ -1723,13 +1763,14 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetPixelShaderConstantF(UINT StartRegister,
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(StartRegister, inBytes);
+    bytes::put(ptr2opt(pConstantData), inBytes);
     bytes::put(Vector4fCount, inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetPixelShaderConstantF), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pConstantData = g.get<float>();
+    if (pConstantData) *pConstantData = g.get<float>();
     return ret;
 }
 
@@ -1751,13 +1792,14 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetPixelShaderConstantI(UINT StartRegister,
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(StartRegister, inBytes);
+    bytes::put(ptr2opt(pConstantData), inBytes);
     bytes::put(Vector4iCount, inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetPixelShaderConstantI), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pConstantData = g.get<int>();
+    if (pConstantData) *pConstantData = g.get<int>();
     return ret;
 }
 
@@ -1779,13 +1821,14 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetPixelShaderConstantB(UINT StartRegister,
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(StartRegister, inBytes);
+    bytes::put(ptr2opt(pConstantData), inBytes);
     bytes::put(BoolCount, inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetPixelShaderConstantB), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pConstantData = g.get<BOOL>();
+    if (pConstantData) *pConstantData = g.get<BOOL>();
     return ret;
 }
 
@@ -1998,12 +2041,13 @@ HRESULT ProxyBase<IDirect3DSwapChain9>::GetRasterStatus(D3DRASTER_STATUS* pRaste
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pRasterStatus), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DSwapChain9, Methods_IDirect3DSwapChain9::GetRasterStatus), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pRasterStatus = g.get<D3DRASTER_STATUS>();
+    if (pRasterStatus) *pRasterStatus = g.get<D3DRASTER_STATUS>();
     return ret;
 }
 
@@ -2011,12 +2055,13 @@ HRESULT ProxyBase<IDirect3DSwapChain9>::GetDisplayMode(D3DDISPLAYMODE* pMode)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pMode), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DSwapChain9, Methods_IDirect3DSwapChain9::GetDisplayMode), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pMode = g.get<D3DDISPLAYMODE>();
+    if (pMode) *pMode = g.get<D3DDISPLAYMODE>();
     return ret;
 }
 
@@ -2037,12 +2082,13 @@ HRESULT ProxyBase<IDirect3DSwapChain9>::GetPresentParameters(D3DPRESENT_PARAMETE
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pPresentationParameters), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DSwapChain9, Methods_IDirect3DSwapChain9::GetPresentParameters), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pPresentationParameters = g.get<D3DPRESENT_PARAMETERS>();
+    if (pPresentationParameters) *pPresentationParameters = g.get<D3DPRESENT_PARAMETERS>();
     return ret;
 }
 
@@ -2103,13 +2149,15 @@ HRESULT ProxyBase<IDirect3DVertexDeclaration9>::GetDeclaration(D3DVERTEXELEMENT9
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pElement), inBytes);
+    bytes::put(ptr2opt(pNumElements), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DVertexDeclaration9, Methods_IDirect3DVertexDeclaration9::GetDeclaration), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pElement = g.get<D3DVERTEXELEMENT9>();
-    *pNumElements = g.get<UINT>();
+    if (pElement) *pElement = g.get<D3DVERTEXELEMENT9>();
+    if (pNumElements) *pNumElements = g.get<UINT>();
     return ret;
 }
 
@@ -2170,12 +2218,13 @@ HRESULT ProxyBase<IDirect3DVertexShader9>::GetFunction(void* pFunction, UINT* pS
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pSizeOfData), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DVertexShader9, Methods_IDirect3DVertexShader9::GetFunction), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pSizeOfData = g.get<UINT>();
+    if (pSizeOfData) *pSizeOfData = g.get<UINT>();
     return ret;
 }
 
@@ -2236,12 +2285,13 @@ HRESULT ProxyBase<IDirect3DPixelShader9>::GetFunction(void* pFunction, UINT* pSi
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pSizeOfData), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DPixelShader9, Methods_IDirect3DPixelShader9::GetFunction), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pSizeOfData = g.get<UINT>();
+    if (pSizeOfData) *pSizeOfData = g.get<UINT>();
     return ret;
 }
 
@@ -2316,12 +2366,13 @@ HRESULT ProxyBase<IDirect3DTexture9>::GetPrivateData(REFGUID refguid, void* pDat
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(refguid, inBytes);
+    bytes::put(ptr2opt(pSizeOfData), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DTexture9, Methods_IDirect3DTexture9::GetPrivateData), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pSizeOfData = g.get<DWORD>();
+    if (pSizeOfData) *pSizeOfData = g.get<DWORD>();
     return ret;
 }
 
@@ -2454,12 +2505,13 @@ HRESULT ProxyBase<IDirect3DTexture9>::GetLevelDesc(UINT Level, D3DSURFACE_DESC* 
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(Level, inBytes);
+    bytes::put(ptr2opt(pDesc), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DTexture9, Methods_IDirect3DTexture9::GetLevelDesc), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pDesc = g.get<D3DSURFACE_DESC>();
+    if (pDesc) *pDesc = g.get<D3DSURFACE_DESC>();
     return ret;
 }
 
@@ -2482,6 +2534,7 @@ HRESULT ProxyBase<IDirect3DTexture9>::LockRect(UINT Level, D3DLOCKED_RECT* pLock
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(Level, inBytes);
+    bytes::put(ptr2opt(pLockedRect), inBytes);
     bytes::put(ptr2opt(pRect), inBytes);
     bytes::put(Flags, inBytes);
     
@@ -2489,7 +2542,7 @@ HRESULT ProxyBase<IDirect3DTexture9>::LockRect(UINT Level, D3DLOCKED_RECT* pLock
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pLockedRect = g.get<D3DLOCKED_RECT>();
+    if (pLockedRect) *pLockedRect = g.get<D3DLOCKED_RECT>();
     return ret;
 }
 
@@ -2586,12 +2639,13 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::GetPrivateData(REFGUID refguid, void
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(refguid, inBytes);
+    bytes::put(ptr2opt(pSizeOfData), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DVolumeTexture9, Methods_IDirect3DVolumeTexture9::GetPrivateData), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pSizeOfData = g.get<DWORD>();
+    if (pSizeOfData) *pSizeOfData = g.get<DWORD>();
     return ret;
 }
 
@@ -2724,12 +2778,13 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::GetLevelDesc(UINT Level, D3DVOLUME_D
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(Level, inBytes);
+    bytes::put(ptr2opt(pDesc), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DVolumeTexture9, Methods_IDirect3DVolumeTexture9::GetLevelDesc), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pDesc = g.get<D3DVOLUME_DESC>();
+    if (pDesc) *pDesc = g.get<D3DVOLUME_DESC>();
     return ret;
 }
 
@@ -2752,6 +2807,7 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::LockBox(UINT Level, D3DLOCKED_BOX* p
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(Level, inBytes);
+    bytes::put(ptr2opt(pLockedVolume), inBytes);
     bytes::put(ptr2opt(pBox), inBytes);
     bytes::put(Flags, inBytes);
     
@@ -2759,7 +2815,7 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::LockBox(UINT Level, D3DLOCKED_BOX* p
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pLockedVolume = g.get<D3DLOCKED_BOX>();
+    if (pLockedVolume) *pLockedVolume = g.get<D3DLOCKED_BOX>();
     return ret;
 }
 
@@ -2856,12 +2912,13 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::GetPrivateData(REFGUID refguid, void* 
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(refguid, inBytes);
+    bytes::put(ptr2opt(pSizeOfData), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DCubeTexture9, Methods_IDirect3DCubeTexture9::GetPrivateData), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pSizeOfData = g.get<DWORD>();
+    if (pSizeOfData) *pSizeOfData = g.get<DWORD>();
     return ret;
 }
 
@@ -2994,12 +3051,13 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::GetLevelDesc(UINT Level, D3DSURFACE_DE
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(Level, inBytes);
+    bytes::put(ptr2opt(pDesc), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DCubeTexture9, Methods_IDirect3DCubeTexture9::GetLevelDesc), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pDesc = g.get<D3DSURFACE_DESC>();
+    if (pDesc) *pDesc = g.get<D3DSURFACE_DESC>();
     return ret;
 }
 
@@ -3024,6 +3082,7 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::LockRect(D3DCUBEMAP_FACES FaceType, UI
     bytes::put(getId(), inBytes);
     bytes::put(FaceType, inBytes);
     bytes::put(Level, inBytes);
+    bytes::put(ptr2opt(pLockedRect), inBytes);
     bytes::put(ptr2opt(pRect), inBytes);
     bytes::put(Flags, inBytes);
     
@@ -3031,7 +3090,7 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::LockRect(D3DCUBEMAP_FACES FaceType, UI
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pLockedRect = g.get<D3DLOCKED_RECT>();
+    if (pLockedRect) *pLockedRect = g.get<D3DLOCKED_RECT>();
     return ret;
 }
 
@@ -3130,12 +3189,13 @@ HRESULT ProxyBase<IDirect3DVertexBuffer9>::GetPrivateData(REFGUID refguid, void*
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(refguid, inBytes);
+    bytes::put(ptr2opt(pSizeOfData), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DVertexBuffer9, Methods_IDirect3DVertexBuffer9::GetPrivateData), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pSizeOfData = g.get<DWORD>();
+    if (pSizeOfData) *pSizeOfData = g.get<DWORD>();
     return ret;
 }
 
@@ -3222,12 +3282,13 @@ HRESULT ProxyBase<IDirect3DVertexBuffer9>::GetDesc(D3DVERTEXBUFFER_DESC* pDesc)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pDesc), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DVertexBuffer9, Methods_IDirect3DVertexBuffer9::GetDesc), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pDesc = g.get<D3DVERTEXBUFFER_DESC>();
+    if (pDesc) *pDesc = g.get<D3DVERTEXBUFFER_DESC>();
     return ret;
 }
 
@@ -3302,12 +3363,13 @@ HRESULT ProxyBase<IDirect3DIndexBuffer9>::GetPrivateData(REFGUID refguid, void* 
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(refguid, inBytes);
+    bytes::put(ptr2opt(pSizeOfData), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DIndexBuffer9, Methods_IDirect3DIndexBuffer9::GetPrivateData), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pSizeOfData = g.get<DWORD>();
+    if (pSizeOfData) *pSizeOfData = g.get<DWORD>();
     return ret;
 }
 
@@ -3394,12 +3456,13 @@ HRESULT ProxyBase<IDirect3DIndexBuffer9>::GetDesc(D3DINDEXBUFFER_DESC* pDesc)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pDesc), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DIndexBuffer9, Methods_IDirect3DIndexBuffer9::GetDesc), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pDesc = g.get<D3DINDEXBUFFER_DESC>();
+    if (pDesc) *pDesc = g.get<D3DINDEXBUFFER_DESC>();
     return ret;
 }
 
@@ -3474,12 +3537,13 @@ HRESULT ProxyBase<IDirect3DSurface9>::GetPrivateData(REFGUID refguid, void* pDat
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(refguid, inBytes);
+    bytes::put(ptr2opt(pSizeOfData), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DSurface9, Methods_IDirect3DSurface9::GetPrivateData), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pSizeOfData = g.get<DWORD>();
+    if (pSizeOfData) *pSizeOfData = g.get<DWORD>();
     return ret;
 }
 
@@ -3554,12 +3618,13 @@ HRESULT ProxyBase<IDirect3DSurface9>::GetDesc(D3DSURFACE_DESC* pDesc)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pDesc), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DSurface9, Methods_IDirect3DSurface9::GetDesc), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pDesc = g.get<D3DSURFACE_DESC>();
+    if (pDesc) *pDesc = g.get<D3DSURFACE_DESC>();
     return ret;
 }
 
@@ -3567,6 +3632,7 @@ HRESULT ProxyBase<IDirect3DSurface9>::LockRect(D3DLOCKED_RECT* pLockedRect, cons
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pLockedRect), inBytes);
     bytes::put(ptr2opt(pRect), inBytes);
     bytes::put(Flags, inBytes);
     
@@ -3574,7 +3640,7 @@ HRESULT ProxyBase<IDirect3DSurface9>::LockRect(D3DLOCKED_RECT* pLockedRect, cons
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pLockedRect = g.get<D3DLOCKED_RECT>();
+    if (pLockedRect) *pLockedRect = g.get<D3DLOCKED_RECT>();
     return ret;
 }
 
@@ -3592,12 +3658,13 @@ HRESULT ProxyBase<IDirect3DSurface9>::GetDC(HDC* phdc)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(phdc), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DSurface9, Methods_IDirect3DSurface9::GetDC), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *phdc = g.get<HDC>();
+    if (phdc) *phdc = g.get<HDC>();
     return ret;
 }
 
@@ -3683,12 +3750,13 @@ HRESULT ProxyBase<IDirect3DVolume9>::GetPrivateData(REFGUID refguid, void* pData
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
     bytes::put(refguid, inBytes);
+    bytes::put(ptr2opt(pSizeOfData), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DVolume9, Methods_IDirect3DVolume9::GetPrivateData), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pSizeOfData = g.get<DWORD>();
+    if (pSizeOfData) *pSizeOfData = g.get<DWORD>();
     return ret;
 }
 
@@ -3718,12 +3786,13 @@ HRESULT ProxyBase<IDirect3DVolume9>::GetDesc(D3DVOLUME_DESC* pDesc)
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pDesc), inBytes);
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DVolume9, Methods_IDirect3DVolume9::GetDesc), inBytes);
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pDesc = g.get<D3DVOLUME_DESC>();
+    if (pDesc) *pDesc = g.get<D3DVOLUME_DESC>();
     return ret;
 }
 
@@ -3731,6 +3800,7 @@ HRESULT ProxyBase<IDirect3DVolume9>::LockBox(D3DLOCKED_BOX* pLockedVolume, const
 {
     BytesPtr inBytes = bytes::make();
     bytes::put(getId(), inBytes);
+    bytes::put(ptr2opt(pLockedVolume), inBytes);
     bytes::put(ptr2opt(pBox), inBytes);
     bytes::put(Flags, inBytes);
     
@@ -3738,7 +3808,7 @@ HRESULT ProxyBase<IDirect3DVolume9>::LockBox(D3DLOCKED_BOX* pLockedVolume, const
     
     bytes::getter g(outBytes);
     HRESULT ret = g.get<HRESULT>();
-    *pLockedVolume = g.get<D3DLOCKED_BOX>();
+    if (pLockedVolume) *pLockedVolume = g.get<D3DLOCKED_BOX>();
     return ret;
 }
 

@@ -17,6 +17,6 @@ object Main extends App {
     }
 
     //new PPChecker().check(interfaces)
-    go(new ClientProxyGenerator, "ProxyBase.cpp")
-    go(new ServerProcGenerator, "ProcBase.cpp")
+    go(new ClientProxyGenerator, "../D3Digger/Client/ProxyBase.cpp")
+    go(new ServerProcGenerator, "../D3Digger/Server/ProcBase.cpp")
 }

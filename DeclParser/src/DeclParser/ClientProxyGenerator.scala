@@ -32,8 +32,8 @@ object ClientProxyGenerator {
     }
 
     private def unwrapStr(arg: Arg): String = arg.argType match {
-        case ArgType(InOuts.IName(innerName), false, 2, _) => "getGlobal().proxyMap().getById<%s>(g.get<ProxyId>())".format(InOuts.IName(innerName))
-        case ArgType(typeName, false, 1, _) => "g.get<%s>()".format(typeName)
+        case ArgType(InOuts.IName(innerName), false, 2, _) => "*%s = getGlobal().proxyMap().getById<%s>(g.get<ProxyId>())".format(arg.name, InOuts.IName(innerName))
+        case ArgType(typeName, false, 1, _) => "if (%s) *%s = g.get<%s>()".format(arg.name, arg.name, typeName)
     }
 }
 
@@ -137,7 +137,9 @@ class ClientProxyGenerator extends CodeGeneratorBase(ClientProxyGenerator.head, 
             }
 
             outs.foreach((a) => {
-                sb ++= "*%s = %s;\r\n".format(a.name, unwrapStr(a))
+                sb ++= unwrapStr(a)
+                sb ++= ";\r\n"
+                //sb ++= "*%s = %s;\r\n".format(a.name, unwrapStr(a))
             })
 
             if (!isVoid)

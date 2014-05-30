@@ -16,6 +16,7 @@ struct ProxyImpl<IDirect3DDevice9>
     ProxyImpl(ProxyId id); 
     
     HRESULT STDMETHODCALLTYPE Clear(DWORD Count, CONST D3DRECT* pRects, DWORD Flags, D3DCOLOR Color, float Z, DWORD Stencil) override;
+    HRESULT STDMETHODCALLTYPE Present(const RECT* pSourceRect, const RECT* pDestRect, HWND hDestWindowOverride, const RGNDATA* pDirtyRegion) override;
 };
 
 } // namespace Client
