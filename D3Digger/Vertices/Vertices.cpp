@@ -334,7 +334,7 @@ INT WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR, INT )
 
     // Create the application's window
     HWND hWnd = CreateWindow( L"D3D Tutorial", L"D3D Tutorial 05: Textures",
-                              WS_OVERLAPPEDWINDOW, 100, 100, 300, 300,
+                              WS_OVERLAPPEDWINDOW, 100, 100, 700, 700,
                               NULL, NULL, wc.hInstance, NULL );
 
     // Initialize Direct3D

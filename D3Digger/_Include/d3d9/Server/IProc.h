@@ -34,16 +34,16 @@ D3D9_LIST_INTERFACES(DEFINE_CREATE_PROC)
 
 #include "d3d9/undef.h"
 
-#define MY_BEGIN_INTERFACE_(name, parent)   \
-template<>                              \
-struct IProc<name>                     \
-	: IProcExt<name>, IProc<parent> \
+#define MY_BEGIN_INTERFACE_(name, parent) \
+template<>                                \
+struct IProc<name>                        \
+	: IProcExt<name>, IProc<parent>       \
 {                                       
 
 
-#define MY_BEGIN_INTERFACE(name)            \
-template<>                              \
-struct IProc<name>                     \
+#define MY_BEGIN_INTERFACE(name) \
+template<>                       \
+struct IProc<name>               \
 	: IProcExt<name>, Interface  \
 {                                       
 

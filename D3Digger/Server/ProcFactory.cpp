@@ -4,6 +4,7 @@
 
 #include "ProcImpl_Device.h"
 #include "ProcImpl_VB.h"
+#include "ProcImpl_Surface.h"
 
 
 namespace D3D9
@@ -23,7 +24,6 @@ namespace Server
     X(IDirect3DQuery9            ) \
     X(IDirect3DVolume9           ) \
     X(IDirect3DTexture9          ) \
-    X(IDirect3DSurface9          ) \
     X(IDirect3DIndexBuffer9      ) 
 
 #define CREATE_PROC_DEFINITION(name) \
@@ -40,7 +40,8 @@ FOR_X(CREATE_PROC_DEFINITION)
 
 #define FOR_X(X) \
     X(IDirect3DDevice9           ) \
-    X(IDirect3DVertexBuffer9     )
+    X(IDirect3DVertexBuffer9     ) \
+    X(IDirect3DSurface9          ) 
 
 #define CREATE_PROC_DEFINITION(name) \
     template<> \

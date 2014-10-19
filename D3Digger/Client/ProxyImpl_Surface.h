@@ -15,15 +15,20 @@ struct ProxyImpl<IDirect3DSurface9>
 
     ProxyImpl(ProxyId id); 
 
-    HRESULT STDMETHODCALLTYPE LockRect(D3DLOCKED_RECT* pLockedRect, const RECT* pRect, DWORD Flags);
-    HRESULT STDMETHODCALLTYPE UnlockRect();
+    HRESULT STDMETHODCALLTYPE LockRect(D3DLOCKED_RECT* pLockedRect, const RECT* pRect, DWORD Flags) override;
+    HRESULT STDMETHODCALLTYPE UnlockRect() override;
 
 private:
-    D3DSURFACE_DESC const &desc();
-
-private:
-    optional<D3DSURFACE_DESC> desc_;
+    D3DSURFACE_DESC desc_;
     vector<char> buffer_;
+
+    struct LockData
+    {
+        RECT rect;
+        DWORD flags;
+    };
+
+    optional<LockData> lockData_;
 };
 
 } // namespace Client

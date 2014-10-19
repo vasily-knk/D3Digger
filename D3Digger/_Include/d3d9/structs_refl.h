@@ -29,6 +29,25 @@ void process(bytes::write_proc &proc, optional<T> const &opt)
     }
 }
 
+template<typename T>
+void process(bytes::read_proc &proc, vector<T> const &vec)
+{
+    vector<T> &dst = const_cast<vector<T>&>(vec);
+
+    uint32_t size;
+    proc(size);
+    dst.resize(size);
+    proc.array(dst.data(), size);
+}
+
+template<typename T>
+void process(bytes::write_proc &proc, vector<T> const &vec)
+{
+    uint32_t size = vec.size();
+    proc(size);
+    proc.array(vec.data(), size);
+}
+
 template<typename Proc>
 void process(Proc &proc, void*)
 {
