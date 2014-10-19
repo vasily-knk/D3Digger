@@ -13,11 +13,13 @@ IDirect3D9* WINAPI Direct3DCreate9(UINT SDKVersion)
 	IGlobal &global = getGlobal();
 
     BytesPtr inBytes = bytes::make();
-    bytes::put(SDKVersion, inBytes);
-    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::BASE, Methods_BASE::Direct3DCreate9), inBytes);
-	bytes::getter g(outBytes);
+    bytes::write_proc wp(inBytes);
+    wp(SDKVersion);
 
-	ProxyId id = g.get<ProxyId>(); 
+    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::BASE, Methods_BASE::Direct3DCreate9), inBytes);
+	bytes::read_proc rp(outBytes);
+
+	ProxyId id = rp.operator()<ProxyId>(); 
 	auto ptr = getGlobal().proxyMap().getById<IDirect3D9>(id);
 
 	return ptr;

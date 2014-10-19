@@ -4,6 +4,7 @@
 #include "d3d9/Client/IProxy.h"
 #include "IGlobal.h"
 #include "d3d9/Methods.h"
+#include "d3d9/structs_refl.h"
 
 
 namespace D3D9

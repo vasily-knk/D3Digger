@@ -21,8 +21,8 @@ Impl::ProcImpl(CreateProcArgs const &args)
 
 void Impl::Clear(BytesPtr srcBytes, BytesPtr dstBytes)
 {
-    bytes::getter g(srcBytes);
-    IDirect3DDevice9 *self = procMap_->getPtr<IDirect3DDevice9>(g.get<ProxyId>());
+    bytes::read_proc rp(srcBytes);
+    IDirect3DDevice9 *self = procMap_->getPtr<IDirect3DDevice9>(rp.operator()<ProxyId>());
     struct {
         DWORD Count;
         vector<D3DRECT> pRects;
@@ -33,18 +33,19 @@ void Impl::Clear(BytesPtr srcBytes, BytesPtr dstBytes)
     } args;
 
     (void)args;
-    g.get(args.Count);
+    rp(args.Count);
     
     args.pRects.resize(args.Count);
     for (size_t i = 0; i < args.Count; ++i)
-        g.get(args.pRects.at(i));
+        rp(args.pRects.at(i));
 
-    g.get(args.Flags);
-    g.get(args.Color);
-    g.get(args.Z);
-    g.get(args.Stencil);
+    rp(args.Flags);
+    rp(args.Color);
+    rp(args.Z);
+    rp(args.Stencil);
     HRESULT res = self->Clear(args.Count, args.pRects.empty() ? nullptr : &args.pRects.at(0), args.Flags, args.Color, args.Z, args.Stencil);
-    bytes::put<HRESULT>(res, dstBytes);
+    bytes::write_proc wp(dstBytes);
+    wp(res);
 }
 
 

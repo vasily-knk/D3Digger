@@ -32,8 +32,8 @@ object ClientProxyGenerator {
     }
 
     private def unwrapStr(arg: Arg): String = arg.argType match {
-        case ArgType(InOuts.IName(innerName), false, 2, _) => "*%s = getGlobal().proxyMap().getById<%s>(g.get<ProxyId>())".format(arg.name, InOuts.IName(innerName))
-        case ArgType(typeName, false, 1, _) => "if (%s) *%s = g.get<%s>()".format(arg.name, arg.name, typeName)
+        case ArgType(InOuts.IName(innerName), false, 2, _) => "*%s = getGlobal().proxyMap().getById<%s>(rp.operator()<ProxyId>())".format(arg.name, InOuts.IName(innerName))
+        case ArgType(typeName, false, 1, _) => "if (%s) rp(*%s)".format(arg.name, arg.name, typeName)
     }
 }
 
@@ -74,7 +74,8 @@ class ClientProxyGenerator extends CodeGeneratorBase(ClientProxyGenerator.head, 
           |if (refcount_ == 0)
           |{
           |    BytesPtr inBytes = bytes::make();
-          |    bytes::put(getId(), inBytes);
+          |    bytes::write_proc wp(inBytes);
+          |    wp(getId());
           |    getGlobal().executor().runAsync(%s, inBytes);
           |    emitDeleted();
           |    delete this;
@@ -104,11 +105,12 @@ class ClientProxyGenerator extends CodeGeneratorBase(ClientProxyGenerator.head, 
 
         sb ++=
             """BytesPtr inBytes = bytes::make();
-              |bytes::put(getId(), inBytes);
+              |bytes::write_proc wp(inBytes);
+              |wp(getId());
               |""".stripMargin
 
         ins.foreach((a) => {
-            sb ++= "bytes::put(%s, inBytes);".format(wrapStr(a))
+            sb ++= "wp(%s);".format(wrapStr(a))
             sb ++= "\r\n"
         })
 
@@ -124,7 +126,7 @@ class ClientProxyGenerator extends CodeGeneratorBase(ClientProxyGenerator.head, 
             })
         } else {
             sb ++= "BytesPtr outBytes = getGlobal().executor().runSync(%s, inBytes);\r\n\r\n".format(methodId)
-            sb ++= "bytes::getter g(outBytes);\r\n"
+            sb ++= "bytes::read_proc rp(outBytes);\r\n"
 
             val isVoid = method.retType match {
                 case ArgType("void", _, 0, _) => true
@@ -133,7 +135,7 @@ class ClientProxyGenerator extends CodeGeneratorBase(ClientProxyGenerator.head, 
 
             if (!isVoid) {
                 val retTypeName = method.retType.name
-                sb ++= "%s ret = g.get<%s>();\r\n".format(retTypeName, retTypeName)
+                sb ++= "%s ret; rp(ret);\r\n".format(retTypeName, retTypeName)
             }
 
             outs.foreach((a) => {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "d3d9/Server/IProc.h"
+#include "d3d9/structs_refl.h"
 
 
 namespace D3D9

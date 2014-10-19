@@ -26,15 +26,15 @@ void Impl::Lock(BytesPtr srcBytes, BytesPtr dstBytes)
 
 void Impl::Unlock(BytesPtr srcBytes, BytesPtr dstBytes)
 {
-    bytes::getter g(srcBytes);
-    IDirect3DVertexBuffer9 *self = procMap_->getPtr<IDirect3DVertexBuffer9>(g.get<ProxyId>());
+    bytes::read_proc rp(srcBytes);
+    IDirect3DVertexBuffer9 *self = procMap_->getPtr<IDirect3DVertexBuffer9>(rp.operator()<ProxyId>());
     
     UINT offset, size;
     DWORD flags;
 
-    g.get(offset);
-    g.get(size);
-    g.get(flags);
+    rp(offset);
+    rp(size);
+    rp(flags);
     uint8_t *ptr = nullptr;
 
     HRESULT res;
@@ -43,7 +43,7 @@ void Impl::Unlock(BytesPtr srcBytes, BytesPtr dstBytes)
     if (SUCCEEDED(res))
     {
         for (size_t i = 0; i < size; ++i)
-            g.get(ptr[i]);
+            rp(ptr[i]);
 
         res = self->Unlock();
     }
@@ -51,7 +51,8 @@ void Impl::Unlock(BytesPtr srcBytes, BytesPtr dstBytes)
     {
     }
 
-    bytes::put<HRESULT>(res, dstBytes);
+    bytes::write_proc wp(dstBytes);
+    wp(res);
 }
 
 

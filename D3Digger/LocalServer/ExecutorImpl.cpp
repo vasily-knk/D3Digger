@@ -6,6 +6,16 @@ namespace D3D9
 namespace Client
 {
 	
+namespace
+{
+    void runService(IOService *service)
+    {
+        service->run();
+    }
+
+} // namespace
+    
+    
 IExecutorPtr createExecutor()
 {
 	return make_shared<ExecutorImpl>();
@@ -14,7 +24,7 @@ IExecutorPtr createExecutor()
 
 ExecutorImpl::ExecutorImpl()
     : serviceWork_(service_)
-    , serviceThread_(bind(&IOService::run, &service_))
+    , serviceThread_(bind(runService, &service_))
     , isComplete_(true)
     , procMap_(Server::createProcMap())
 {
@@ -81,8 +91,8 @@ void ExecutorImpl::Direct3DCreate9(BytesPtr srcArgs, BytesPtr dstArgs) const
         UINT SDKVersion;
     } args;
 
-    bytes::getter g(srcArgs);
-    args.SDKVersion = g.get<UINT>();
+    bytes::read_proc rp(srcArgs);
+    args.SDKVersion = rp.operator()<UINT>();
     
     static auto dll = LoadLibrary(L"C:\\Windows\\System32\\d3d9.dll");
     typedef IDirect3D9* (WINAPI *fn_t)(UINT);
@@ -92,8 +102,9 @@ void ExecutorImpl::Direct3DCreate9(BytesPtr srcArgs, BytesPtr dstArgs) const
     IDirect3D9 *ptr = fn(args.SDKVersion);
     assert(ptr);
 
+    bytes::write_proc wp(dstArgs);
     uint32_t id = procMap_->getProxyID(ptr);
-    bytes::put(id, dstArgs);
+    wp(id);
 }
 
 ExecutorImpl::Method ExecutorImpl::getMethod(MethodId const &id) const

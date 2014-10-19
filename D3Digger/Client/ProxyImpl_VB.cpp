@@ -55,14 +55,15 @@ HRESULT Impl::Unlock()
         return D3DERR_INVALIDCALL;
     
     BytesPtr inBytes = bytes::make();
-    bytes::put(getId(), inBytes);
+    bytes::write_proc wp(inBytes);
+    wp(getId());
 
-    bytes::put(UINT(lockData_->offset), inBytes);
-    bytes::put(UINT(lockData_->size), inBytes);
-    bytes::put(lockData_->flags, inBytes);
+    wp(UINT(lockData_->offset));
+    wp(UINT(lockData_->size));
+    wp(lockData_->flags);
 
     for (size_t i = 0; i < lockData_->size; ++i)
-        bytes::put<uint8_t>(buffer_.at(lockData_->offset + i), inBytes);
+        wp(buffer_.at(lockData_->offset + i));
 
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DVertexBuffer9, Methods_IDirect3DVertexBuffer9::Unlock), inBytes);

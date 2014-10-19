@@ -44,3 +44,4 @@ inline void detachProxy(IUnknown *id)
 {
     getGlobal().proxyMapping().erase(id);
 }
+

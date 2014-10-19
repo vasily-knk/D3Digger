@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ProxyImpl_Device.h"
 
+
 namespace D3D9
 {
 namespace Client
@@ -20,14 +21,16 @@ Impl::ProxyImpl(ProxyId id)
 HRESULT Impl::Clear(DWORD Count, CONST D3DRECT* pRects, DWORD Flags, D3DCOLOR Color, float Z, DWORD Stencil)
 {
     BytesPtr inBytes = bytes::make();
-    bytes::put(getId(), inBytes);
-    bytes::put(Count, inBytes);
+    bytes::write_proc wp(inBytes);
+
+    wp(getId());
+    wp(Count);
     for (size_t i = 0; i < Count; ++i)
-        bytes::put(pRects[i], inBytes);
-    bytes::put(Flags, inBytes);
-    bytes::put(Color, inBytes);
-    bytes::put(Z, inBytes);
-    bytes::put(Stencil, inBytes);
+        wp(pRects[i]);
+    wp(Flags);
+    wp(Color);
+    wp(Z);
+    wp(Stencil);
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::Clear), inBytes);
     
@@ -37,11 +40,13 @@ HRESULT Impl::Clear(DWORD Count, CONST D3DRECT* pRects, DWORD Flags, D3DCOLOR Co
 HRESULT Impl::Present(const RECT* pSourceRect, const RECT* pDestRect, HWND hDestWindowOverride, const RGNDATA* pDirtyRegion)
 {
     BytesPtr inBytes = bytes::make();
-    bytes::put(getId(), inBytes);
-    bytes::put(ptr2opt(pSourceRect), inBytes);
-    bytes::put(ptr2opt(pDestRect), inBytes);
-    bytes::put(hDestWindowOverride, inBytes);
-    bytes::put(ptr2opt(pDirtyRegion), inBytes);
+    bytes::write_proc wp(inBytes);
+
+    wp(getId());
+    wp(ptr2opt(pSourceRect));
+    wp(ptr2opt(pDestRect));
+    wp(hDestWindowOverride);
+    wp(ptr2opt(pDirtyRegion));
     
     getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::Present), inBytes);
     
