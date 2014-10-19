@@ -32,20 +32,19 @@ void process(bytes::write_proc &proc, optional<T> const &opt)
 template<typename Proc>
 void process(Proc &proc, void*)
 {
-    int aaa = 5;
-
+    throw std::runtime_error("void* is not serializable");
 }
 
 inline void process(bytes::write_proc &proc, optional<HANDLE> const &val)
 {
-    //process<HANDLE>(proc, val);
+    process<HANDLE>(proc, val);
     assert(!val);
 }
 
 inline void process(bytes::read_proc &proc, optional<HANDLE> const &val)
 {
-    //process<HANDLE>(proc, val);
-    //assert(!val);
+    process<HANDLE>(proc, val);
+    assert(!val);
 }
 
 template<typename Proc>
@@ -304,7 +303,7 @@ void process(Proc &proc, D3DGAMMARAMP const &r)
 template<typename Proc>
 void process(Proc &proc, D3DMATRIX const &r)
 {
-    // TODO: Implement
+    proc.array(reinterpret_cast<char const*>(&r), sizeof(r));
 }
 
 template<typename Proc>
@@ -408,12 +407,17 @@ void process(Proc &proc, D3DVOLUME_DESC const &r)
 } 
 
 /* Structure for LockRect */
+
 template<typename Proc>
 void process(Proc &proc, D3DLOCKED_RECT const &r)
 {
+    throw std::runtime_error("D3DLOCKED_RECT is not supposed to be serialized");
+/*
     proc(r.Pitch);
     proc(r.pBits);
+*/
 } 
+
 
 /* Structures for LockBox */
 template<typename Proc>
@@ -427,13 +431,18 @@ void process(Proc &proc, D3DBOX const &r)
     proc(r.Back);
 } 
 
+
 template<typename Proc>
 void process(Proc &proc, D3DLOCKED_BOX const &r)
 {
+    throw std::runtime_error("D3DLOCKED_RECT is not supposed to be serialized");
+/*
     proc(r.RowPitch);
     proc(r.SlicePitch);
     proc(r.pBits);
+*/
 } 
+
 
 /* Structures for LockRange */
 template<typename Proc>
