@@ -8,11 +8,11 @@ namespace Client
 	
 namespace
 {
-    void runService(IOService *service)
+    template<typename Service>
+    void runService(Service *service)
     {
         service->run();
     }
-
 } // namespace
     
     
@@ -23,8 +23,8 @@ IExecutorPtr createExecutor()
 	
 
 ExecutorImpl::ExecutorImpl()
-    : serviceWork_(service_)
-    , serviceThread_(bind(runService, &service_))
+    : serviceWork_(service_.service())
+    , serviceThread_(bind(runService<ServiceWrapper>, &service_))
     , isComplete_(true)
     , procMap_(Server::createProcMap())
 {
@@ -43,7 +43,7 @@ void ExecutorImpl::initProcs()
 
 ExecutorImpl::~ExecutorImpl()
 {
-    service_.post(bind(&IOService::stop, &service_));
+    service_.post(bind(&Service::stop, &service_));
     serviceThread_.join();
 }
 

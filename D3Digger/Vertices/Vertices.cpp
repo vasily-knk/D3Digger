@@ -31,6 +31,8 @@
 #include <strsafe.h>
 #pragma warning( default : 4996 )
 
+#include <cstdint>
+#include <algorithm>
 
 //-----------------------------------------------------------------------------
 // Global variables
@@ -108,16 +110,40 @@ HRESULT InitD3D( HWND hWnd )
 //-----------------------------------------------------------------------------
 HRESULT InitGeometry()
 {
-    // Use D3DX to create a texture from a file based image
-    if( FAILED( D3DXCreateTextureFromFile( g_pd3dDevice, L"banana.bmp", &g_pTexture ) ) )
-    {
-        // If texture is not in current folder, try parent folder
-        if( FAILED( D3DXCreateTextureFromFile( g_pd3dDevice, L"..\\banana.bmp", &g_pTexture ) ) )
-        {
-            MessageBox( NULL, L"Could not find banana.bmp", L"Textures.exe", MB_OK );
-            return E_FAIL;
-        }
+
+
+    if (g_pd3dDevice->CreateTexture(256, 256, 9, 0, D3DFMT_X8R8G8B8, D3DPOOL_MANAGED, &g_pTexture, nullptr) != D3D_OK)
+    {  
+        return E_FAIL;
     }
+
+    size_t levels = g_pTexture->GetLevelCount();
+
+    for (size_t i = 0; i < levels; ++i)
+    {
+        IDirect3DSurface9 *surface = nullptr;
+        if (g_pTexture->GetSurfaceLevel(i, &surface) != D3D_OK)
+            return E_FAIL;
+
+        D3DSURFACE_DESC desc;
+
+        if (surface->GetDesc(&desc) != D3D_OK)
+            return E_FAIL;
+
+        D3DLOCKED_RECT lock;
+        surface->LockRect(&lock, nullptr, 0);
+
+        typedef unsigned int my_color_t;
+        my_color_t *ptr = reinterpret_cast<my_color_t*>(lock.pBits);
+        size_t size = lock.Pitch / sizeof(my_color_t) * desc.Height;
+
+        std::fill(ptr, ptr + size, D3DCOLOR_XRGB(255, 255, 255));
+
+        surface->UnlockRect();
+        surface->Release();
+    }
+
+
 
     // Create the vertex buffer.
     if( FAILED( g_pd3dDevice->CreateVertexBuffer( 50 * 2 * sizeof( CUSTOMVERTEX ),
@@ -241,43 +267,6 @@ VOID Render()
         g_pd3dDevice->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
         g_pd3dDevice->SetTextureStageState( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
         g_pd3dDevice->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_DISABLE );
-
-#ifdef SHOW_HOW_TO_USE_TCI
-        // Note: to use D3D texture coordinate generation, use the stage state
-	// D3DTSS_TEXCOORDINDEX, as shown below. In this example, we are using
-	// the position of the vertex in camera space (D3DTSS_TCI_CAMERASPACEPOSITION)
-	// to generate texture coordinates. Camera space is the vertex position
-	// multiplied by the World and View matrices.  The tex coord index (TCI)  
-	// parameters are passed into a texture transform, which is a 4x4 matrix  
-	// which transforms the x,y,z TCI coordinates into tu, tv texture coordinates.
-
-	// In this example, the texture matrix is setup to transform the input
-	// camera space coordinates (all of R^3) to projection space (-1,+1) 
-	// and finally to texture space (0,1).
-	//    CameraSpace.xyzw = (input vertex position) * (WorldView)
-	//    ProjSpace.xyzw = CameraSpace.xyzw * Projection           //move to -1 to 1
-	//    TexSpace.xyzw = ProjSpace.xyzw * ( 0.5, -0.5, 1.0, 1.0 ) //scale to -0.5 to 0.5 (flip y)
-	//    TexSpace.xyzw += ( 0.5, 0.5, 0.0, 0.0 )                  //shift to 0 to 1
-
-	// Setting D3DTSS_TEXTURETRANSFORMFLAGS to D3DTTFF_COUNT4 | D3DTTFF_PROJECTED
-	// tells D3D to divide the input texture coordinates by the 4th (w) component.
-	// This divide is necessary when performing a perspective projection since
-	// the TexSpace.xy coordinates prior to the homogeneous divide are not actually 
-	// in the 0 to 1 range.
-	D3DXMATRIXA16 mTextureTransform;
-	D3DXMATRIXA16 mProj;
-	D3DXMATRIXA16 mTrans;
-	D3DXMATRIXA16 mScale;
-
-	g_pd3dDevice->GetTransform( D3DTS_PROJECTION, &mProj );
-	D3DXMatrixTranslation( &mTrans, 0.5f, 0.5f, 0.0f );
-	D3DXMatrixScaling( &mScale, 0.5f, -0.5f, 1.0f );
-	mTextureTransform = mProj * mScale * mTrans;
-
-	g_pd3dDevice->SetTransform( D3DTS_TEXTURE0, &mTextureTransform );
-	g_pd3dDevice->SetTextureStageState( 0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT4 | D3DTTFF_PROJECTED );
-	g_pd3dDevice->SetTextureStageState( 0, D3DTSS_TEXCOORDINDEX, D3DTSS_TCI_CAMERASPACEPOSITION );
-    #endif
 
         // Render the vertex buffer contents
         g_pd3dDevice->SetStreamSource( 0, g_pVB, 0, sizeof( CUSTOMVERTEX ) );

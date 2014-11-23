@@ -76,6 +76,7 @@
     <ClInclude Include="IProxyMap.h" />
     <ClInclude Include="ProxyBase.h" />
     <ClInclude Include="ProxyImpl.h" />
+    <ClInclude Include="ProxyImpl_D3D.h" />
     <ClInclude Include="ProxyImpl_Device.h" />
     <ClInclude Include="ProxyImpl_Surface.h" />
     <ClInclude Include="ProxyImpl_VB.h" />
@@ -85,6 +86,7 @@
     <ClCompile Include="GlobalImpl.cpp" />
     <ClCompile Include="ProxyBase.cpp" />
     <ClCompile Include="ProxyFactory.cpp" />
+    <ClCompile Include="ProxyImpl_D3D.cpp" />
     <ClCompile Include="ProxyImpl_Device.cpp" />
     <ClCompile Include="ProxyImpl_Surface.cpp" />
     <ClCompile Include="ProxyImpl_VB.cpp" />

@@ -17,6 +17,8 @@ using std::make_shared;
 using std::enable_shared_from_this;
 using std::dynamic_pointer_cast;
 
+#include <cstdint>
+
 #include <functional>
 using std::bind;
 using std::function;

@@ -210,6 +210,12 @@ struct read_proc
         for (size_t i = 0; i < size; ++i)
             this->operator()(dst[i]);
     }
+    
+    template<typename T, size_t N>
+    void operator()(T const(&arr)[N])
+    {
+        array(arr, N);
+    }
 
     template<typename T>
     T operator()()
@@ -235,11 +241,18 @@ struct write_proc
         inner::put(src, bytes_);
     }
 
+
     template<typename T>
     void array(T *const ptr, size_t size)
     {
         for (size_t i = 0; i < size; ++i)
             this->operator()(ptr[i]);
+    }
+
+    template<typename T, size_t N>
+    void operator()(T const(&arr)[N])
+    {
+        array(arr, N);
     }
 
     template<typename T>

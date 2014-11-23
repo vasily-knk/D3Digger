@@ -48,12 +48,19 @@ void process(bytes::write_proc &proc, vector<T> const &vec)
     proc.array(vec.data(), size);
 }
 
+
+
+/*
 template<typename Proc>
 void process(Proc &proc, void*)
 {
     throw std::runtime_error("void* is not serializable");
 }
+*/
 
+
+
+/*
 inline void process(bytes::write_proc &proc, optional<HANDLE> const &val)
 {
     process<HANDLE>(proc, val);
@@ -64,7 +71,30 @@ inline void process(bytes::read_proc &proc, optional<HANDLE> const &val)
 {
     process<HANDLE>(proc, val);
     assert(!val);
+}*/
+
+
+template<typename Proc>
+void process(Proc &proc, HWND const &h)
+{
+    // TODO: remove me!
+    proc.array(reinterpret_cast<char const*>(&h), sizeof(h));
 }
+
+template<typename Proc>
+void process(Proc &proc, HMONITOR const &h)
+{
+    // TODO: remove me!
+    proc.array(reinterpret_cast<char const*>(&h), sizeof(h));
+}
+
+template<typename Proc>
+void process(Proc &proc, HDC const &h)
+{
+    // TODO: remove me!
+    proc.array(reinterpret_cast<char const*>(&h), sizeof(h));
+}
+
 
 template<typename Proc>
 void process(Proc &proc, D3DRECT const &rect)
@@ -87,9 +117,9 @@ void process(Proc &proc, RECT const &rect)
 template<typename Proc>
 void process(Proc &proc, D3DADAPTER_IDENTIFIER9 const &r)
 {
-    proc.array(r.Driver, MAX_DEVICE_IDENTIFIER_STRING);
-    proc.array(r.Description, MAX_DEVICE_IDENTIFIER_STRING);
-    proc.array(r.DeviceName, 32);
+    proc(r.Driver);
+    proc(r.Description);
+    proc(r.DeviceName);
     
     proc(r.DriverVersion);
 
@@ -122,26 +152,6 @@ void process(Proc &proc, RGNDATA const &r)
     // TODO: process buffer!
 }
 
-template<typename Proc>
-void process(Proc &proc, HWND const &h)
-{
-    // TODO: remove me!
-    proc.array(reinterpret_cast<char const*>(&h), sizeof(h));
-}
-
-template<typename Proc>
-void process(Proc &proc, HMONITOR const &h)
-{
-    // TODO: remove me!
-    proc.array(reinterpret_cast<char const*>(&h), sizeof(h));
-}
-
-template<typename Proc>
-void process(Proc &proc, HDC const &h)
-{
-    // TODO: remove me!
-    proc.array(reinterpret_cast<char const*>(&h), sizeof(h));
-}
 
 template<typename Proc>
 void process(Proc &proc, LARGE_INTEGER const &r)
@@ -155,7 +165,7 @@ void process(Proc &proc, GUID const &r)
     proc(r.Data1);
     proc(r.Data2);
     proc(r.Data3);
-    proc.array(r.Data4, 8);
+    proc(r.Data4);
 }
 
 template<typename Proc>
@@ -314,9 +324,9 @@ void process(Proc &proc, D3DRASTER_STATUS const &r)
 template<typename Proc>
 void process(Proc &proc, D3DGAMMARAMP const &r)
 {
-    proc.array(r.red  , 256);
-    proc.array(r.green, 256);
-    proc.array(r.blue , 256);
+    proc(r.red  );
+    proc(r.green);
+    proc(r.blue );
 } 
 
 template<typename Proc>

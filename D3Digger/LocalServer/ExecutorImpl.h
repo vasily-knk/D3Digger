@@ -4,6 +4,7 @@
 #include "d3d9/Server/IProc.h"
 #include "d3d9/InterfacesList.h"
 #include "d3d9/Server/IProcMap.h"
+#include "common/asio_wrapper.h"
 
 namespace D3D9
 {
@@ -30,7 +31,8 @@ private:
     void Direct3DCreate9(BytesPtr srcArgs, BytesPtr dstArgs) const;
 
 private:
-    IOService service_;
+    typedef ServiceWrapper Service;
+    ServiceWrapper service_;
     IOService::work serviceWork_;
     Thread serviceThread_;
 

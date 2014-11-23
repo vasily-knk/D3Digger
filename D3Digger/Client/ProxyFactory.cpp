@@ -2,6 +2,7 @@
 #include "ProxyFactory.h"
 #include "ProxyBase.h"
 
+#include "ProxyImpl_D3D.h"
 #include "ProxyImpl_Device.h"
 #include "ProxyImpl_VB.h"
 #include "ProxyImpl_Surface.h"
@@ -12,7 +13,6 @@ namespace D3D9
 	{
 
 #define FOR_X(X) \
-    X(IDirect3D9                 ) \
     X(IDirect3DSwapChain9        ) \
     X(IDirect3DVolumeTexture9    ) \
     X(IDirect3DCubeTexture9      ) \
@@ -38,6 +38,7 @@ FOR_X(CREATE_PROXY_DEFINITION)
 #undef FOR_X
 
 #define FOR_X(X) \
+    X(IDirect3D9                 ) \
     X(IDirect3DDevice9) \
     X(IDirect3DVertexBuffer9) \
     X(IDirect3DSurface9)

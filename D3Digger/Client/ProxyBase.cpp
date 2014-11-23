@@ -592,155 +592,15 @@ void ProxyBase<IDirect3DDevice9>::GetGammaRamp(UINT iSwapChain, D3DGAMMARAMP* pR
     if (pRamp) rp(*pRamp);
 }
 
-HRESULT ProxyBase<IDirect3DDevice9>::CreateTexture(UINT Width, UINT Height, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DTexture9** ppTexture, HANDLE* pSharedHandle)
-{
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(Width);
-    wp(Height);
-    wp(Levels);
-    wp(Usage);
-    wp(Format);
-    wp(Pool);
-    wp(ptr2opt(pSharedHandle));
-    
-    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateTexture), inBytes);
-    
-    bytes::read_proc rp(outBytes);
-    HRESULT ret; rp(ret);
-    *ppTexture = getGlobal().proxyMap().getById<IDirect3DTexture9>(rp.operator()<ProxyId>());
-    if (pSharedHandle) rp(*pSharedHandle);
-    return ret;
-}
+HRESULT ProxyBase<IDirect3DDevice9>:: CreateTexture(UINT Width, UINT Height, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DTexture9** ppTexture, HANDLE* pSharedHandle)                                              { throw std::runtime_error("Not implemented!"); }
+HRESULT ProxyBase<IDirect3DDevice9>:: CreateVolumeTexture(UINT Width, UINT Height, UINT Depth, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DVolumeTexture9** ppVolumeTexture, HANDLE* pSharedHandle)                { throw std::runtime_error("Not implemented!"); }
+HRESULT ProxyBase<IDirect3DDevice9>:: CreateCubeTexture(UINT EdgeLength, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DCubeTexture9** ppCubeTexture, HANDLE* pSharedHandle)                                          { throw std::runtime_error("Not implemented!"); }
+HRESULT ProxyBase<IDirect3DDevice9>:: CreateVertexBuffer(UINT Length, DWORD Usage, DWORD FVF, D3DPOOL Pool, IDirect3DVertexBuffer9** ppVertexBuffer, HANDLE* pSharedHandle)                                                               { throw std::runtime_error("Not implemented!"); }
+HRESULT ProxyBase<IDirect3DDevice9>:: CreateIndexBuffer(UINT Length, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DIndexBuffer9** ppIndexBuffer, HANDLE* pSharedHandle)                                                           { throw std::runtime_error("Not implemented!"); }
+HRESULT ProxyBase<IDirect3DDevice9>:: CreateRenderTarget(UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, DWORD MultisampleQuality, BOOL Lockable, IDirect3DSurface9** ppSurface, HANDLE* pSharedHandle)       { throw std::runtime_error("Not implemented!"); }
+HRESULT ProxyBase<IDirect3DDevice9>:: CreateDepthStencilSurface(UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, DWORD MultisampleQuality, BOOL Discard, IDirect3DSurface9** ppSurface, HANDLE* pSharedHandle) { throw std::runtime_error("Not implemented!"); }
 
-HRESULT ProxyBase<IDirect3DDevice9>::CreateVolumeTexture(UINT Width, UINT Height, UINT Depth, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DVolumeTexture9** ppVolumeTexture, HANDLE* pSharedHandle)
-{
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(Width);
-    wp(Height);
-    wp(Depth);
-    wp(Levels);
-    wp(Usage);
-    wp(Format);
-    wp(Pool);
-    wp(ptr2opt(pSharedHandle));
-    
-    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateVolumeTexture), inBytes);
-    
-    bytes::read_proc rp(outBytes);
-    HRESULT ret; rp(ret);
-    *ppVolumeTexture = getGlobal().proxyMap().getById<IDirect3DVolumeTexture9>(rp.operator()<ProxyId>());
-    if (pSharedHandle) rp(*pSharedHandle);
-    return ret;
-}
 
-HRESULT ProxyBase<IDirect3DDevice9>::CreateCubeTexture(UINT EdgeLength, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DCubeTexture9** ppCubeTexture, HANDLE* pSharedHandle)
-{
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(EdgeLength);
-    wp(Levels);
-    wp(Usage);
-    wp(Format);
-    wp(Pool);
-    wp(ptr2opt(pSharedHandle));
-    
-    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateCubeTexture), inBytes);
-    
-    bytes::read_proc rp(outBytes);
-    HRESULT ret; rp(ret);
-    *ppCubeTexture = getGlobal().proxyMap().getById<IDirect3DCubeTexture9>(rp.operator()<ProxyId>());
-    if (pSharedHandle) rp(*pSharedHandle);
-    return ret;
-}
-
-HRESULT ProxyBase<IDirect3DDevice9>::CreateVertexBuffer(UINT Length, DWORD Usage, DWORD FVF, D3DPOOL Pool, IDirect3DVertexBuffer9** ppVertexBuffer, HANDLE* pSharedHandle)
-{
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(Length);
-    wp(Usage);
-    wp(FVF);
-    wp(Pool);
-    wp(ptr2opt(pSharedHandle));
-    
-    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateVertexBuffer), inBytes);
-    
-    bytes::read_proc rp(outBytes);
-    HRESULT ret; rp(ret);
-    *ppVertexBuffer = getGlobal().proxyMap().getById<IDirect3DVertexBuffer9>(rp.operator()<ProxyId>());
-    if (pSharedHandle) rp(*pSharedHandle);
-    return ret;
-}
-
-HRESULT ProxyBase<IDirect3DDevice9>::CreateIndexBuffer(UINT Length, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DIndexBuffer9** ppIndexBuffer, HANDLE* pSharedHandle)
-{
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(Length);
-    wp(Usage);
-    wp(Format);
-    wp(Pool);
-    wp(ptr2opt(pSharedHandle));
-    
-    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateIndexBuffer), inBytes);
-    
-    bytes::read_proc rp(outBytes);
-    HRESULT ret; rp(ret);
-    *ppIndexBuffer = getGlobal().proxyMap().getById<IDirect3DIndexBuffer9>(rp.operator()<ProxyId>());
-    if (pSharedHandle) rp(*pSharedHandle);
-    return ret;
-}
-
-HRESULT ProxyBase<IDirect3DDevice9>::CreateRenderTarget(UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, DWORD MultisampleQuality, BOOL Lockable, IDirect3DSurface9** ppSurface, HANDLE* pSharedHandle)
-{
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(Width);
-    wp(Height);
-    wp(Format);
-    wp(MultiSample);
-    wp(MultisampleQuality);
-    wp(Lockable);
-    wp(ptr2opt(pSharedHandle));
-    
-    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateRenderTarget), inBytes);
-    
-    bytes::read_proc rp(outBytes);
-    HRESULT ret; rp(ret);
-    *ppSurface = getGlobal().proxyMap().getById<IDirect3DSurface9>(rp.operator()<ProxyId>());
-    if (pSharedHandle) rp(*pSharedHandle);
-    return ret;
-}
-
-HRESULT ProxyBase<IDirect3DDevice9>::CreateDepthStencilSurface(UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, DWORD MultisampleQuality, BOOL Discard, IDirect3DSurface9** ppSurface, HANDLE* pSharedHandle)
-{
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(Width);
-    wp(Height);
-    wp(Format);
-    wp(MultiSample);
-    wp(MultisampleQuality);
-    wp(Discard);
-    wp(ptr2opt(pSharedHandle));
-    
-    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateDepthStencilSurface), inBytes);
-    
-    bytes::read_proc rp(outBytes);
-    HRESULT ret; rp(ret);
-    *ppSurface = getGlobal().proxyMap().getById<IDirect3DSurface9>(rp.operator()<ProxyId>());
-    if (pSharedHandle) rp(*pSharedHandle);
-    return ret;
-}
 
 HRESULT ProxyBase<IDirect3DDevice9>::UpdateSurface(IDirect3DSurface9* pSourceSurface, const RECT* pSourceRect, IDirect3DSurface9* pDestinationSurface, const POINT* pDestPoint)
 {
@@ -834,15 +694,15 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateOffscreenPlainSurface(UINT Width, UIN
     wp(Width);
     wp(Height);
     wp(Format);
-    wp(Pool);
-    wp(ptr2opt(pSharedHandle));
+    wp(Pool);                        
+    //wp(ptr2opt(pSharedHandle));
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateOffscreenPlainSurface), inBytes);
     
     bytes::read_proc rp(outBytes);
     HRESULT ret; rp(ret);
     *ppSurface = getGlobal().proxyMap().getById<IDirect3DSurface9>(rp.operator()<ProxyId>());
-    if (pSharedHandle) rp(*pSharedHandle);
+    //if (pSharedHandle) rp(*pSharedHandle);
     return ret;
 }
 
