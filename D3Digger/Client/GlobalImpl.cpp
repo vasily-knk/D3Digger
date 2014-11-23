@@ -36,12 +36,27 @@ namespace D3D9
 			IProxyMapPtr proxyMap_;
 			IExecutorPtr executor_;
 		};
+
+        std::unique_ptr<GlobalImpl> g_globalImpl;
 	
 	
-		IGlobal &getGlobal()
+		IGlobal &createGlobal()
+        {
+            assert(!g_globalImpl);
+            g_globalImpl = std::make_unique<GlobalImpl>();
+            return *g_globalImpl;
+        }
+
+        void deleteGlobal()
+        {
+            assert(g_globalImpl);
+            g_globalImpl.reset();
+        }
+        
+        IGlobal &getGlobal()
 		{
-			static GlobalImpl global;
-			return global;
+            assert(g_globalImpl);
+            return *g_globalImpl;
 		}
 	
 	} // namespace Client

@@ -31,8 +31,8 @@ private:
     void Direct3DCreate9(BytesPtr srcArgs, BytesPtr dstArgs) const;
 
 private:
-    typedef ServiceWrapper Service;
-    ServiceWrapper service_;
+    typedef IOService Service;
+    IOService service_;
     IOService::work serviceWork_;
     Thread serviceThread_;
 

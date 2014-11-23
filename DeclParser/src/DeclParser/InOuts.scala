@@ -11,6 +11,7 @@ object InOuts {
             false
         } // Fixme
 
+        case ArgType("HANDLE", _, 1, _) => false
         case ArgType(_, _, 1, _) => true
         //case ArgType(typeName, false, 1, _) => checkTypeName(typeName)
         case ArgType(_, _, 2, _) => false
@@ -19,6 +20,7 @@ object InOuts {
     def isOut(arg: Arg) = arg.argType match {
         case ArgType(_, _, 0, _) => false
         case ArgType("void", _, 1, _) => false // Fixme
+        case ArgType("HANDLE", _, 1, _) => false
         case ArgType(_, true, 1, _) => false
         case ArgType(typeName, false, 1, _) => !checkTypeName(typeName)
         case ArgType(typeName, _, 2, _) => checkTypeName(typeName)

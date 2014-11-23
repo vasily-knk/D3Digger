@@ -40,8 +40,12 @@ namespace D3D9
 
 				map_.insert(make_pair(id, std::move(record)));
 			}
+            else
+            {
+			    map_.at(id).ptr->AddRef();
+            }
 
-			return map_.at(id).ptr;
+            return map_.at(id).ptr;
 		}
 
 		void ProxyMapImpl::onDeleted(ProxyId id)

@@ -10,7 +10,7 @@ IDirect3D9* WINAPI Direct3DCreate9(UINT SDKVersion)
 	using namespace D3D9;
 	using namespace D3D9::Client;
 
-	IGlobal &global = getGlobal();
+	IGlobal &global = createGlobal();
 
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);

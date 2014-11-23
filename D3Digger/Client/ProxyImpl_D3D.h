@@ -14,7 +14,7 @@ struct ProxyImpl<IDirect3D9>
     typedef ProxyBase<IDirect3D9> Base;
 
     ProxyImpl(ProxyId id); 
-
+    ~ProxyImpl(); 
 };
 
 } // namespace Client

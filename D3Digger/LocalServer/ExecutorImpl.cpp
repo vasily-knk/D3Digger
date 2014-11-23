@@ -8,8 +8,7 @@ namespace Client
 	
 namespace
 {
-    template<typename Service>
-    void runService(Service *service)
+    void runService(IOService *service)
     {
         service->run();
     }
@@ -23,8 +22,8 @@ IExecutorPtr createExecutor()
 	
 
 ExecutorImpl::ExecutorImpl()
-    : serviceWork_(service_.service())
-    , serviceThread_(bind(runService<ServiceWrapper>, &service_))
+    : serviceWork_(service_)
+    , serviceThread_(bind(runService, &service_))
     , isComplete_(true)
     , procMap_(Server::createProcMap())
 {

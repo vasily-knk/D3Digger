@@ -18,6 +18,11 @@ Impl::ProxyImpl(ProxyId id)
     
 }
 
+Impl::~ProxyImpl()
+{
+    deleteGlobal();
+}
+
 } // namespace Client
 
 } // namespace D3D9

@@ -15,6 +15,7 @@ namespace
 Impl::ProxyImpl(ProxyId id)
     : Base(id)
 {
+    int aaa = 5;
     Base::GetDesc(&desc_);
 }
 

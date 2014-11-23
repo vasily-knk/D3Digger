@@ -17,6 +17,8 @@ namespace D3D9
 		};
 
 		IGlobal &getGlobal();
+		IGlobal &createGlobal();
+		void deleteGlobal();
 
 #define LOG(str) getGlobal().log() << str << std::endl << std::flush;
 

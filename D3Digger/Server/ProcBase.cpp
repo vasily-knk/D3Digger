@@ -652,14 +652,186 @@ void ProcBase<IDirect3DDevice9>::GetGammaRamp(BytesPtr srcBytes, BytesPtr dstByt
     if (args.pRamp) wp(*args.pRamp);
 }
 
-void ProcBase<IDirect3DDevice9>::CreateTexture              (BytesPtr srcBytes, BytesPtr dstBytes) { throw std::runtime_error("Not implemented!"); }
-void ProcBase<IDirect3DDevice9>::CreateVolumeTexture        (BytesPtr srcBytes, BytesPtr dstBytes) { throw std::runtime_error("Not implemented!"); }
-void ProcBase<IDirect3DDevice9>::CreateCubeTexture          (BytesPtr srcBytes, BytesPtr dstBytes) { throw std::runtime_error("Not implemented!"); }
-void ProcBase<IDirect3DDevice9>::CreateVertexBuffer         (BytesPtr srcBytes, BytesPtr dstBytes) { throw std::runtime_error("Not implemented!"); }
-void ProcBase<IDirect3DDevice9>::CreateIndexBuffer          (BytesPtr srcBytes, BytesPtr dstBytes) { throw std::runtime_error("Not implemented!"); }
-void ProcBase<IDirect3DDevice9>::CreateRenderTarget         (BytesPtr srcBytes, BytesPtr dstBytes) { throw std::runtime_error("Not implemented!"); }
-void ProcBase<IDirect3DDevice9>::CreateDepthStencilSurface  (BytesPtr srcBytes, BytesPtr dstBytes) { throw std::runtime_error("Not implemented!"); }
-void ProcBase<IDirect3DDevice9>::CreateOffscreenPlainSurface(BytesPtr srcBytes, BytesPtr dstBytes) { throw std::runtime_error("Not implemented!"); }
+void ProcBase<IDirect3DDevice9>::CreateTexture(BytesPtr srcBytes, BytesPtr dstBytes)
+{
+    bytes::read_proc rp(srcBytes);
+    IDirect3DDevice9 *self = procMap_->getPtr<IDirect3DDevice9>(rp.operator()<ProxyId>());
+    struct {
+        UINT Width;
+        UINT Height;
+        UINT Levels;
+        DWORD Usage;
+        D3DFORMAT Format;
+        D3DPOOL Pool;
+        IDirect3DTexture9* ppTexture;
+        optional<HANDLE> pSharedHandle;
+    } args;
+    (void)args;
+    rp(args.Width);
+    rp(args.Height);
+    rp(args.Levels);
+    rp(args.Usage);
+    rp(args.Format);
+    rp(args.Pool);
+    HRESULT res = self->CreateTexture(args.Width, args.Height, args.Levels, args.Usage, args.Format, args.Pool, &args.ppTexture, opt2ptr(args.pSharedHandle));
+    bytes::write_proc wp(dstBytes);
+    wp(res);
+    wp(procMap_->getProxyID(args.ppTexture));
+}
+
+void ProcBase<IDirect3DDevice9>::CreateVolumeTexture(BytesPtr srcBytes, BytesPtr dstBytes)
+{
+    bytes::read_proc rp(srcBytes);
+    IDirect3DDevice9 *self = procMap_->getPtr<IDirect3DDevice9>(rp.operator()<ProxyId>());
+    struct {
+        UINT Width;
+        UINT Height;
+        UINT Depth;
+        UINT Levels;
+        DWORD Usage;
+        D3DFORMAT Format;
+        D3DPOOL Pool;
+        IDirect3DVolumeTexture9* ppVolumeTexture;
+        optional<HANDLE> pSharedHandle;
+    } args;
+    (void)args;
+    rp(args.Width);
+    rp(args.Height);
+    rp(args.Depth);
+    rp(args.Levels);
+    rp(args.Usage);
+    rp(args.Format);
+    rp(args.Pool);
+    HRESULT res = self->CreateVolumeTexture(args.Width, args.Height, args.Depth, args.Levels, args.Usage, args.Format, args.Pool, &args.ppVolumeTexture, opt2ptr(args.pSharedHandle));
+    bytes::write_proc wp(dstBytes);
+    wp(res);
+    wp(procMap_->getProxyID(args.ppVolumeTexture));
+}
+
+void ProcBase<IDirect3DDevice9>::CreateCubeTexture(BytesPtr srcBytes, BytesPtr dstBytes)
+{
+    bytes::read_proc rp(srcBytes);
+    IDirect3DDevice9 *self = procMap_->getPtr<IDirect3DDevice9>(rp.operator()<ProxyId>());
+    struct {
+        UINT EdgeLength;
+        UINT Levels;
+        DWORD Usage;
+        D3DFORMAT Format;
+        D3DPOOL Pool;
+        IDirect3DCubeTexture9* ppCubeTexture;
+        optional<HANDLE> pSharedHandle;
+    } args;
+    (void)args;
+    rp(args.EdgeLength);
+    rp(args.Levels);
+    rp(args.Usage);
+    rp(args.Format);
+    rp(args.Pool);
+    HRESULT res = self->CreateCubeTexture(args.EdgeLength, args.Levels, args.Usage, args.Format, args.Pool, &args.ppCubeTexture, opt2ptr(args.pSharedHandle));
+    bytes::write_proc wp(dstBytes);
+    wp(res);
+    wp(procMap_->getProxyID(args.ppCubeTexture));
+}
+
+void ProcBase<IDirect3DDevice9>::CreateVertexBuffer(BytesPtr srcBytes, BytesPtr dstBytes)
+{
+    bytes::read_proc rp(srcBytes);
+    IDirect3DDevice9 *self = procMap_->getPtr<IDirect3DDevice9>(rp.operator()<ProxyId>());
+    struct {
+        UINT Length;
+        DWORD Usage;
+        DWORD FVF;
+        D3DPOOL Pool;
+        IDirect3DVertexBuffer9* ppVertexBuffer;
+        optional<HANDLE> pSharedHandle;
+    } args;
+    (void)args;
+    rp(args.Length);
+    rp(args.Usage);
+    rp(args.FVF);
+    rp(args.Pool);
+    HRESULT res = self->CreateVertexBuffer(args.Length, args.Usage, args.FVF, args.Pool, &args.ppVertexBuffer, opt2ptr(args.pSharedHandle));
+    bytes::write_proc wp(dstBytes);
+    wp(res);
+    wp(procMap_->getProxyID(args.ppVertexBuffer));
+}
+
+void ProcBase<IDirect3DDevice9>::CreateIndexBuffer(BytesPtr srcBytes, BytesPtr dstBytes)
+{
+    bytes::read_proc rp(srcBytes);
+    IDirect3DDevice9 *self = procMap_->getPtr<IDirect3DDevice9>(rp.operator()<ProxyId>());
+    struct {
+        UINT Length;
+        DWORD Usage;
+        D3DFORMAT Format;
+        D3DPOOL Pool;
+        IDirect3DIndexBuffer9* ppIndexBuffer;
+        optional<HANDLE> pSharedHandle;
+    } args;
+    (void)args;
+    rp(args.Length);
+    rp(args.Usage);
+    rp(args.Format);
+    rp(args.Pool);
+    HRESULT res = self->CreateIndexBuffer(args.Length, args.Usage, args.Format, args.Pool, &args.ppIndexBuffer, opt2ptr(args.pSharedHandle));
+    bytes::write_proc wp(dstBytes);
+    wp(res);
+    wp(procMap_->getProxyID(args.ppIndexBuffer));
+}
+
+void ProcBase<IDirect3DDevice9>::CreateRenderTarget(BytesPtr srcBytes, BytesPtr dstBytes)
+{
+    bytes::read_proc rp(srcBytes);
+    IDirect3DDevice9 *self = procMap_->getPtr<IDirect3DDevice9>(rp.operator()<ProxyId>());
+    struct {
+        UINT Width;
+        UINT Height;
+        D3DFORMAT Format;
+        D3DMULTISAMPLE_TYPE MultiSample;
+        DWORD MultisampleQuality;
+        BOOL Lockable;
+        IDirect3DSurface9* ppSurface;
+        optional<HANDLE> pSharedHandle;
+    } args;
+    (void)args;
+    rp(args.Width);
+    rp(args.Height);
+    rp(args.Format);
+    rp(args.MultiSample);
+    rp(args.MultisampleQuality);
+    rp(args.Lockable);
+    HRESULT res = self->CreateRenderTarget(args.Width, args.Height, args.Format, args.MultiSample, args.MultisampleQuality, args.Lockable, &args.ppSurface, opt2ptr(args.pSharedHandle));
+    bytes::write_proc wp(dstBytes);
+    wp(res);
+    wp(procMap_->getProxyID(args.ppSurface));
+}
+
+void ProcBase<IDirect3DDevice9>::CreateDepthStencilSurface(BytesPtr srcBytes, BytesPtr dstBytes)
+{
+    bytes::read_proc rp(srcBytes);
+    IDirect3DDevice9 *self = procMap_->getPtr<IDirect3DDevice9>(rp.operator()<ProxyId>());
+    struct {
+        UINT Width;
+        UINT Height;
+        D3DFORMAT Format;
+        D3DMULTISAMPLE_TYPE MultiSample;
+        DWORD MultisampleQuality;
+        BOOL Discard;
+        IDirect3DSurface9* ppSurface;
+        optional<HANDLE> pSharedHandle;
+    } args;
+    (void)args;
+    rp(args.Width);
+    rp(args.Height);
+    rp(args.Format);
+    rp(args.MultiSample);
+    rp(args.MultisampleQuality);
+    rp(args.Discard);
+    HRESULT res = self->CreateDepthStencilSurface(args.Width, args.Height, args.Format, args.MultiSample, args.MultisampleQuality, args.Discard, &args.ppSurface, opt2ptr(args.pSharedHandle));
+    bytes::write_proc wp(dstBytes);
+    wp(res);
+    wp(procMap_->getProxyID(args.ppSurface));
+}
 
 void ProcBase<IDirect3DDevice9>::UpdateSurface(BytesPtr srcBytes, BytesPtr dstBytes)
 {
@@ -767,6 +939,29 @@ void ProcBase<IDirect3DDevice9>::ColorFill(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->ColorFill(args.pSurface, opt2ptr(args.pRect), args.color);
     bytes::write_proc wp(dstBytes);
     wp(res);
+}
+
+void ProcBase<IDirect3DDevice9>::CreateOffscreenPlainSurface(BytesPtr srcBytes, BytesPtr dstBytes)
+{
+    bytes::read_proc rp(srcBytes);
+    IDirect3DDevice9 *self = procMap_->getPtr<IDirect3DDevice9>(rp.operator()<ProxyId>());
+    struct {
+        UINT Width;
+        UINT Height;
+        D3DFORMAT Format;
+        D3DPOOL Pool;
+        IDirect3DSurface9* ppSurface;
+        optional<HANDLE> pSharedHandle;
+    } args;
+    (void)args;
+    rp(args.Width);
+    rp(args.Height);
+    rp(args.Format);
+    rp(args.Pool);
+    HRESULT res = self->CreateOffscreenPlainSurface(args.Width, args.Height, args.Format, args.Pool, &args.ppSurface, opt2ptr(args.pSharedHandle));
+    bytes::write_proc wp(dstBytes);
+    wp(res);
+    wp(procMap_->getProxyID(args.ppSurface));
 }
 
 void ProcBase<IDirect3DDevice9>::SetRenderTarget(BytesPtr srcBytes, BytesPtr dstBytes)
