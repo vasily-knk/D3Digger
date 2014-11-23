@@ -74,6 +74,7 @@
     <ClInclude Include="ProcBase.h" />
     <ClInclude Include="ProcImpl.h" />
     <ClInclude Include="ProcImpl_Device.h" />
+    <ClInclude Include="ProcImpl_IB.h" />
     <ClInclude Include="ProcImpl_Query.h" />
     <ClInclude Include="ProcImpl_Surface.h" />
     <ClInclude Include="ProcImpl_VB.h" />
@@ -83,6 +84,7 @@
     <ClCompile Include="ProcBase.cpp" />
     <ClCompile Include="ProcFactory.cpp" />
     <ClCompile Include="ProcImpl_Device.cpp" />
+    <ClCompile Include="ProcImpl_IB.cpp" />
     <ClCompile Include="ProcImpl_Query.cpp" />
     <ClCompile Include="ProcImpl_Surface.cpp" />
     <ClCompile Include="ProcImpl_VB.cpp" />

@@ -78,6 +78,7 @@
     <ClInclude Include="ProxyImpl.h" />
     <ClInclude Include="ProxyImpl_D3D.h" />
     <ClInclude Include="ProxyImpl_Device.h" />
+    <ClInclude Include="ProxyImpl_IB.h" />
     <ClInclude Include="ProxyImpl_Surface.h" />
     <ClInclude Include="ProxyImpl_VB.h" />
     <ClInclude Include="stdafx.h" />
@@ -88,6 +89,7 @@
     <ClCompile Include="ProxyFactory.cpp" />
     <ClCompile Include="ProxyImpl_D3D.cpp" />
     <ClCompile Include="ProxyImpl_Device.cpp" />
+    <ClCompile Include="ProxyImpl_IB.cpp" />
     <ClCompile Include="ProxyImpl_Query.cpp" />
     <ClInclude Include="ProxyImpl_Query.h">
       <FileType>CppCode</FileType>

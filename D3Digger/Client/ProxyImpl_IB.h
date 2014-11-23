@@ -8,10 +8,10 @@ namespace Client
 {
 
 template<>
-struct ProxyImpl<IDirect3DVertexBuffer9>
-    : ProxyBase<IDirect3DVertexBuffer9>
+struct ProxyImpl<IDirect3DIndexBuffer9>
+    : ProxyBase<IDirect3DIndexBuffer9>
 {
-    typedef ProxyBase<IDirect3DVertexBuffer9> Base;
+    typedef ProxyBase<IDirect3DIndexBuffer9> Base;
 
     ProxyImpl(ProxyId id); 
 

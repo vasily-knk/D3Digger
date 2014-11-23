@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "ProcImpl_VB.h"
+#include "ProcImpl_IB.h"
 
 namespace D3D9
 {
@@ -9,7 +9,7 @@ namespace Server
 
 namespace
 {
-    typedef ProcImpl<IDirect3DVertexBuffer9> Impl;
+    typedef ProcImpl<IDirect3DIndexBuffer9> Impl;
 }
 
 Impl::ProcImpl(CreateProcArgs const &args)
@@ -30,7 +30,7 @@ void Impl::Unlock(BytesPtr srcBytes, BytesPtr dstBytes)
     ProxyId id;
     rp(id);
     
-    IDirect3DVertexBuffer9 *self = procMap_->getPtr<IDirect3DVertexBuffer9>(id);
+    IDirect3DIndexBuffer9 *self = procMap_->getPtr<IDirect3DIndexBuffer9>(id);
     
     UINT offset;
     DWORD flags;

@@ -36,6 +36,7 @@ vector<ExecutorImpl::Method> ExecutorImpl::getMethodsBASE() const
 #define MY_BEGIN_INTERFACE(name) \
     vector<ExecutorImpl::Method> ExecutorImpl::getMethods##name() const \
     { \
+        string interface_name = #name; \
         typedef D3D9::Server::IProc<name> IProc; \
         typedef D3D9::Methods_##name MethodsEnum; \
         auto proc = proc##name##_; \
@@ -48,7 +49,7 @@ vector<ExecutorImpl::Method> ExecutorImpl::getMethodsBASE() const
         return methods; \
     }
 
-#define MY_STDMETHOD(name, args) methods.at(static_cast<size_t>(MethodsEnum::name)) = make_pair(bind(&IProc::name, proc, _1, _2), #name);
+#define MY_STDMETHOD(name, args) methods.at(static_cast<size_t>(MethodsEnum::name)) = make_pair(bind(&IProc::name, proc, _1, _2), interface_name + string(".") + string(#name));
 #define MY_STDMETHOD_(ret_type, name, args) MY_STDMETHOD(name, args)
 
 #include "d3d9/decl.h"

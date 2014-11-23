@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "ProxyImpl_VB.h"
+#include "ProxyImpl_IB.h"
 
 namespace D3D9
 {
@@ -8,7 +8,7 @@ namespace Client
 
 namespace
 {
-    typedef ProxyImpl<IDirect3DVertexBuffer9> Impl;
+    typedef ProxyImpl<IDirect3DIndexBuffer9> Impl;
 }
 
 Impl::ProxyImpl(ProxyId id)
@@ -42,7 +42,7 @@ HRESULT Impl::Lock(UINT OffsetToLock, UINT SizeToLock, void** ppbData, DWORD Fla
     *ppbData = reinterpret_cast<void*>(lockStack_.top().buffer->data());
 
     return D3D_OK;
-}                            
+}
 
 HRESULT Impl::Unlock()
 {
@@ -54,6 +54,8 @@ HRESULT Impl::Unlock()
 
     LockData ld = lockStack_.top();
     lockStack_.pop();
+
+    uint16_t *temp = reinterpret_cast<uint16_t*>(ld.buffer->data());
     
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
@@ -61,16 +63,16 @@ HRESULT Impl::Unlock()
 
     wp(UINT(ld.offset));
     wp(ld.flags);
-    wp(*ld.buffer);          
+    wp(*ld.buffer);
     
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DVertexBuffer9, Methods_IDirect3DVertexBuffer9::Unlock), inBytes);
+    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DIndexBuffer9, Methods_IDirect3DIndexBuffer9::Unlock), inBytes);
     
     return D3D_OK;
 }
 
 size_t Impl::getSize()
 {
-    D3DVERTEXBUFFER_DESC desc;
+    D3DINDEXBUFFER_DESC desc;
     Base::GetDesc(&desc);
     return desc.Size;
 }

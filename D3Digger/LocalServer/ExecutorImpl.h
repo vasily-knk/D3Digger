@@ -37,6 +37,8 @@ private:
     IOService::work serviceWork_;
     Thread serviceThread_;
 
+    vector<string> methodsLog_;
+
 private:
     mutex mutex_;
     condition_variable cond_;

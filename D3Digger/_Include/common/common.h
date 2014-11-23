@@ -52,6 +52,8 @@ using std::string;
 #include <sstream>
 using std::stringstream;
 
+#include <iostream>
+
 #include <iomanip>
 #include <algorithm>
 #include <numeric> 
