@@ -21,13 +21,22 @@ Impl::ProxyImpl(ProxyId id)
 HRESULT Impl::Lock(UINT OffsetToLock, UINT SizeToLock, void** ppbData, DWORD Flags)
 {
     if (lockData_)
+    {
+        assert(false);
         return D3DERR_INVALIDCALL;
+    }
 
     if (!ppbData)
+    {
+        assert(false);
         return D3DERR_INVALIDCALL;
+    }
 
     if (OffsetToLock + SizeToLock > buffer_.size())
+    {
+        assert(false);
         return D3DERR_INVALIDCALL;
+    }
 
     LockData ld;
 
@@ -52,7 +61,10 @@ HRESULT Impl::Lock(UINT OffsetToLock, UINT SizeToLock, void** ppbData, DWORD Fla
 HRESULT Impl::Unlock()
 {
     if (!lockData_)
+    {
+        assert(false);
         return D3DERR_INVALIDCALL;
+    }
     
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
@@ -64,7 +76,6 @@ HRESULT Impl::Unlock()
 
     for (size_t i = 0; i < lockData_->size; ++i)
         wp(buffer_.at(lockData_->offset + i));
-
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DVertexBuffer9, Methods_IDirect3DVertexBuffer9::Unlock), inBytes);
     
