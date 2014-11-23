@@ -1,26 +1,18 @@
 //-----------------------------------------------------------------------------
-// File: Textures.cpp
+// File: Meshes.cpp
 //
-// Desc: Better than just lights and materials, 3D objects look much more
-//       convincing when texture-mapped. Textures can be thought of as a sort
-//       of wallpaper, that is shrinkwrapped to fit a texture. Textures are
-//       typically loaded from image files, and D3DX provides a utility to
-//       function to do this for us. Like a vertex buffer, Textures have
-//       Lock() and Unlock() functions to access (read or write) the image
-//       data. Textures have a width, height, miplevel, and pixel format. The
-//       miplevel is for "mipmapped" Textures, an advanced performance-
-//       enhancing feature which uses lower resolutions of the texture for
-//       objects in the distance where detail is less noticeable. The pixel
-//       format determines how the colors are stored in a texel. The most
-//       common formats are the 16-bit R5G6B5 format (5 bits of red, 6-bits of
-//       green and 5 bits of blue) and the 32-bit A8R8G8B8 format (8 bits each
-//       of alpha, red, green, and blue).
+// Desc: For advanced geometry, most apps will prefer to load pre-authored
+//       Meshes from a file. Fortunately, when using Meshes, D3DX does most of
+//       the work for this, parsing a geometry file and creating vertx buffers
+//       (and index buffers) for us. This tutorial shows how to use a D3DXMESH
+//       object, including loading it from a file and rendering it. One thing
+//       D3DX does not handle for us is the materials and textures for a mesh,
+//       so note that we have to handle those manually.
 //
-//       Textures are associated with geometry through texture coordinates.
-//       Each vertex has one or more sets of texture coordinates, which are
-//       named tu and tv and range from 0.0 to 1.0. Texture coordinates can be
-//       supplied by the geometry, or can be automatically generated using
-//       Direct3D texture coordinate generation (which is an advanced feature).
+//       Note: one advanced (but nice) feature that we don't show here is that
+//       when cloning a mesh we can specify the FVF. So, regardless of how the
+//       mesh was authored, we can add/remove normals, add more texture
+//       coordinate sets (for multi-texturing), etc.
 //
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //-----------------------------------------------------------------------------
@@ -33,30 +25,18 @@
 
 
 
+
 //-----------------------------------------------------------------------------
 // Global variables
 //-----------------------------------------------------------------------------
-LPDIRECT3D9             g_pD3D = NULL; // Used to create the D3DDevice
-LPDIRECT3DDEVICE9       g_pd3dDevice = NULL; // Our rendering device
-LPDIRECT3DVERTEXBUFFER9 g_pVB = NULL; // Buffer to hold vertices
-LPDIRECT3DTEXTURE9      g_pTexture = NULL; // Our texture
+LPDIRECT3D9         g_pD3D = NULL; // Used to create the D3DDevice
+LPDIRECT3DDEVICE9   g_pd3dDevice = NULL; // Our rendering device
 
-// A structure for our custom vertex type. We added texture coordinates
-struct CUSTOMVERTEX
-{
-    D3DXVECTOR3 position; // The position
-    D3DCOLOR color;    // The color
-#ifndef SHOW_HOW_TO_USE_TCI
-    FLOAT tu, tv;   // The texture coordinates
-#endif
-};
+LPD3DXMESH          g_pMesh = NULL; // Our mesh object in sysmem
+D3DMATERIAL9*       g_pMeshMaterials = NULL; // Materials for our mesh
+LPDIRECT3DTEXTURE9* g_pMeshTextures = NULL; // Textures for our mesh
+DWORD               g_dwNumMaterials = 0L;   // Number of mesh materials
 
-// Our custom FVF, which describes our custom vertex structure
-#ifdef SHOW_HOW_TO_USE_TCI
-#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
-#else
-#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1)
-#endif
 
 
 
@@ -88,14 +68,11 @@ HRESULT InitD3D( HWND hWnd )
         return E_FAIL;
     }
 
-    // Turn off culling
-    g_pd3dDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE );
-
-    // Turn off D3D lighting
-    g_pd3dDevice->SetRenderState( D3DRS_LIGHTING, FALSE );
-
     // Turn on the zbuffer
     g_pd3dDevice->SetRenderState( D3DRS_ZENABLE, TRUE );
+
+    // Turn on ambient lighting 
+    g_pd3dDevice->SetRenderState( D3DRS_AMBIENT, 0xffffffff );
 
     return S_OK;
 }
@@ -105,53 +82,67 @@ HRESULT InitD3D( HWND hWnd )
 
 //-----------------------------------------------------------------------------
 // Name: InitGeometry()
-// Desc: Create the Textures and vertex buffers
+// Desc: Load the mesh and build the material and texture arrays
 //-----------------------------------------------------------------------------
 HRESULT InitGeometry()
 {
-    // Use D3DX to create a texture from a file based image
-    if( FAILED( D3DXCreateTextureFromFile( g_pd3dDevice, L"banana.bmp", &g_pTexture ) ) )
+    LPD3DXBUFFER pD3DXMtrlBuffer;
+
+    // Load the mesh from the specified file
+    if( FAILED( D3DXLoadMeshFromX( L"Tiger.x", D3DXMESH_SYSTEMMEM,
+                                   g_pd3dDevice, NULL,
+                                   &pD3DXMtrlBuffer, NULL, &g_dwNumMaterials,
+                                   &g_pMesh ) ) )
     {
-        // If texture is not in current folder, try parent folder
-        if( FAILED( D3DXCreateTextureFromFile( g_pd3dDevice, L"..\\banana.bmp", &g_pTexture ) ) )
+        MessageBox( NULL, L"Could not find tiger.x", L"Meshes.exe", MB_OK );
+        return E_FAIL;
+    }
+
+    // We need to extract the material properties and texture names from the 
+    // pD3DXMtrlBuffer
+    D3DXMATERIAL* d3dxMaterials = ( D3DXMATERIAL* )pD3DXMtrlBuffer->GetBufferPointer();
+    g_pMeshMaterials = new D3DMATERIAL9[g_dwNumMaterials];
+    if( g_pMeshMaterials == NULL )
+        return E_OUTOFMEMORY;
+    g_pMeshTextures = new LPDIRECT3DTEXTURE9[g_dwNumMaterials];
+    if( g_pMeshTextures == NULL )
+        return E_OUTOFMEMORY;
+
+    for( DWORD i = 0; i < g_dwNumMaterials; i++ )
+    {
+        // Copy the material
+        g_pMeshMaterials[i] = d3dxMaterials[i].MatD3D;
+
+        // Set the ambient color for the material (D3DX does not do this)
+        g_pMeshMaterials[i].Ambient = g_pMeshMaterials[i].Diffuse;
+
+        g_pMeshTextures[i] = NULL;
+        if( d3dxMaterials[i].pTextureFilename != NULL &&
+            lstrlenA( d3dxMaterials[i].pTextureFilename ) > 0 )
         {
-            MessageBox( NULL, L"Could not find banana.bmp", L"Textures.exe", MB_OK );
-            return E_FAIL;
+            // Create the texture
+            if( FAILED( D3DXCreateTextureFromFileA( g_pd3dDevice,
+                                                    d3dxMaterials[i].pTextureFilename,
+                                                    &g_pMeshTextures[i] ) ) )
+            {
+                // If texture is not in current folder, try parent folder
+                const CHAR* strPrefix = "..\\";
+                CHAR strTexture[MAX_PATH];
+                strcpy_s( strTexture, MAX_PATH, strPrefix );
+                strcat_s( strTexture, MAX_PATH, d3dxMaterials[i].pTextureFilename );
+                // If texture is not in current folder, try parent folder
+                if( FAILED( D3DXCreateTextureFromFileA( g_pd3dDevice,
+                                                        strTexture,
+                                                        &g_pMeshTextures[i] ) ) )
+                {
+                    MessageBox( NULL, L"Could not find texture map", L"Meshes.exe", MB_OK );
+                }
+            }
         }
     }
 
-    // Create the vertex buffer.
-    if( FAILED( g_pd3dDevice->CreateVertexBuffer( 50 * 2 * sizeof( CUSTOMVERTEX ),
-                                                  0, D3DFVF_CUSTOMVERTEX,
-                                                  D3DPOOL_DEFAULT, &g_pVB, NULL ) ) )
-    {
-        return E_FAIL;
-    }
-
-    // Fill the vertex buffer. We are setting the tu and tv texture
-    // coordinates, which range from 0.0 to 1.0
-    CUSTOMVERTEX* pVertices;
-    if( FAILED( g_pVB->Lock( 0, 0, ( void** )&pVertices, 0 ) ) )
-        return E_FAIL;
-    for( DWORD i = 0; i < 50; i++ )
-    {
-        FLOAT theta = ( 2 * D3DX_PI * i ) / ( 50 - 1 );
-
-        pVertices[2 * i + 0].position = D3DXVECTOR3( sinf( theta ), -1.0f, cosf( theta ) );
-        pVertices[2 * i + 0].color = 0xffffffff;
-#ifndef SHOW_HOW_TO_USE_TCI
-        pVertices[2 * i + 0].tu = ( ( FLOAT )i ) / ( 50 - 1 );
-        pVertices[2 * i + 0].tv = 1.0f;
-#endif
-
-        pVertices[2 * i + 1].position = D3DXVECTOR3( sinf( theta ), 1.0f, cosf( theta ) );
-        pVertices[2 * i + 1].color = 0xff808080;
-#ifndef SHOW_HOW_TO_USE_TCI
-        pVertices[2 * i + 1].tu = ( ( FLOAT )i ) / ( 50 - 1 );
-        pVertices[2 * i + 1].tv = 0.0f;
-#endif
-    }
-    g_pVB->Unlock();
+    // Done with the material buffer
+    pD3DXMtrlBuffer->Release();
 
     return S_OK;
 }
@@ -165,25 +156,26 @@ HRESULT InitGeometry()
 //-----------------------------------------------------------------------------
 VOID Cleanup()
 {
-    if( g_pTexture != NULL )
-        g_pTexture->Release();
+    if( g_pMeshMaterials != NULL )
+        delete[] g_pMeshMaterials;
 
-    g_pTexture = NULL;
-
-    if( g_pVB != NULL )
-        g_pVB->Release();
-
-    g_pVB = NULL;
+    if( g_pMeshTextures )
+    {
+        for( DWORD i = 0; i < g_dwNumMaterials; i++ )
+        {
+            if( g_pMeshTextures[i] )
+                g_pMeshTextures[i]->Release();
+        }
+        delete[] g_pMeshTextures;
+    }
+    if( g_pMesh != NULL )
+        g_pMesh->Release();
 
     if( g_pd3dDevice != NULL )
         g_pd3dDevice->Release();
 
-    g_pd3dDevice = NULL;
-
     if( g_pD3D != NULL )
         g_pD3D->Release();
-
-    g_pD3D = NULL;
 }
 
 
@@ -196,13 +188,12 @@ VOID SetupMatrices()
 {
     // Set up world matrix
     D3DXMATRIXA16 matWorld;
-    D3DXMatrixIdentity( &matWorld );
-    D3DXMatrixRotationX( &matWorld, timeGetTime() / 1000.0f );
+    D3DXMatrixRotationY( &matWorld, timeGetTime() / 1000.0f );
     g_pd3dDevice->SetTransform( D3DTS_WORLD, &matWorld );
 
     // Set up our view matrix. A view matrix can be defined given an eye point,
     // a point to lookat, and a direction for which way is up. Here, we set the
-    // eye five units back along the z-axis and up three units, look at the
+    // eye five units back along the z-axis and up three units, look at the 
     // origin, and define "up" to be in the y-direction.
     D3DXVECTOR3 vEyePt( 0.0f, 3.0f,-5.0f );
     D3DXVECTOR3 vLookatPt( 0.0f, 0.0f, 0.0f );
@@ -231,9 +222,6 @@ VOID SetupMatrices()
 //-----------------------------------------------------------------------------
 VOID Render()
 {
-    if (!g_pd3dDevice)
-        return;
-
     // Clear the backbuffer and the zbuffer
     g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
                          D3DCOLOR_XRGB( 0, 0, 255 ), 1.0f, 0 );
@@ -244,57 +232,17 @@ VOID Render()
         // Setup the world, view, and projection matrices
         SetupMatrices();
 
-        // Setup our texture. Using Textures introduces the texture stage states,
-        // which govern how Textures get blended together (in the case of multiple
-        // Textures) and lighting information. In this case, we are modulating
-        // (blending) our texture with the diffuse color of the vertices.
-        g_pd3dDevice->SetTexture( 0, g_pTexture );
-        g_pd3dDevice->SetTextureStageState( 0, D3DTSS_COLOROP, D3DTOP_MODULATE );
-        g_pd3dDevice->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
-        g_pd3dDevice->SetTextureStageState( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
-        g_pd3dDevice->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_DISABLE );
+        // Meshes are divided into subsets, one for each material. Render them in
+        // a loop
+        for( DWORD i = 0; i < g_dwNumMaterials; i++ )
+        {
+            // Set the material and texture for this subset
+            g_pd3dDevice->SetMaterial( &g_pMeshMaterials[i] );
+            g_pd3dDevice->SetTexture( 0, g_pMeshTextures[i] );
 
-#ifdef SHOW_HOW_TO_USE_TCI
-        // Note: to use D3D texture coordinate generation, use the stage state
-	// D3DTSS_TEXCOORDINDEX, as shown below. In this example, we are using
-	// the position of the vertex in camera space (D3DTSS_TCI_CAMERASPACEPOSITION)
-	// to generate texture coordinates. Camera space is the vertex position
-	// multiplied by the World and View matrices.  The tex coord index (TCI)  
-	// parameters are passed into a texture transform, which is a 4x4 matrix  
-	// which transforms the x,y,z TCI coordinates into tu, tv texture coordinates.
-
-	// In this example, the texture matrix is setup to transform the input
-	// camera space coordinates (all of R^3) to projection space (-1,+1) 
-	// and finally to texture space (0,1).
-	//    CameraSpace.xyzw = (input vertex position) * (WorldView)
-	//    ProjSpace.xyzw = CameraSpace.xyzw * Projection           //move to -1 to 1
-	//    TexSpace.xyzw = ProjSpace.xyzw * ( 0.5, -0.5, 1.0, 1.0 ) //scale to -0.5 to 0.5 (flip y)
-	//    TexSpace.xyzw += ( 0.5, 0.5, 0.0, 0.0 )                  //shift to 0 to 1
-
-	// Setting D3DTSS_TEXTURETRANSFORMFLAGS to D3DTTFF_COUNT4 | D3DTTFF_PROJECTED
-	// tells D3D to divide the input texture coordinates by the 4th (w) component.
-	// This divide is necessary when performing a perspective projection since
-	// the TexSpace.xy coordinates prior to the homogeneous divide are not actually 
-	// in the 0 to 1 range.
-	D3DXMATRIXA16 mTextureTransform;
-	D3DXMATRIXA16 mProj;
-	D3DXMATRIXA16 mTrans;
-	D3DXMATRIXA16 mScale;
-
-	g_pd3dDevice->GetTransform( D3DTS_PROJECTION, &mProj );
-	D3DXMatrixTranslation( &mTrans, 0.5f, 0.5f, 0.0f );
-	D3DXMatrixScaling( &mScale, 0.5f, -0.5f, 1.0f );
-	mTextureTransform = mProj * mScale * mTrans;
-
-	g_pd3dDevice->SetTransform( D3DTS_TEXTURE0, &mTextureTransform );
-	g_pd3dDevice->SetTextureStageState( 0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT4 | D3DTTFF_PROJECTED );
-	g_pd3dDevice->SetTextureStageState( 0, D3DTSS_TEXCOORDINDEX, D3DTSS_TCI_CAMERASPACEPOSITION );
-    #endif
-
-        // Render the vertex buffer contents
-        g_pd3dDevice->SetStreamSource( 0, g_pVB, 0, sizeof( CUSTOMVERTEX ) );
-        g_pd3dDevice->SetFVF( D3DFVF_CUSTOMVERTEX );
-        g_pd3dDevice->DrawPrimitive( D3DPT_TRIANGLESTRIP, 0, 2 * 50 - 2 );
+            // Draw the mesh subset
+            g_pMesh->DrawSubset( i );
+        }
 
         // End the scene
         g_pd3dDevice->EndScene();
@@ -345,7 +293,7 @@ INT WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR, INT )
     RegisterClassEx( &wc );
 
     // Create the application's window
-    HWND hWnd = CreateWindow( L"D3D Tutorial", L"D3D Tutorial 05: Textures",
+    HWND hWnd = CreateWindow( L"D3D Tutorial", L"D3D Tutorial 06: Meshes",
                               WS_OVERLAPPEDWINDOW, 100, 100, 300, 300,
                               NULL, NULL, wc.hInstance, NULL );
 
@@ -364,13 +312,8 @@ INT WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR, INT )
             ZeroMemory( &msg, sizeof( msg ) );
             while( msg.message != WM_QUIT )
             {
-                msg.message = 0;
                 if( PeekMessage( &msg, NULL, 0U, 0U, PM_REMOVE ) )
                 {
-                    if (msg.message == WM_QUIT)
-                    {
-                        int aaa = 5;
-                    }
                     TranslateMessage( &msg );
                     DispatchMessage( &msg );
                 }

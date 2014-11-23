@@ -25,7 +25,7 @@ vector<ExecutorImpl::Method> ExecutorImpl::getMethodsBASE() const
 {
     vector<ExecutorImpl::Method> methods = 
     {
-        boost::bind(&ExecutorImpl::Direct3DCreate9, this, _1, _2),
+        make_pair(boost::bind(&ExecutorImpl::Direct3DCreate9, this, _1, _2), "Direct3DCreate9"),
     };
     return methods;
 };
@@ -48,7 +48,7 @@ vector<ExecutorImpl::Method> ExecutorImpl::getMethodsBASE() const
         return methods; \
     }
 
-#define MY_STDMETHOD(name, args) methods.at(static_cast<size_t>(MethodsEnum::name)) = bind(&IProc::name, proc, _1, _2);
+#define MY_STDMETHOD(name, args) methods.at(static_cast<size_t>(MethodsEnum::name)) = make_pair(bind(&IProc::name, proc, _1, _2), #name);
 #define MY_STDMETHOD_(ret_type, name, args) MY_STDMETHOD(name, args)
 
 #include "d3d9/decl.h"

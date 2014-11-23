@@ -67,7 +67,7 @@ BytesPtr ExecutorImpl::runSync(MethodId const& id, BytesPtr args)
 void ExecutorImpl::runAsync(MethodId const &id, BytesPtr args) 
 {
 	Method method = getMethod(id);
-    service_.post(bind(method, args, bytes::make()));
+    service_.post(bind(method.first, args, bytes::make()));
 }
 
 void ExecutorImpl::execute(MethodId const &id, BytesPtr srcArgs, BytesPtr dstArgs)
@@ -76,7 +76,7 @@ void ExecutorImpl::execute(MethodId const &id, BytesPtr srcArgs, BytesPtr dstArg
     assert(this_thread::get_id() == serviceThread_.get_id());
 
     Method method = getMethod(id);
-    method(srcArgs, dstArgs);
+    method.first(srcArgs, dstArgs);
     
     std::unique_lock<mutex> lock(mutex_);
     isComplete_ = true;

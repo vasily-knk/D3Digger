@@ -88,6 +88,10 @@
     <ClCompile Include="ProxyFactory.cpp" />
     <ClCompile Include="ProxyImpl_D3D.cpp" />
     <ClCompile Include="ProxyImpl_Device.cpp" />
+    <ClCompile Include="ProxyImpl_Query.cpp" />
+    <ClInclude Include="ProxyImpl_Query.h">
+      <FileType>CppCode</FileType>
+    </ClInclude>
     <ClCompile Include="ProxyImpl_Surface.cpp" />
     <ClCompile Include="ProxyImpl_VB.cpp" />
     <ClCompile Include="ProxyMapImpl.cpp" />

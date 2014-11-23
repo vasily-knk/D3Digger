@@ -508,7 +508,7 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
     DXUTSetHotkeyHandling( true, true, true );  // handle the defaul hotkeys
 
     // Supports all types of vertex processing, including mixed.
-    DXUTGetD3D9Enumeration()->SetPossibleVertexProcessingList( true, true, true, true );
+    //DXUTGetD3D9Enumeration()->SetPossibleVertexProcessingList( true, true, true, true );
 
     DXUTCreateDevice( true, 640, 480 );
 
@@ -542,7 +542,7 @@ void InitApp()
     g_HUD.AddButton( IDC_CHANGEDEVICE, L"Change device (F2)", 35, iY += 24, 125, 22, VK_F2 );
 
     // Add mixed vp to the available vp choices in device settings dialog.
-    DXUTGetD3D9Enumeration()->SetPossibleVertexProcessingList( true, false, false, true );
+    //DXUTGetD3D9Enumeration()->SetPossibleVertexProcessingList( true, false, false, true );
 
     g_SampleUI.SetCallback( OnGUIEvent ); iY = 10;
     g_SampleUI.AddComboBox( IDC_METHOD, 0, iY, 230, 24, L'S' );

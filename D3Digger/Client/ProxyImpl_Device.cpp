@@ -62,6 +62,24 @@ HRESULT Impl::Present(const RECT* pSourceRect, const RECT* pDestRect, HWND hDest
     return D3D_OK;
 }
 
+HRESULT Impl::CreateQuery(D3DQUERYTYPE Type, IDirect3DQuery9** ppQuery)
+{
+    BytesPtr inBytes = bytes::make();
+    bytes::write_proc wp(inBytes);
+    wp(getId());
+    wp(Type);
+    
+    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateQuery), inBytes);
+    
+    bytes::read_proc rp(outBytes);
+    HRESULT ret; rp(ret);
+    
+    ProxyId result_id;
+    rp(result_id);
+    if (ppQuery) *ppQuery = getGlobal().proxyMap().getById<IDirect3DQuery9>(result_id);
+
+    return ret;
+}
 } // namespace Client
 
 } // namespace D3D9

@@ -24,7 +24,8 @@ struct ExecutorImpl
 private:
     void initProcs();
 
-    typedef function<void(BytesPtr, BytesPtr)> Method;
+    typedef function<void(BytesPtr, BytesPtr)> MethodFn;
+    typedef pair<MethodFn, string> Method;
     Method getMethod(MethodId const &id) const;
 
     void execute(MethodId const &id, BytesPtr srcArgs, BytesPtr dstArgs);

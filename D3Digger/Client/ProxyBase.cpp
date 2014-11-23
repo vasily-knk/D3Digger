@@ -1995,7 +1995,13 @@ HRESULT ProxyBase<IDirect3DDevice9>::CreateQuery(D3DQUERYTYPE Type, IDirect3DQue
     
     bytes::read_proc rp(outBytes);
     HRESULT ret; rp(ret);
-    *ppQuery = getGlobal().proxyMap().getById<IDirect3DQuery9>(rp.operator()<ProxyId>());
+    
+    ProxyId result_id;
+    rp(result_id);
+    
+    if (ppQuery) *ppQuery = getGlobal().proxyMap().getById<IDirect3DQuery9>(result_id);
+    
+    
     return ret;
 }
 
@@ -4168,7 +4174,7 @@ HRESULT ProxyBase<IDirect3DQuery9>::GetData(void* pData, DWORD dwSize, DWORD dwG
     wp(dwSize);
     wp(dwGetDataFlags);
     
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DQuery9, Methods_IDirect3DQuery9::GetData), inBytes);
+    getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DQuery9, Methods_IDirect3DQuery9::GetData), inBytes);
     
     return D3D_OK;
 }
