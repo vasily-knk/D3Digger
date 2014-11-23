@@ -1,6 +1,9 @@
 #pragma once
 #include "common/bytes.h"
 
+namespace refl
+{
+
 template<typename T>
 void process(bytes::read_proc &proc, optional<T> const &opt)
 {
@@ -47,32 +50,6 @@ void process(bytes::write_proc &proc, vector<T> const &vec)
     proc(size);
     proc.array(vec.data(), size);
 }
-
-
-
-/*
-template<typename Proc>
-void process(Proc &proc, void*)
-{
-    throw std::runtime_error("void* is not serializable");
-}
-*/
-
-
-
-/*
-inline void process(bytes::write_proc &proc, optional<HANDLE> const &val)
-{
-    process<HANDLE>(proc, val);
-    assert(!val);
-}
-
-inline void process(bytes::read_proc &proc, optional<HANDLE> const &val)
-{
-    process<HANDLE>(proc, val);
-    assert(!val);
-}*/
-
 
 template<typename Proc>
 void process(Proc &proc, HWND const &h)
@@ -615,3 +592,4 @@ void process(Proc &proc, PALETTEENTRY const &r)
     proc(r.peFlags);
 }
 
+} // namespace refl

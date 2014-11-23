@@ -200,7 +200,7 @@ struct read_proc
     template<typename T>
     void operator()(T const &dst, typename std::enable_if<!std::is_arithmetic<T>::value && !std::is_enum<T>::value>::type* = nullptr)
     {
-        process(*this, dst);
+        refl::process(*this, dst);
     }
 
     template<typename T>
@@ -258,7 +258,7 @@ struct write_proc
     template<typename T>
     void operator()(T const &src, typename std::enable_if<!std::is_arithmetic<T>::value && !std::is_enum<T>::value>::type* = nullptr)
     {
-        process(*this, src);
+        refl::process(*this, src);
     }
 
 private:
