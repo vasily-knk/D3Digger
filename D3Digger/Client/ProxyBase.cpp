@@ -2686,6 +2686,7 @@ HRESULT ProxyBase<IDirect3DTexture9>::GetSurfaceLevel(UINT Level, IDirect3DSurfa
     bytes::read_proc rp(outBytes);
     HRESULT ret; rp(ret);
     *ppSurfaceLevel = getGlobal().proxyMap().getById<IDirect3DSurface9>(rp.operator()<ProxyId>());
+
     return ret;
 }
 

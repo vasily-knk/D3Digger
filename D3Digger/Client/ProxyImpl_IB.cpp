@@ -20,6 +20,7 @@ Impl::ProxyImpl(ProxyId id)
 
 HRESULT Impl::Lock(UINT OffsetToLock, UINT SizeToLock, void** ppbData, DWORD Flags)
 {
+
     if (!ppbData)
     {
         assert(false);

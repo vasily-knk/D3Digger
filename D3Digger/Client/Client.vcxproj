@@ -80,6 +80,7 @@
     <ClInclude Include="ProxyImpl_Device.h" />
     <ClInclude Include="ProxyImpl_IB.h" />
     <ClInclude Include="ProxyImpl_Surface.h" />
+    <ClInclude Include="ProxyImpl_Texture.h" />
     <ClInclude Include="ProxyImpl_VB.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
@@ -91,6 +92,7 @@
     <ClCompile Include="ProxyImpl_Device.cpp" />
     <ClCompile Include="ProxyImpl_IB.cpp" />
     <ClCompile Include="ProxyImpl_Query.cpp" />
+    <ClCompile Include="ProxyImpl_Texture.cpp" />
     <ClInclude Include="ProxyImpl_Query.h">
       <FileType>CppCode</FileType>
     </ClInclude>

@@ -19,8 +19,14 @@ struct ProxyImpl<IDirect3DSurface9>
     HRESULT STDMETHODCALLTYPE UnlockRect() override;
 
 private:
+    size_t calcBufferOffset(RECT const &rect) const;
+    size_t calcPitch() const;
+    RECT calcRect(RECT const *src_rect) const;
+
+private:
     D3DSURFACE_DESC desc_;
     vector<char> buffer_;
+    size_t bytesPerPixel_;
 
     struct LockData
     {
@@ -30,6 +36,7 @@ private:
 
     optional<LockData> lockData_;
 };
+
 
 } // namespace Client
 

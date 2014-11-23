@@ -30,26 +30,19 @@ void Impl::UnlockRect(BytesPtr srcBytes, BytesPtr dstBytes)
     rp(rect);
     DWORD flags;
     rp(flags);
-    vector<char> buffer;
-    rp(buffer);
 
-    assert(rect.left <= rect.right);
-    assert(rect.top <= rect.bottom);
+    assert(rect.left < rect.right);
+    assert(rect.top < rect.bottom);
 
     D3DLOCKED_RECT lockedRect;
     HRESULT res = self->LockRect(&lockedRect, &rect, flags);
 
-    size_t bpp = 4;
-    size_t lineSize = (rect.right - rect.left) * bpp;
+    size_t bytesPerPixel = 4;
+    size_t lineSize = (rect.right - rect.left) * bytesPerPixel;
     
-    char const *src = buffer.data();
     char *dst = reinterpret_cast<char*>(lockedRect.pBits);
-    for (int line = rect.top; line < rect.bottom; ++line)
-    {
-        memcpy(dst, src, lineSize);
-        src += lineSize;
-        dst += lockedRect.Pitch;
-    }
+    for (int line = rect.top; line < rect.bottom; ++line, dst += lockedRect.Pitch)
+        rp.array(dst, lineSize);
 
     res = self->UnlockRect();
     bytes::write_proc wp(dstBytes);

@@ -14,58 +14,85 @@ namespace
 
 Impl::ProxyImpl(ProxyId id)
     : Base(id)
+    , bytesPerPixel_(4)
 {
-    int aaa = 5;
     Base::GetDesc(&desc_);
+    buffer_.resize(desc_.Width * desc_.Height * bytesPerPixel_);
 }
 
 HRESULT Impl::LockRect(D3DLOCKED_RECT* pLockedRect, const RECT* pRect, DWORD Flags)
 {
-    RECT rect;
-    if (pRect)
+    if (lockData_)
     {
-        rect = *pRect;
-    }
-    else
-    {
-        rect = {0, 0, desc_.Width, desc_.Height};
+        assert(false);
+        return D3DERR_INVALIDCALL;
     }
     
-    int w = rect.right - rect.left;
-    int h = rect.bottom - rect.top;
-    assert(w > 0 && h > 0);
-
-    size_t bytes_per_pixel = 4;
-
-    size_t desired_size = w * h * bytes_per_pixel;
-    buffer_.resize(desired_size);
+    RECT rect = calcRect(pRect);
 
     lockData_ = LockData({rect, Flags});
-
-    pLockedRect->Pitch = w * bytes_per_pixel;
-    pLockedRect->pBits = buffer_.data();
-    
+    pLockedRect->Pitch = calcPitch();
+    pLockedRect->pBits = buffer_.data() + calcBufferOffset(rect);
+   
     return D3D_OK;
 }
 
 HRESULT Impl::UnlockRect()
 {
-    if (lockData_)
+    if (!lockData_)
     {
-        BytesPtr inBytes = bytes::make();
-        bytes::write_proc wp(inBytes);
-        wp(getId());
-        wp(lockData_->rect);
-        wp(lockData_->flags);
-        wp(buffer_);
-    
-        getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DSurface9, Methods_IDirect3DSurface9::UnlockRect), inBytes);
-
-        lockData_.reset();
-        buffer_.clear();
+        assert(false);
+        return D3DERR_INVALIDCALL;
     }
+
+    BytesPtr inBytes = bytes::make();
+    bytes::write_proc wp(inBytes);
+    wp(getId());
+    wp(lockData_->rect);
+    wp(lockData_->flags);
+
+    size_t bufferOffset = calcBufferOffset(lockData_->rect);
+    size_t pitch = calcPitch();
+    size_t rowSize = (lockData_->rect.right - lockData_->rect.left) * bytesPerPixel_;
+
+    char* ptr = buffer_.data() + bufferOffset;
+    for (int y = lockData_->rect.top; y < lockData_->rect.bottom; ++y, ptr += pitch)
+        wp.array(ptr, rowSize);
+    
+    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DSurface9, Methods_IDirect3DSurface9::UnlockRect), inBytes);
+
+    lockData_.reset();
+    buffer_.clear();
     return D3D_OK;
 }
+
+size_t Impl::calcBufferOffset(RECT const &rect) const
+{
+    assert(rect.right > rect.left);
+    assert(rect.bottom > rect.top);
+
+    size_t pitch = calcPitch();
+    return rect.top * pitch + rect.left * bytesPerPixel_;
+}
+
+size_t Impl::calcPitch() const
+{
+    return desc_.Width * bytesPerPixel_;
+}
+
+RECT Impl::calcRect(RECT const *pSrcRect) const
+{
+    RECT rect;
+    if (pSrcRect)
+        rect = *pSrcRect;
+    else
+        rect = {0, 0, desc_.Width, desc_.Height};
+    
+    assert(rect.right > rect.left);
+    assert(rect.bottom > rect.top);
+    return rect;
+}
+
 
 } // namespace Client
 
