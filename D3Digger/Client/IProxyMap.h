@@ -18,8 +18,11 @@ namespace D3D9
 		{
 			template<typename T>
 			IProxy<T> *getById(ProxyId id)
-			{
-				IProxy<IUnknown> *ptr = getByIdImpl(id, createProxy<T>);
+            {
+                if (id == 0)
+                    return nullptr;
+
+                IProxy<IUnknown> *ptr = getByIdImpl(id, createProxy<T>);
 				assert(ptr);
 				IProxy<T> *converted = dynamic_cast<IProxy<T> *>(ptr);
 				assert(converted);

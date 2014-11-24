@@ -32,12 +32,15 @@ IProcMapPtr createProcMap()
 
 
 ProcMapImpl::ProcMapImpl()
-    : nextProxyId_(0)
+    : nextProxyId_(1)
 {
 }
 
 ProxyId ProcMapImpl::getProxyID(IUnknown *ptr)
 {
+    if (!ptr)
+        return 0;
+    
     if (bimap_.right.count(ptr) == 0)
         bimap_.insert(Bimap::value_type(getNextProxyId(), ptr));
 

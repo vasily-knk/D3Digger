@@ -118,22 +118,49 @@ namespace
                                                         d3dxMaterials[i].pTextureFilename,
                                                         &g_pMeshTextures[i] ) ) )
                 {
-                    // If texture is not in current folder, try parent folder
-                    const CHAR* strPrefix = "..\\";
-                    CHAR strTexture[MAX_PATH];
-                    strcpy_s( strTexture, MAX_PATH, strPrefix );
-                    strcat_s( strTexture, MAX_PATH, d3dxMaterials[i].pTextureFilename );
-                    // If texture is not in current folder, try parent folder
-                    if( FAILED( D3DXCreateTextureFromFileA( g_pd3dDevice,
-                                                            strTexture,
-                                                            &g_pMeshTextures[i] ) ) )
-                    {
-                        MessageBox( NULL, L"Could not find texture map", L"Meshes.exe", MB_OK );
-                    }
+                    MessageBox( NULL, L"Could not find texture map", L"Meshes.exe", MB_OK );
                 }
             }
         }
 
+        
+        {
+            DWORD size;
+            HRESULT res;
+            res = g_pMesh->GetAttributeTable(nullptr, &size);
+            assert(SUCCEEDED(res));
+            vector<D3DXATTRIBUTERANGE> data(size);
+            res = g_pMesh->GetAttributeTable(data.data(), &size);
+            assert(SUCCEEDED(res));
+
+            IDirect3DVertexBuffer9 *vb = nullptr;
+            res = g_pMesh->GetVertexBuffer(&vb);
+            assert(SUCCEEDED(res));
+
+            IDirect3DIndexBuffer9 *ib = nullptr;
+            res = g_pMesh->GetIndexBuffer(&ib);
+            assert(SUCCEEDED(res));
+
+            IDirect3DDevice9 *dev = nullptr;
+            res = g_pMesh->GetDevice(&dev);
+            assert(SUCCEEDED(res));
+
+            D3DVERTEXELEMENT9 elems[MAX_FVF_DECL_SIZE];
+            res = g_pMesh->GetDeclaration(elems);
+            assert(SUCCEEDED(res));
+
+            if (dev)
+                dev->Release();
+
+            if (ib)
+                ib->Release();
+
+            if (vb)
+                vb->Release();
+
+
+        }
+        
         // Done with the material buffer
         pD3DXMtrlBuffer->Release();
 
@@ -215,34 +242,44 @@ namespace
     //-----------------------------------------------------------------------------
     VOID Render()
     {
+        HRESULT res;
+
         // Clear the backbuffer and the zbuffer
-        g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+        res = g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
                              D3DCOLOR_XRGB( 0, 0, 255 ), 1.0f, 0 );
 
-        // Begin the scene
-        if( SUCCEEDED( g_pd3dDevice->BeginScene() ) )
+        assert(SUCCEEDED(res));
+
+        res = g_pd3dDevice->BeginScene();
+        assert(SUCCEEDED(res));
+
+        SetupMatrices();
+
+        // Meshes are divided into subsets, one for each material. Render them in
+        // a loop
+        for( DWORD i = 0; i < g_dwNumMaterials; i++ )
         {
-            // Setup the world, view, and projection matrices
-            SetupMatrices();
+            // Set the material and texture for this subset
+            res = g_pd3dDevice->SetMaterial( &g_pMeshMaterials[i] );
+            assert(SUCCEEDED(res));
+            res = g_pd3dDevice->SetTexture( 0, g_pMeshTextures[i] );
+            assert(SUCCEEDED(res));
 
-            // Meshes are divided into subsets, one for each material. Render them in
-            // a loop
-            for( DWORD i = 0; i < g_dwNumMaterials; i++ )
-            {
-                // Set the material and texture for this subset
-                g_pd3dDevice->SetMaterial( &g_pMeshMaterials[i] );
-                g_pd3dDevice->SetTexture( 0, g_pMeshTextures[i] );
+            // Draw the mesh subset
+                
+            res = g_pMesh->DrawSubset( i );
 
-                // Draw the mesh subset
-                g_pMesh->DrawSubset( i );
-            }
-
-            // End the scene
-            g_pd3dDevice->EndScene();
+            auto const *err = DXGetErrorString(res);
+            assert(SUCCEEDED(res));
         }
 
+        // End the scene
+        res = g_pd3dDevice->EndScene();
+        assert(SUCCEEDED(res));
+
         // Present the backbuffer contents to the display
-        g_pd3dDevice->Present( NULL, NULL, NULL, NULL );
+        res = g_pd3dDevice->Present( NULL, NULL, NULL, NULL );
+        assert(SUCCEEDED(res));
     }
 
 

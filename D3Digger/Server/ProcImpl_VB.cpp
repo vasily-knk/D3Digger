@@ -32,25 +32,27 @@ void Impl::Unlock(BytesPtr srcBytes, BytesPtr dstBytes)
     
     IDirect3DVertexBuffer9 *self = procMap_->getPtr<IDirect3DVertexBuffer9>(id);
     
-    UINT offset;
+    UINT offset, size;
     DWORD flags;
-    vector<uint8_t> buffer;
 
     rp(offset);
+    rp(size);
     rp(flags);
-    rp(buffer);
-    uint8_t *ptr = nullptr;
+    char *ptr = nullptr;
 
     HRESULT res;
     
-    res = self->Lock(offset, buffer.size(), reinterpret_cast<void**>(&ptr), flags);
+    res = self->Lock(offset, size, reinterpret_cast<void**>(&ptr), flags);
     if (SUCCEEDED(res))
     {
-        memcpy(ptr, buffer.data(), buffer.size());
+        rp.array(ptr, size);
         res = self->Unlock();
+        assert(SUCCEEDED(res));
     }
     else
     {
+        vector<char> dump(size);
+        rp.array(dump.data(), size);
         assert(false);
     }
 

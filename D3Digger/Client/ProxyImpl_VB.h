@@ -14,6 +14,7 @@ struct ProxyImpl<IDirect3DVertexBuffer9>
     typedef ProxyBase<IDirect3DVertexBuffer9> Base;
 
     ProxyImpl(ProxyId id); 
+    ~ProxyImpl();
 
     HRESULT STDMETHODCALLTYPE Lock(UINT OffsetToLock, UINT SizeToLock, void** ppbData, DWORD Flags) override;
     HRESULT STDMETHODCALLTYPE Unlock() override;
@@ -24,13 +25,12 @@ private:
 private:
     struct LockData
     {
-        size_t offset;
+        UINT offset, size;
         DWORD flags;
-        shared_ptr<vector<uint8_t>> buffer;
     };
     
     std::stack<LockData> lockStack_;
-    size_t size_;
+    vector<char> buffer_;
 };
 
 } // namespace Client

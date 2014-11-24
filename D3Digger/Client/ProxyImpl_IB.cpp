@@ -13,14 +13,18 @@ namespace
 
 Impl::ProxyImpl(ProxyId id)
     : Base(id)
-    , size_(getSize())
+    , buffer_(getSize())
 {
     
 }
 
+Impl::~ProxyImpl()
+{
+    int aaa = 5;
+}
+
 HRESULT Impl::Lock(UINT OffsetToLock, UINT SizeToLock, void** ppbData, DWORD Flags)
 {
-
     if (!ppbData)
     {
         assert(false);
@@ -32,18 +36,18 @@ HRESULT Impl::Lock(UINT OffsetToLock, UINT SizeToLock, void** ppbData, DWORD Fla
     if (!OffsetToLock && !SizeToLock)
     {
         OffsetToLock = 0;
-        SizeToLock = size_;
+        SizeToLock = buffer_.size();
     }
 
-    ld.flags = Flags;
     ld.offset = OffsetToLock;
-    ld.buffer = make_shared<vector<uint8_t>>(SizeToLock);
+    ld.size = SizeToLock;
+    ld.flags = Flags;
     lockStack_.push(ld);
 
-    *ppbData = reinterpret_cast<void*>(lockStack_.top().buffer->data());
+    *ppbData = reinterpret_cast<void*>(buffer_.data() + OffsetToLock);
 
     return D3D_OK;
-}
+}                            
 
 HRESULT Impl::Unlock()
 {
@@ -55,16 +59,15 @@ HRESULT Impl::Unlock()
 
     LockData ld = lockStack_.top();
     lockStack_.pop();
-
-    uint16_t *temp = reinterpret_cast<uint16_t*>(ld.buffer->data());
     
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
     wp(getId());
 
-    wp(UINT(ld.offset));
-    wp(ld.flags);
-    wp(*ld.buffer);
+    wp(ld.offset);
+    wp(ld.size  );
+    wp(ld.flags );
+    wp.array(buffer_.data() + ld.offset, ld.size);
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DIndexBuffer9, Methods_IDirect3DIndexBuffer9::Unlock), inBytes);
     

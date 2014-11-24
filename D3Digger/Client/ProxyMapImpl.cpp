@@ -31,7 +31,7 @@ namespace D3D9
 
 		IProxy<IUnknown> *ProxyMapImpl::getByIdImpl(ProxyId id, Creator creator)
 		{
-			if (!map_.count(id))
+            if (!map_.count(id))
 			{
 				Record record;
 				record.ptr = creator(id);
