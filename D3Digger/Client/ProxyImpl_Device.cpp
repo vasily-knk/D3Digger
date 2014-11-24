@@ -11,14 +11,17 @@ namespace
 {
     typedef ProxyImpl<IDirect3DDevice9> Impl;
 
-    void readSharedHandle(bytes::read_proc &/*proc*/, HANDLE & /*dst*/)
+    vector<D3DVERTEXELEMENT9> extractVertexElements(D3DVERTEXELEMENT9 const *p)
     {
-    }
+        vector<D3DVERTEXELEMENT9> res;
 
-    void writeSharedHandle(bytes::write_proc &/*proc*/, optional<HANDLE> const &/*src*/)
-    {
-    }
+        for (; p->Stream != 0xFF; ++p)
+            res.push_back(*p);
+        
+        res.push_back(*p);
 
+        return res;
+    }
 }
 
 Impl::ProxyImpl(ProxyId id)
@@ -80,6 +83,25 @@ HRESULT Impl::CreateQuery(D3DQUERYTYPE Type, IDirect3DQuery9** ppQuery)
 
     return ret;
 }
+
+HRESULT Impl::CreateVertexDeclaration(const D3DVERTEXELEMENT9* pVertexElements, IDirect3DVertexDeclaration9** ppDecl)
+{
+    vector<D3DVERTEXELEMENT9> elements = extractVertexElements(pVertexElements);
+
+    BytesPtr inBytes = bytes::make();
+    bytes::write_proc wp(inBytes);
+    wp(getId());
+    wp(elements);
+    
+    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateVertexDeclaration), inBytes);
+    
+    bytes::read_proc rp(outBytes);
+    HRESULT ret; rp(ret);
+    *ppDecl = getGlobal().proxyMap().getById<IDirect3DVertexDeclaration9>(rp.operator()<ProxyId>());
+    return ret;
+}
+
+
 } // namespace Client
 
 } // namespace D3D9

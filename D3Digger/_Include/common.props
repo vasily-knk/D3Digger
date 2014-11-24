@@ -3,7 +3,8 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <IncludePath>$(SolutionDir)_Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)_Include;$(BOOST_DIR);$(DXSDK_DIR)\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(BOOST_DIR)\lib32-msvc-12.0;$(DXSDK_DIR)\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>

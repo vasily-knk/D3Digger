@@ -55,6 +55,27 @@ void Impl::Clear(BytesPtr srcBytes, BytesPtr dstBytes)
     wp(res);
 }
 
+void Impl::CreateVertexDeclaration(BytesPtr srcBytes, BytesPtr dstBytes)
+{
+    bytes::read_proc rp(srcBytes);
+    IDirect3DDevice9 *self = procMap_->getPtr<IDirect3DDevice9>(rp.operator()<ProxyId>());
+
+    struct {
+        IDirect3DVertexDeclaration9* ppDecl;
+    } args;
+
+    vector<D3DVERTEXELEMENT9> elements;
+    rp(elements);
+
+    HRESULT res = self->CreateVertexDeclaration(elements.data(), &args.ppDecl);
+    
+    bytes::write_proc wp(dstBytes);
+    wp(res);
+    checkProcResult(res);
+
+    wp(procMap_->getProxyID(args.ppDecl));
+}
+
 } // namespace Server
 
 } // namespace D3D9

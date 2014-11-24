@@ -15,6 +15,7 @@ struct ProcImpl<IDirect3DDevice9>
     ProcImpl(CreateProcArgs const &args); 
 
     void Clear(BytesPtr srcBytes, BytesPtr dstBytes) override;
+    void CreateVertexDeclaration(BytesPtr srcBytes, BytesPtr dstBytes) override;
 };
 
 } // namespace Server

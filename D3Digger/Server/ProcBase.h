@@ -2,6 +2,7 @@
 
 #include "d3d9/Server/IProc.h"
 #include "d3d9/structs_refl.h"
+#include "checkProcResult.h"
 
 
 namespace D3D9

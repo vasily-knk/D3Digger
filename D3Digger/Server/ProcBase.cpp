@@ -25,6 +25,7 @@ void ProcBase<IDirect3D9>::AddRef(BytesPtr srcBytes, BytesPtr dstBytes)
     ULONG res = self->AddRef();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3D9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -38,6 +39,7 @@ void ProcBase<IDirect3D9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
     ULONG res = self->Release();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3D9>::RegisterSoftwareDevice(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -56,6 +58,7 @@ void ProcBase<IDirect3D9>::GetAdapterCount(BytesPtr srcBytes, BytesPtr dstBytes)
     UINT res = self->GetAdapterCount();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3D9>::GetAdapterIdentifier(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -74,6 +77,7 @@ void ProcBase<IDirect3D9>::GetAdapterIdentifier(BytesPtr srcBytes, BytesPtr dstB
     HRESULT res = self->GetAdapterIdentifier(args.Adapter, args.Flags, opt2ptr(args.pIdentifier));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pIdentifier) wp(*args.pIdentifier);
 }
 
@@ -91,6 +95,7 @@ void ProcBase<IDirect3D9>::GetAdapterModeCount(BytesPtr srcBytes, BytesPtr dstBy
     UINT res = self->GetAdapterModeCount(args.Adapter, args.Format);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3D9>::EnumAdapterModes(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -111,6 +116,7 @@ void ProcBase<IDirect3D9>::EnumAdapterModes(BytesPtr srcBytes, BytesPtr dstBytes
     HRESULT res = self->EnumAdapterModes(args.Adapter, args.Format, args.Mode, opt2ptr(args.pMode));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pMode) wp(*args.pMode);
 }
 
@@ -128,6 +134,7 @@ void ProcBase<IDirect3D9>::GetAdapterDisplayMode(BytesPtr srcBytes, BytesPtr dst
     HRESULT res = self->GetAdapterDisplayMode(args.Adapter, opt2ptr(args.pMode));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pMode) wp(*args.pMode);
 }
 
@@ -151,6 +158,7 @@ void ProcBase<IDirect3D9>::CheckDeviceType(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->CheckDeviceType(args.Adapter, args.DevType, args.AdapterFormat, args.BackBufferFormat, args.bWindowed);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3D9>::CheckDeviceFormat(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -175,6 +183,7 @@ void ProcBase<IDirect3D9>::CheckDeviceFormat(BytesPtr srcBytes, BytesPtr dstByte
     HRESULT res = self->CheckDeviceFormat(args.Adapter, args.DeviceType, args.AdapterFormat, args.Usage, args.RType, args.CheckFormat);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3D9>::CheckDeviceMultiSampleType(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -199,6 +208,7 @@ void ProcBase<IDirect3D9>::CheckDeviceMultiSampleType(BytesPtr srcBytes, BytesPt
     HRESULT res = self->CheckDeviceMultiSampleType(args.Adapter, args.DeviceType, args.SurfaceFormat, args.Windowed, args.MultiSampleType, opt2ptr(args.pQualityLevels));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pQualityLevels) wp(*args.pQualityLevels);
 }
 
@@ -222,6 +232,7 @@ void ProcBase<IDirect3D9>::CheckDepthStencilMatch(BytesPtr srcBytes, BytesPtr ds
     HRESULT res = self->CheckDepthStencilMatch(args.Adapter, args.DeviceType, args.AdapterFormat, args.RenderTargetFormat, args.DepthStencilFormat);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3D9>::CheckDeviceFormatConversion(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -242,6 +253,7 @@ void ProcBase<IDirect3D9>::CheckDeviceFormatConversion(BytesPtr srcBytes, BytesP
     HRESULT res = self->CheckDeviceFormatConversion(args.Adapter, args.DeviceType, args.SourceFormat, args.TargetFormat);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3D9>::GetDeviceCaps(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -260,6 +272,7 @@ void ProcBase<IDirect3D9>::GetDeviceCaps(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->GetDeviceCaps(args.Adapter, args.DeviceType, opt2ptr(args.pCaps));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pCaps) wp(*args.pCaps);
 }
 
@@ -275,6 +288,7 @@ void ProcBase<IDirect3D9>::GetAdapterMonitor(BytesPtr srcBytes, BytesPtr dstByte
     HMONITOR res = self->GetAdapterMonitor(args.Adapter);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3D9>::CreateDevice(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -298,6 +312,7 @@ void ProcBase<IDirect3D9>::CreateDevice(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->CreateDevice(args.Adapter, args.DeviceType, args.hFocusWindow, args.BehaviorFlags, opt2ptr(args.pPresentationParameters), &args.ppReturnedDeviceInterface);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pPresentationParameters) wp(*args.pPresentationParameters);
     wp(procMap_->getProxyID(args.ppReturnedDeviceInterface));
 }
@@ -323,6 +338,7 @@ void ProcBase<IDirect3DDevice9>::AddRef(BytesPtr srcBytes, BytesPtr dstBytes)
     ULONG res = self->AddRef();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -336,6 +352,7 @@ void ProcBase<IDirect3DDevice9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
     ULONG res = self->Release();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::TestCooperativeLevel(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -349,6 +366,7 @@ void ProcBase<IDirect3DDevice9>::TestCooperativeLevel(BytesPtr srcBytes, BytesPt
     HRESULT res = self->TestCooperativeLevel();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetAvailableTextureMem(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -362,6 +380,7 @@ void ProcBase<IDirect3DDevice9>::GetAvailableTextureMem(BytesPtr srcBytes, Bytes
     UINT res = self->GetAvailableTextureMem();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::EvictManagedResources(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -375,6 +394,7 @@ void ProcBase<IDirect3DDevice9>::EvictManagedResources(BytesPtr srcBytes, BytesP
     HRESULT res = self->EvictManagedResources();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetDirect3D(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -388,6 +408,7 @@ void ProcBase<IDirect3DDevice9>::GetDirect3D(BytesPtr srcBytes, BytesPtr dstByte
     HRESULT res = self->GetDirect3D(&args.ppD3D9);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppD3D9));
 }
 
@@ -403,6 +424,7 @@ void ProcBase<IDirect3DDevice9>::GetDeviceCaps(BytesPtr srcBytes, BytesPtr dstBy
     HRESULT res = self->GetDeviceCaps(opt2ptr(args.pCaps));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pCaps) wp(*args.pCaps);
 }
 
@@ -420,6 +442,7 @@ void ProcBase<IDirect3DDevice9>::GetDisplayMode(BytesPtr srcBytes, BytesPtr dstB
     HRESULT res = self->GetDisplayMode(args.iSwapChain, opt2ptr(args.pMode));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pMode) wp(*args.pMode);
 }
 
@@ -435,6 +458,7 @@ void ProcBase<IDirect3DDevice9>::GetCreationParameters(BytesPtr srcBytes, BytesP
     HRESULT res = self->GetCreationParameters(opt2ptr(args.pParameters));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pParameters) wp(*args.pParameters);
 }
 
@@ -454,6 +478,7 @@ void ProcBase<IDirect3DDevice9>::SetCursorProperties(BytesPtr srcBytes, BytesPtr
     HRESULT res = self->SetCursorProperties(args.XHotSpot, args.YHotSpot, args.pCursorBitmap);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::SetCursorPosition(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -485,6 +510,7 @@ void ProcBase<IDirect3DDevice9>::ShowCursor(BytesPtr srcBytes, BytesPtr dstBytes
     BOOL res = self->ShowCursor(args.bShow);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::CreateAdditionalSwapChain(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -500,6 +526,7 @@ void ProcBase<IDirect3DDevice9>::CreateAdditionalSwapChain(BytesPtr srcBytes, By
     HRESULT res = self->CreateAdditionalSwapChain(opt2ptr(args.pPresentationParameters), &args.pSwapChain);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pPresentationParameters) wp(*args.pPresentationParameters);
     wp(procMap_->getProxyID(args.pSwapChain));
 }
@@ -517,6 +544,7 @@ void ProcBase<IDirect3DDevice9>::GetSwapChain(BytesPtr srcBytes, BytesPtr dstByt
     HRESULT res = self->GetSwapChain(args.iSwapChain, &args.pSwapChain);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.pSwapChain));
 }
 
@@ -531,6 +559,7 @@ void ProcBase<IDirect3DDevice9>::GetNumberOfSwapChains(BytesPtr srcBytes, BytesP
     UINT res = self->GetNumberOfSwapChains();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::Reset(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -545,6 +574,7 @@ void ProcBase<IDirect3DDevice9>::Reset(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->Reset(opt2ptr(args.pPresentationParameters));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pPresentationParameters) wp(*args.pPresentationParameters);
 }
 
@@ -566,6 +596,7 @@ void ProcBase<IDirect3DDevice9>::Present(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->Present(opt2ptr(args.pSourceRect), opt2ptr(args.pDestRect), args.hDestWindowOverride, opt2ptr(args.pDirtyRegion));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetBackBuffer(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -585,6 +616,7 @@ void ProcBase<IDirect3DDevice9>::GetBackBuffer(BytesPtr srcBytes, BytesPtr dstBy
     HRESULT res = self->GetBackBuffer(args.iSwapChain, args.iBackBuffer, args.Type, &args.ppBackBuffer);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppBackBuffer));
 }
 
@@ -602,6 +634,7 @@ void ProcBase<IDirect3DDevice9>::GetRasterStatus(BytesPtr srcBytes, BytesPtr dst
     HRESULT res = self->GetRasterStatus(args.iSwapChain, opt2ptr(args.pRasterStatus));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pRasterStatus) wp(*args.pRasterStatus);
 }
 
@@ -617,6 +650,7 @@ void ProcBase<IDirect3DDevice9>::SetDialogBoxMode(BytesPtr srcBytes, BytesPtr ds
     HRESULT res = self->SetDialogBoxMode(args.bEnableDialogs);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::SetGammaRamp(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -676,6 +710,7 @@ void ProcBase<IDirect3DDevice9>::CreateTexture(BytesPtr srcBytes, BytesPtr dstBy
     HRESULT res = self->CreateTexture(args.Width, args.Height, args.Levels, args.Usage, args.Format, args.Pool, &args.ppTexture, opt2ptr(args.pSharedHandle));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppTexture));
 }
 
@@ -705,6 +740,7 @@ void ProcBase<IDirect3DDevice9>::CreateVolumeTexture(BytesPtr srcBytes, BytesPtr
     HRESULT res = self->CreateVolumeTexture(args.Width, args.Height, args.Depth, args.Levels, args.Usage, args.Format, args.Pool, &args.ppVolumeTexture, opt2ptr(args.pSharedHandle));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppVolumeTexture));
 }
 
@@ -730,6 +766,7 @@ void ProcBase<IDirect3DDevice9>::CreateCubeTexture(BytesPtr srcBytes, BytesPtr d
     HRESULT res = self->CreateCubeTexture(args.EdgeLength, args.Levels, args.Usage, args.Format, args.Pool, &args.ppCubeTexture, opt2ptr(args.pSharedHandle));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppCubeTexture));
 }
 
@@ -753,6 +790,7 @@ void ProcBase<IDirect3DDevice9>::CreateVertexBuffer(BytesPtr srcBytes, BytesPtr 
     HRESULT res = self->CreateVertexBuffer(args.Length, args.Usage, args.FVF, args.Pool, &args.ppVertexBuffer, opt2ptr(args.pSharedHandle));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppVertexBuffer));
 }
 
@@ -776,6 +814,7 @@ void ProcBase<IDirect3DDevice9>::CreateIndexBuffer(BytesPtr srcBytes, BytesPtr d
     HRESULT res = self->CreateIndexBuffer(args.Length, args.Usage, args.Format, args.Pool, &args.ppIndexBuffer, opt2ptr(args.pSharedHandle));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppIndexBuffer));
 }
 
@@ -803,6 +842,7 @@ void ProcBase<IDirect3DDevice9>::CreateRenderTarget(BytesPtr srcBytes, BytesPtr 
     HRESULT res = self->CreateRenderTarget(args.Width, args.Height, args.Format, args.MultiSample, args.MultisampleQuality, args.Lockable, &args.ppSurface, opt2ptr(args.pSharedHandle));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppSurface));
 }
 
@@ -830,6 +870,7 @@ void ProcBase<IDirect3DDevice9>::CreateDepthStencilSurface(BytesPtr srcBytes, By
     HRESULT res = self->CreateDepthStencilSurface(args.Width, args.Height, args.Format, args.MultiSample, args.MultisampleQuality, args.Discard, &args.ppSurface, opt2ptr(args.pSharedHandle));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppSurface));
 }
 
@@ -851,6 +892,7 @@ void ProcBase<IDirect3DDevice9>::UpdateSurface(BytesPtr srcBytes, BytesPtr dstBy
     HRESULT res = self->UpdateSurface(args.pSourceSurface, opt2ptr(args.pSourceRect), args.pDestinationSurface, opt2ptr(args.pDestPoint));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::UpdateTexture(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -867,6 +909,7 @@ void ProcBase<IDirect3DDevice9>::UpdateTexture(BytesPtr srcBytes, BytesPtr dstBy
     HRESULT res = self->UpdateTexture(args.pSourceTexture, args.pDestinationTexture);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetRenderTargetData(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -883,6 +926,7 @@ void ProcBase<IDirect3DDevice9>::GetRenderTargetData(BytesPtr srcBytes, BytesPtr
     HRESULT res = self->GetRenderTargetData(args.pRenderTarget, args.pDestSurface);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetFrontBufferData(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -899,6 +943,7 @@ void ProcBase<IDirect3DDevice9>::GetFrontBufferData(BytesPtr srcBytes, BytesPtr 
     HRESULT res = self->GetFrontBufferData(args.iSwapChain, args.pDestSurface);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::StretchRect(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -921,6 +966,7 @@ void ProcBase<IDirect3DDevice9>::StretchRect(BytesPtr srcBytes, BytesPtr dstByte
     HRESULT res = self->StretchRect(args.pSourceSurface, opt2ptr(args.pSourceRect), args.pDestSurface, opt2ptr(args.pDestRect), args.Filter);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::ColorFill(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -939,6 +985,7 @@ void ProcBase<IDirect3DDevice9>::ColorFill(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->ColorFill(args.pSurface, opt2ptr(args.pRect), args.color);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::CreateOffscreenPlainSurface(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -961,6 +1008,7 @@ void ProcBase<IDirect3DDevice9>::CreateOffscreenPlainSurface(BytesPtr srcBytes, 
     HRESULT res = self->CreateOffscreenPlainSurface(args.Width, args.Height, args.Format, args.Pool, &args.ppSurface, opt2ptr(args.pSharedHandle));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppSurface));
 }
 
@@ -978,6 +1026,7 @@ void ProcBase<IDirect3DDevice9>::SetRenderTarget(BytesPtr srcBytes, BytesPtr dst
     HRESULT res = self->SetRenderTarget(args.RenderTargetIndex, args.pRenderTarget);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetRenderTarget(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -993,6 +1042,7 @@ void ProcBase<IDirect3DDevice9>::GetRenderTarget(BytesPtr srcBytes, BytesPtr dst
     HRESULT res = self->GetRenderTarget(args.RenderTargetIndex, &args.ppRenderTarget);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppRenderTarget));
 }
 
@@ -1008,6 +1058,7 @@ void ProcBase<IDirect3DDevice9>::SetDepthStencilSurface(BytesPtr srcBytes, Bytes
     HRESULT res = self->SetDepthStencilSurface(args.pNewZStencil);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetDepthStencilSurface(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1021,6 +1072,7 @@ void ProcBase<IDirect3DDevice9>::GetDepthStencilSurface(BytesPtr srcBytes, Bytes
     HRESULT res = self->GetDepthStencilSurface(&args.ppZStencilSurface);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppZStencilSurface));
 }
 
@@ -1035,6 +1087,7 @@ void ProcBase<IDirect3DDevice9>::BeginScene(BytesPtr srcBytes, BytesPtr dstBytes
     HRESULT res = self->BeginScene();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::EndScene(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1048,6 +1101,7 @@ void ProcBase<IDirect3DDevice9>::EndScene(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->EndScene();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::Clear(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1072,6 +1126,7 @@ void ProcBase<IDirect3DDevice9>::Clear(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->Clear(args.Count, opt2ptr(args.pRects), args.Flags, args.Color, args.Z, args.Stencil);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::SetTransform(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1088,6 +1143,7 @@ void ProcBase<IDirect3DDevice9>::SetTransform(BytesPtr srcBytes, BytesPtr dstByt
     HRESULT res = self->SetTransform(args.State, opt2ptr(args.pMatrix));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetTransform(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1104,6 +1160,7 @@ void ProcBase<IDirect3DDevice9>::GetTransform(BytesPtr srcBytes, BytesPtr dstByt
     HRESULT res = self->GetTransform(args.State, opt2ptr(args.pMatrix));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pMatrix) wp(*args.pMatrix);
 }
 
@@ -1121,6 +1178,7 @@ void ProcBase<IDirect3DDevice9>::MultiplyTransform(BytesPtr srcBytes, BytesPtr d
     HRESULT res = self->MultiplyTransform(args.transform, opt2ptr(args.matrix));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::SetViewport(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1135,6 +1193,7 @@ void ProcBase<IDirect3DDevice9>::SetViewport(BytesPtr srcBytes, BytesPtr dstByte
     HRESULT res = self->SetViewport(opt2ptr(args.pViewport));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetViewport(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1149,6 +1208,7 @@ void ProcBase<IDirect3DDevice9>::GetViewport(BytesPtr srcBytes, BytesPtr dstByte
     HRESULT res = self->GetViewport(opt2ptr(args.pViewport));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pViewport) wp(*args.pViewport);
 }
 
@@ -1164,6 +1224,7 @@ void ProcBase<IDirect3DDevice9>::SetMaterial(BytesPtr srcBytes, BytesPtr dstByte
     HRESULT res = self->SetMaterial(opt2ptr(args.pMaterial));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetMaterial(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1178,6 +1239,7 @@ void ProcBase<IDirect3DDevice9>::GetMaterial(BytesPtr srcBytes, BytesPtr dstByte
     HRESULT res = self->GetMaterial(opt2ptr(args.pMaterial));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pMaterial) wp(*args.pMaterial);
 }
 
@@ -1195,6 +1257,7 @@ void ProcBase<IDirect3DDevice9>::SetLight(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->SetLight(args.Index, opt2ptr(args.pLight));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetLight(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1211,6 +1274,7 @@ void ProcBase<IDirect3DDevice9>::GetLight(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->GetLight(args.Index, opt2ptr(args.pLight));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pLight) wp(*args.pLight);
 }
 
@@ -1228,6 +1292,7 @@ void ProcBase<IDirect3DDevice9>::LightEnable(BytesPtr srcBytes, BytesPtr dstByte
     HRESULT res = self->LightEnable(args.Index, args.Enable);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetLightEnable(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1244,6 +1309,7 @@ void ProcBase<IDirect3DDevice9>::GetLightEnable(BytesPtr srcBytes, BytesPtr dstB
     HRESULT res = self->GetLightEnable(args.Index, opt2ptr(args.pEnable));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pEnable) wp(*args.pEnable);
 }
 
@@ -1261,6 +1327,7 @@ void ProcBase<IDirect3DDevice9>::SetClipPlane(BytesPtr srcBytes, BytesPtr dstByt
     HRESULT res = self->SetClipPlane(args.Index, opt2ptr(args.pPlane));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetClipPlane(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1277,6 +1344,7 @@ void ProcBase<IDirect3DDevice9>::GetClipPlane(BytesPtr srcBytes, BytesPtr dstByt
     HRESULT res = self->GetClipPlane(args.Index, opt2ptr(args.pPlane));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pPlane) wp(*args.pPlane);
 }
 
@@ -1294,6 +1362,7 @@ void ProcBase<IDirect3DDevice9>::SetRenderState(BytesPtr srcBytes, BytesPtr dstB
     HRESULT res = self->SetRenderState(args.State, args.Value);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetRenderState(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1310,6 +1379,7 @@ void ProcBase<IDirect3DDevice9>::GetRenderState(BytesPtr srcBytes, BytesPtr dstB
     HRESULT res = self->GetRenderState(args.State, opt2ptr(args.pValue));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pValue) wp(*args.pValue);
 }
 
@@ -1326,6 +1396,7 @@ void ProcBase<IDirect3DDevice9>::CreateStateBlock(BytesPtr srcBytes, BytesPtr ds
     HRESULT res = self->CreateStateBlock(args.Type, &args.ppSB);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppSB));
 }
 
@@ -1340,6 +1411,7 @@ void ProcBase<IDirect3DDevice9>::BeginStateBlock(BytesPtr srcBytes, BytesPtr dst
     HRESULT res = self->BeginStateBlock();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::EndStateBlock(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1353,6 +1425,7 @@ void ProcBase<IDirect3DDevice9>::EndStateBlock(BytesPtr srcBytes, BytesPtr dstBy
     HRESULT res = self->EndStateBlock(&args.ppSB);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppSB));
 }
 
@@ -1368,6 +1441,7 @@ void ProcBase<IDirect3DDevice9>::SetClipStatus(BytesPtr srcBytes, BytesPtr dstBy
     HRESULT res = self->SetClipStatus(opt2ptr(args.pClipStatus));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetClipStatus(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1382,6 +1456,7 @@ void ProcBase<IDirect3DDevice9>::GetClipStatus(BytesPtr srcBytes, BytesPtr dstBy
     HRESULT res = self->GetClipStatus(opt2ptr(args.pClipStatus));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pClipStatus) wp(*args.pClipStatus);
 }
 
@@ -1398,6 +1473,7 @@ void ProcBase<IDirect3DDevice9>::GetTexture(BytesPtr srcBytes, BytesPtr dstBytes
     HRESULT res = self->GetTexture(args.Stage, &args.ppTexture);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppTexture));
 }
 
@@ -1415,6 +1491,7 @@ void ProcBase<IDirect3DDevice9>::SetTexture(BytesPtr srcBytes, BytesPtr dstBytes
     HRESULT res = self->SetTexture(args.Stage, args.pTexture);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetTextureStageState(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1433,6 +1510,7 @@ void ProcBase<IDirect3DDevice9>::GetTextureStageState(BytesPtr srcBytes, BytesPt
     HRESULT res = self->GetTextureStageState(args.Stage, args.Type, opt2ptr(args.pValue));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pValue) wp(*args.pValue);
 }
 
@@ -1452,6 +1530,7 @@ void ProcBase<IDirect3DDevice9>::SetTextureStageState(BytesPtr srcBytes, BytesPt
     HRESULT res = self->SetTextureStageState(args.Stage, args.Type, args.Value);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetSamplerState(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1470,6 +1549,7 @@ void ProcBase<IDirect3DDevice9>::GetSamplerState(BytesPtr srcBytes, BytesPtr dst
     HRESULT res = self->GetSamplerState(args.Sampler, args.Type, opt2ptr(args.pValue));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pValue) wp(*args.pValue);
 }
 
@@ -1489,6 +1569,7 @@ void ProcBase<IDirect3DDevice9>::SetSamplerState(BytesPtr srcBytes, BytesPtr dst
     HRESULT res = self->SetSamplerState(args.Sampler, args.Type, args.Value);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::ValidateDevice(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1503,6 +1584,7 @@ void ProcBase<IDirect3DDevice9>::ValidateDevice(BytesPtr srcBytes, BytesPtr dstB
     HRESULT res = self->ValidateDevice(opt2ptr(args.pNumPasses));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pNumPasses) wp(*args.pNumPasses);
 }
 
@@ -1520,6 +1602,7 @@ void ProcBase<IDirect3DDevice9>::SetPaletteEntries(BytesPtr srcBytes, BytesPtr d
     HRESULT res = self->SetPaletteEntries(args.PaletteNumber, opt2ptr(args.pEntries));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetPaletteEntries(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1536,6 +1619,7 @@ void ProcBase<IDirect3DDevice9>::GetPaletteEntries(BytesPtr srcBytes, BytesPtr d
     HRESULT res = self->GetPaletteEntries(args.PaletteNumber, opt2ptr(args.pEntries));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pEntries) wp(*args.pEntries);
 }
 
@@ -1551,6 +1635,7 @@ void ProcBase<IDirect3DDevice9>::SetCurrentTexturePalette(BytesPtr srcBytes, Byt
     HRESULT res = self->SetCurrentTexturePalette(args.PaletteNumber);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetCurrentTexturePalette(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1565,6 +1650,7 @@ void ProcBase<IDirect3DDevice9>::GetCurrentTexturePalette(BytesPtr srcBytes, Byt
     HRESULT res = self->GetCurrentTexturePalette(opt2ptr(args.PaletteNumber));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.PaletteNumber) wp(*args.PaletteNumber);
 }
 
@@ -1580,6 +1666,7 @@ void ProcBase<IDirect3DDevice9>::SetScissorRect(BytesPtr srcBytes, BytesPtr dstB
     HRESULT res = self->SetScissorRect(opt2ptr(args.pRect));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetScissorRect(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1594,6 +1681,7 @@ void ProcBase<IDirect3DDevice9>::GetScissorRect(BytesPtr srcBytes, BytesPtr dstB
     HRESULT res = self->GetScissorRect(opt2ptr(args.pRect));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pRect) wp(*args.pRect);
 }
 
@@ -1609,6 +1697,7 @@ void ProcBase<IDirect3DDevice9>::SetSoftwareVertexProcessing(BytesPtr srcBytes, 
     HRESULT res = self->SetSoftwareVertexProcessing(args.bSoftware);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetSoftwareVertexProcessing(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1622,6 +1711,7 @@ void ProcBase<IDirect3DDevice9>::GetSoftwareVertexProcessing(BytesPtr srcBytes, 
     BOOL res = self->GetSoftwareVertexProcessing();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::SetNPatchMode(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1636,6 +1726,7 @@ void ProcBase<IDirect3DDevice9>::SetNPatchMode(BytesPtr srcBytes, BytesPtr dstBy
     HRESULT res = self->SetNPatchMode(args.nSegments);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetNPatchMode(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1649,6 +1740,7 @@ void ProcBase<IDirect3DDevice9>::GetNPatchMode(BytesPtr srcBytes, BytesPtr dstBy
     float res = self->GetNPatchMode();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::DrawPrimitive(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1667,6 +1759,7 @@ void ProcBase<IDirect3DDevice9>::DrawPrimitive(BytesPtr srcBytes, BytesPtr dstBy
     HRESULT res = self->DrawPrimitive(args.PrimitiveType, args.StartVertex, args.PrimitiveCount);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::DrawIndexedPrimitive(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1691,6 +1784,7 @@ void ProcBase<IDirect3DDevice9>::DrawIndexedPrimitive(BytesPtr srcBytes, BytesPt
     HRESULT res = self->DrawIndexedPrimitive(args.PrimitiveType, args.BaseVertexIndex, args.MinVertexIndex, args.NumVertices, args.startIndex, args.primCount);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::DrawPrimitiveUP(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1725,6 +1819,7 @@ void ProcBase<IDirect3DDevice9>::ProcessVertices(BytesPtr srcBytes, BytesPtr dst
     HRESULT res = self->ProcessVertices(args.SrcStartIndex, args.DestIndex, args.VertexCount, args.pDestBuffer, args.pVertexDecl, args.Flags);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::CreateVertexDeclaration(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1740,6 +1835,7 @@ void ProcBase<IDirect3DDevice9>::CreateVertexDeclaration(BytesPtr srcBytes, Byte
     HRESULT res = self->CreateVertexDeclaration(opt2ptr(args.pVertexElements), &args.ppDecl);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppDecl));
 }
 
@@ -1755,6 +1851,7 @@ void ProcBase<IDirect3DDevice9>::SetVertexDeclaration(BytesPtr srcBytes, BytesPt
     HRESULT res = self->SetVertexDeclaration(args.pDecl);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetVertexDeclaration(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1768,6 +1865,7 @@ void ProcBase<IDirect3DDevice9>::GetVertexDeclaration(BytesPtr srcBytes, BytesPt
     HRESULT res = self->GetVertexDeclaration(&args.ppDecl);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppDecl));
 }
 
@@ -1783,6 +1881,7 @@ void ProcBase<IDirect3DDevice9>::SetFVF(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->SetFVF(args.FVF);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetFVF(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1797,6 +1896,7 @@ void ProcBase<IDirect3DDevice9>::GetFVF(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->GetFVF(opt2ptr(args.pFVF));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pFVF) wp(*args.pFVF);
 }
 
@@ -1813,6 +1913,7 @@ void ProcBase<IDirect3DDevice9>::CreateVertexShader(BytesPtr srcBytes, BytesPtr 
     HRESULT res = self->CreateVertexShader(opt2ptr(args.pFunction), &args.ppShader);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppShader));
 }
 
@@ -1828,6 +1929,7 @@ void ProcBase<IDirect3DDevice9>::SetVertexShader(BytesPtr srcBytes, BytesPtr dst
     HRESULT res = self->SetVertexShader(args.pShader);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetVertexShader(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1841,6 +1943,7 @@ void ProcBase<IDirect3DDevice9>::GetVertexShader(BytesPtr srcBytes, BytesPtr dst
     HRESULT res = self->GetVertexShader(&args.ppShader);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppShader));
 }
 
@@ -1860,6 +1963,7 @@ void ProcBase<IDirect3DDevice9>::SetVertexShaderConstantF(BytesPtr srcBytes, Byt
     HRESULT res = self->SetVertexShaderConstantF(args.StartRegister, opt2ptr(args.pConstantData), args.Vector4fCount);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetVertexShaderConstantF(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1878,6 +1982,7 @@ void ProcBase<IDirect3DDevice9>::GetVertexShaderConstantF(BytesPtr srcBytes, Byt
     HRESULT res = self->GetVertexShaderConstantF(args.StartRegister, opt2ptr(args.pConstantData), args.Vector4fCount);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pConstantData) wp(*args.pConstantData);
 }
 
@@ -1897,6 +2002,7 @@ void ProcBase<IDirect3DDevice9>::SetVertexShaderConstantI(BytesPtr srcBytes, Byt
     HRESULT res = self->SetVertexShaderConstantI(args.StartRegister, opt2ptr(args.pConstantData), args.Vector4iCount);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetVertexShaderConstantI(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1915,6 +2021,7 @@ void ProcBase<IDirect3DDevice9>::GetVertexShaderConstantI(BytesPtr srcBytes, Byt
     HRESULT res = self->GetVertexShaderConstantI(args.StartRegister, opt2ptr(args.pConstantData), args.Vector4iCount);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pConstantData) wp(*args.pConstantData);
 }
 
@@ -1934,6 +2041,7 @@ void ProcBase<IDirect3DDevice9>::SetVertexShaderConstantB(BytesPtr srcBytes, Byt
     HRESULT res = self->SetVertexShaderConstantB(args.StartRegister, opt2ptr(args.pConstantData), args.BoolCount);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetVertexShaderConstantB(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1952,6 +2060,7 @@ void ProcBase<IDirect3DDevice9>::GetVertexShaderConstantB(BytesPtr srcBytes, Byt
     HRESULT res = self->GetVertexShaderConstantB(args.StartRegister, opt2ptr(args.pConstantData), args.BoolCount);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pConstantData) wp(*args.pConstantData);
 }
 
@@ -1973,6 +2082,7 @@ void ProcBase<IDirect3DDevice9>::SetStreamSource(BytesPtr srcBytes, BytesPtr dst
     HRESULT res = self->SetStreamSource(args.StreamNumber, args.pStreamData, args.OffsetInBytes, args.Stride);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetStreamSource(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -1992,6 +2102,7 @@ void ProcBase<IDirect3DDevice9>::GetStreamSource(BytesPtr srcBytes, BytesPtr dst
     HRESULT res = self->GetStreamSource(args.StreamNumber, &args.ppStreamData, opt2ptr(args.pOffsetInBytes), opt2ptr(args.pStride));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppStreamData));
     if (args.pOffsetInBytes) wp(*args.pOffsetInBytes);
     if (args.pStride) wp(*args.pStride);
@@ -2011,6 +2122,7 @@ void ProcBase<IDirect3DDevice9>::SetStreamSourceFreq(BytesPtr srcBytes, BytesPtr
     HRESULT res = self->SetStreamSourceFreq(args.StreamNumber, args.Setting);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetStreamSourceFreq(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2027,6 +2139,7 @@ void ProcBase<IDirect3DDevice9>::GetStreamSourceFreq(BytesPtr srcBytes, BytesPtr
     HRESULT res = self->GetStreamSourceFreq(args.StreamNumber, opt2ptr(args.pSetting));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pSetting) wp(*args.pSetting);
 }
 
@@ -2042,6 +2155,7 @@ void ProcBase<IDirect3DDevice9>::SetIndices(BytesPtr srcBytes, BytesPtr dstBytes
     HRESULT res = self->SetIndices(args.pIndexData);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetIndices(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2055,6 +2169,7 @@ void ProcBase<IDirect3DDevice9>::GetIndices(BytesPtr srcBytes, BytesPtr dstBytes
     HRESULT res = self->GetIndices(&args.ppIndexData);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppIndexData));
 }
 
@@ -2071,6 +2186,7 @@ void ProcBase<IDirect3DDevice9>::CreatePixelShader(BytesPtr srcBytes, BytesPtr d
     HRESULT res = self->CreatePixelShader(opt2ptr(args.pFunction), &args.ppShader);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppShader));
 }
 
@@ -2086,6 +2202,7 @@ void ProcBase<IDirect3DDevice9>::SetPixelShader(BytesPtr srcBytes, BytesPtr dstB
     HRESULT res = self->SetPixelShader(args.pShader);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetPixelShader(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2099,6 +2216,7 @@ void ProcBase<IDirect3DDevice9>::GetPixelShader(BytesPtr srcBytes, BytesPtr dstB
     HRESULT res = self->GetPixelShader(&args.ppShader);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppShader));
 }
 
@@ -2118,6 +2236,7 @@ void ProcBase<IDirect3DDevice9>::SetPixelShaderConstantF(BytesPtr srcBytes, Byte
     HRESULT res = self->SetPixelShaderConstantF(args.StartRegister, opt2ptr(args.pConstantData), args.Vector4fCount);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetPixelShaderConstantF(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2136,6 +2255,7 @@ void ProcBase<IDirect3DDevice9>::GetPixelShaderConstantF(BytesPtr srcBytes, Byte
     HRESULT res = self->GetPixelShaderConstantF(args.StartRegister, opt2ptr(args.pConstantData), args.Vector4fCount);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pConstantData) wp(*args.pConstantData);
 }
 
@@ -2155,6 +2275,7 @@ void ProcBase<IDirect3DDevice9>::SetPixelShaderConstantI(BytesPtr srcBytes, Byte
     HRESULT res = self->SetPixelShaderConstantI(args.StartRegister, opt2ptr(args.pConstantData), args.Vector4iCount);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetPixelShaderConstantI(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2173,6 +2294,7 @@ void ProcBase<IDirect3DDevice9>::GetPixelShaderConstantI(BytesPtr srcBytes, Byte
     HRESULT res = self->GetPixelShaderConstantI(args.StartRegister, opt2ptr(args.pConstantData), args.Vector4iCount);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pConstantData) wp(*args.pConstantData);
 }
 
@@ -2192,6 +2314,7 @@ void ProcBase<IDirect3DDevice9>::SetPixelShaderConstantB(BytesPtr srcBytes, Byte
     HRESULT res = self->SetPixelShaderConstantB(args.StartRegister, opt2ptr(args.pConstantData), args.BoolCount);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::GetPixelShaderConstantB(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2210,6 +2333,7 @@ void ProcBase<IDirect3DDevice9>::GetPixelShaderConstantB(BytesPtr srcBytes, Byte
     HRESULT res = self->GetPixelShaderConstantB(args.StartRegister, opt2ptr(args.pConstantData), args.BoolCount);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pConstantData) wp(*args.pConstantData);
 }
 
@@ -2229,6 +2353,7 @@ void ProcBase<IDirect3DDevice9>::DrawRectPatch(BytesPtr srcBytes, BytesPtr dstBy
     HRESULT res = self->DrawRectPatch(args.Handle, opt2ptr(args.pNumSegs), opt2ptr(args.pRectPatchInfo));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::DrawTriPatch(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2247,6 +2372,7 @@ void ProcBase<IDirect3DDevice9>::DrawTriPatch(BytesPtr srcBytes, BytesPtr dstByt
     HRESULT res = self->DrawTriPatch(args.Handle, opt2ptr(args.pNumSegs), opt2ptr(args.pTriPatchInfo));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::DeletePatch(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2261,6 +2387,7 @@ void ProcBase<IDirect3DDevice9>::DeletePatch(BytesPtr srcBytes, BytesPtr dstByte
     HRESULT res = self->DeletePatch(args.Handle);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DDevice9>::CreateQuery(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2276,6 +2403,7 @@ void ProcBase<IDirect3DDevice9>::CreateQuery(BytesPtr srcBytes, BytesPtr dstByte
     HRESULT res = self->CreateQuery(args.Type, &args.ppQuery);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppQuery));
 }
 
@@ -2300,6 +2428,7 @@ void ProcBase<IDirect3DStateBlock9>::AddRef(BytesPtr srcBytes, BytesPtr dstBytes
     ULONG res = self->AddRef();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DStateBlock9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2313,6 +2442,7 @@ void ProcBase<IDirect3DStateBlock9>::Release(BytesPtr srcBytes, BytesPtr dstByte
     ULONG res = self->Release();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DStateBlock9>::GetDevice(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2326,6 +2456,7 @@ void ProcBase<IDirect3DStateBlock9>::GetDevice(BytesPtr srcBytes, BytesPtr dstBy
     HRESULT res = self->GetDevice(&args.ppDevice);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppDevice));
 }
 
@@ -2340,6 +2471,7 @@ void ProcBase<IDirect3DStateBlock9>::Capture(BytesPtr srcBytes, BytesPtr dstByte
     HRESULT res = self->Capture();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DStateBlock9>::Apply(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2353,6 +2485,7 @@ void ProcBase<IDirect3DStateBlock9>::Apply(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->Apply();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 ProcBase<IDirect3DSwapChain9>::ProcBase(CreateProcArgs const &args)
@@ -2376,6 +2509,7 @@ void ProcBase<IDirect3DSwapChain9>::AddRef(BytesPtr srcBytes, BytesPtr dstBytes)
     ULONG res = self->AddRef();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DSwapChain9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2389,6 +2523,7 @@ void ProcBase<IDirect3DSwapChain9>::Release(BytesPtr srcBytes, BytesPtr dstBytes
     ULONG res = self->Release();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DSwapChain9>::Present(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2411,6 +2546,7 @@ void ProcBase<IDirect3DSwapChain9>::Present(BytesPtr srcBytes, BytesPtr dstBytes
     HRESULT res = self->Present(opt2ptr(args.pSourceRect), opt2ptr(args.pDestRect), args.hDestWindowOverride, opt2ptr(args.pDirtyRegion), args.dwFlags);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DSwapChain9>::GetFrontBufferData(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2425,6 +2561,7 @@ void ProcBase<IDirect3DSwapChain9>::GetFrontBufferData(BytesPtr srcBytes, BytesP
     HRESULT res = self->GetFrontBufferData(args.pDestSurface);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DSwapChain9>::GetBackBuffer(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2442,6 +2579,7 @@ void ProcBase<IDirect3DSwapChain9>::GetBackBuffer(BytesPtr srcBytes, BytesPtr ds
     HRESULT res = self->GetBackBuffer(args.iBackBuffer, args.Type, &args.ppBackBuffer);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppBackBuffer));
 }
 
@@ -2457,6 +2595,7 @@ void ProcBase<IDirect3DSwapChain9>::GetRasterStatus(BytesPtr srcBytes, BytesPtr 
     HRESULT res = self->GetRasterStatus(opt2ptr(args.pRasterStatus));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pRasterStatus) wp(*args.pRasterStatus);
 }
 
@@ -2472,6 +2611,7 @@ void ProcBase<IDirect3DSwapChain9>::GetDisplayMode(BytesPtr srcBytes, BytesPtr d
     HRESULT res = self->GetDisplayMode(opt2ptr(args.pMode));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pMode) wp(*args.pMode);
 }
 
@@ -2486,6 +2626,7 @@ void ProcBase<IDirect3DSwapChain9>::GetDevice(BytesPtr srcBytes, BytesPtr dstByt
     HRESULT res = self->GetDevice(&args.ppDevice);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppDevice));
 }
 
@@ -2501,6 +2642,7 @@ void ProcBase<IDirect3DSwapChain9>::GetPresentParameters(BytesPtr srcBytes, Byte
     HRESULT res = self->GetPresentParameters(opt2ptr(args.pPresentationParameters));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pPresentationParameters) wp(*args.pPresentationParameters);
 }
 
@@ -2525,6 +2667,7 @@ void ProcBase<IDirect3DVertexDeclaration9>::AddRef(BytesPtr srcBytes, BytesPtr d
     ULONG res = self->AddRef();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVertexDeclaration9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2538,6 +2681,7 @@ void ProcBase<IDirect3DVertexDeclaration9>::Release(BytesPtr srcBytes, BytesPtr 
     ULONG res = self->Release();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVertexDeclaration9>::GetDevice(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2551,6 +2695,7 @@ void ProcBase<IDirect3DVertexDeclaration9>::GetDevice(BytesPtr srcBytes, BytesPt
     HRESULT res = self->GetDevice(&args.ppDevice);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppDevice));
 }
 
@@ -2568,6 +2713,7 @@ void ProcBase<IDirect3DVertexDeclaration9>::GetDeclaration(BytesPtr srcBytes, By
     HRESULT res = self->GetDeclaration(opt2ptr(args.pElement), opt2ptr(args.pNumElements));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pElement) wp(*args.pElement);
     if (args.pNumElements) wp(*args.pNumElements);
 }
@@ -2593,6 +2739,7 @@ void ProcBase<IDirect3DVertexShader9>::AddRef(BytesPtr srcBytes, BytesPtr dstByt
     ULONG res = self->AddRef();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVertexShader9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2606,6 +2753,7 @@ void ProcBase<IDirect3DVertexShader9>::Release(BytesPtr srcBytes, BytesPtr dstBy
     ULONG res = self->Release();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVertexShader9>::GetDevice(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2619,6 +2767,7 @@ void ProcBase<IDirect3DVertexShader9>::GetDevice(BytesPtr srcBytes, BytesPtr dst
     HRESULT res = self->GetDevice(&args.ppDevice);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppDevice));
 }
 
@@ -2648,6 +2797,7 @@ void ProcBase<IDirect3DPixelShader9>::AddRef(BytesPtr srcBytes, BytesPtr dstByte
     ULONG res = self->AddRef();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DPixelShader9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2661,6 +2811,7 @@ void ProcBase<IDirect3DPixelShader9>::Release(BytesPtr srcBytes, BytesPtr dstByt
     ULONG res = self->Release();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DPixelShader9>::GetDevice(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2674,6 +2825,7 @@ void ProcBase<IDirect3DPixelShader9>::GetDevice(BytesPtr srcBytes, BytesPtr dstB
     HRESULT res = self->GetDevice(&args.ppDevice);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppDevice));
 }
 
@@ -2703,6 +2855,7 @@ void ProcBase<IDirect3DTexture9>::AddRef(BytesPtr srcBytes, BytesPtr dstBytes)
     ULONG res = self->AddRef();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DTexture9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2716,6 +2869,7 @@ void ProcBase<IDirect3DTexture9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
     ULONG res = self->Release();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DTexture9>::GetDevice(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2729,6 +2883,7 @@ void ProcBase<IDirect3DTexture9>::GetDevice(BytesPtr srcBytes, BytesPtr dstBytes
     HRESULT res = self->GetDevice(&args.ppDevice);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppDevice));
 }
 
@@ -2754,6 +2909,7 @@ void ProcBase<IDirect3DTexture9>::FreePrivateData(BytesPtr srcBytes, BytesPtr ds
     HRESULT res = self->FreePrivateData(args.refguid);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DTexture9>::SetPriority(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2768,6 +2924,7 @@ void ProcBase<IDirect3DTexture9>::SetPriority(BytesPtr srcBytes, BytesPtr dstByt
     DWORD res = self->SetPriority(args.PriorityNew);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DTexture9>::GetPriority(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2781,6 +2938,7 @@ void ProcBase<IDirect3DTexture9>::GetPriority(BytesPtr srcBytes, BytesPtr dstByt
     DWORD res = self->GetPriority();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DTexture9>::PreLoad(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2806,6 +2964,7 @@ void ProcBase<IDirect3DTexture9>::GetType(BytesPtr srcBytes, BytesPtr dstBytes)
     D3DRESOURCETYPE res = self->GetType();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DTexture9>::SetLOD(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2820,6 +2979,7 @@ void ProcBase<IDirect3DTexture9>::SetLOD(BytesPtr srcBytes, BytesPtr dstBytes)
     DWORD res = self->SetLOD(args.LODNew);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DTexture9>::GetLOD(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2833,6 +2993,7 @@ void ProcBase<IDirect3DTexture9>::GetLOD(BytesPtr srcBytes, BytesPtr dstBytes)
     DWORD res = self->GetLOD();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DTexture9>::GetLevelCount(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2846,6 +3007,7 @@ void ProcBase<IDirect3DTexture9>::GetLevelCount(BytesPtr srcBytes, BytesPtr dstB
     DWORD res = self->GetLevelCount();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DTexture9>::SetAutoGenFilterType(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2860,6 +3022,7 @@ void ProcBase<IDirect3DTexture9>::SetAutoGenFilterType(BytesPtr srcBytes, BytesP
     HRESULT res = self->SetAutoGenFilterType(args.FilterType);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DTexture9>::GetAutoGenFilterType(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2873,6 +3036,7 @@ void ProcBase<IDirect3DTexture9>::GetAutoGenFilterType(BytesPtr srcBytes, BytesP
     D3DTEXTUREFILTERTYPE res = self->GetAutoGenFilterType();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DTexture9>::GenerateMipSubLevels(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2901,6 +3065,7 @@ void ProcBase<IDirect3DTexture9>::GetLevelDesc(BytesPtr srcBytes, BytesPtr dstBy
     HRESULT res = self->GetLevelDesc(args.Level, opt2ptr(args.pDesc));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pDesc) wp(*args.pDesc);
 }
 
@@ -2917,6 +3082,7 @@ void ProcBase<IDirect3DTexture9>::GetSurfaceLevel(BytesPtr srcBytes, BytesPtr ds
     HRESULT res = self->GetSurfaceLevel(args.Level, &args.ppSurfaceLevel);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppSurfaceLevel));
 }
 
@@ -2938,6 +3104,7 @@ void ProcBase<IDirect3DTexture9>::LockRect(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->LockRect(args.Level, opt2ptr(args.pLockedRect), opt2ptr(args.pRect), args.Flags);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pLockedRect) wp(*args.pLockedRect);
 }
 
@@ -2953,6 +3120,7 @@ void ProcBase<IDirect3DTexture9>::UnlockRect(BytesPtr srcBytes, BytesPtr dstByte
     HRESULT res = self->UnlockRect(args.Level);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DTexture9>::AddDirtyRect(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -2967,6 +3135,7 @@ void ProcBase<IDirect3DTexture9>::AddDirtyRect(BytesPtr srcBytes, BytesPtr dstBy
     HRESULT res = self->AddDirtyRect(opt2ptr(args.pDirtyRect));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 ProcBase<IDirect3DVolumeTexture9>::ProcBase(CreateProcArgs const &args)
@@ -2990,6 +3159,7 @@ void ProcBase<IDirect3DVolumeTexture9>::AddRef(BytesPtr srcBytes, BytesPtr dstBy
     ULONG res = self->AddRef();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVolumeTexture9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3003,6 +3173,7 @@ void ProcBase<IDirect3DVolumeTexture9>::Release(BytesPtr srcBytes, BytesPtr dstB
     ULONG res = self->Release();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVolumeTexture9>::GetDevice(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3016,6 +3187,7 @@ void ProcBase<IDirect3DVolumeTexture9>::GetDevice(BytesPtr srcBytes, BytesPtr ds
     HRESULT res = self->GetDevice(&args.ppDevice);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppDevice));
 }
 
@@ -3041,6 +3213,7 @@ void ProcBase<IDirect3DVolumeTexture9>::FreePrivateData(BytesPtr srcBytes, Bytes
     HRESULT res = self->FreePrivateData(args.refguid);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVolumeTexture9>::SetPriority(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3055,6 +3228,7 @@ void ProcBase<IDirect3DVolumeTexture9>::SetPriority(BytesPtr srcBytes, BytesPtr 
     DWORD res = self->SetPriority(args.PriorityNew);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVolumeTexture9>::GetPriority(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3068,6 +3242,7 @@ void ProcBase<IDirect3DVolumeTexture9>::GetPriority(BytesPtr srcBytes, BytesPtr 
     DWORD res = self->GetPriority();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVolumeTexture9>::PreLoad(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3093,6 +3268,7 @@ void ProcBase<IDirect3DVolumeTexture9>::GetType(BytesPtr srcBytes, BytesPtr dstB
     D3DRESOURCETYPE res = self->GetType();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVolumeTexture9>::SetLOD(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3107,6 +3283,7 @@ void ProcBase<IDirect3DVolumeTexture9>::SetLOD(BytesPtr srcBytes, BytesPtr dstBy
     DWORD res = self->SetLOD(args.LODNew);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVolumeTexture9>::GetLOD(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3120,6 +3297,7 @@ void ProcBase<IDirect3DVolumeTexture9>::GetLOD(BytesPtr srcBytes, BytesPtr dstBy
     DWORD res = self->GetLOD();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVolumeTexture9>::GetLevelCount(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3133,6 +3311,7 @@ void ProcBase<IDirect3DVolumeTexture9>::GetLevelCount(BytesPtr srcBytes, BytesPt
     DWORD res = self->GetLevelCount();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVolumeTexture9>::SetAutoGenFilterType(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3147,6 +3326,7 @@ void ProcBase<IDirect3DVolumeTexture9>::SetAutoGenFilterType(BytesPtr srcBytes, 
     HRESULT res = self->SetAutoGenFilterType(args.FilterType);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVolumeTexture9>::GetAutoGenFilterType(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3160,6 +3340,7 @@ void ProcBase<IDirect3DVolumeTexture9>::GetAutoGenFilterType(BytesPtr srcBytes, 
     D3DTEXTUREFILTERTYPE res = self->GetAutoGenFilterType();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVolumeTexture9>::GenerateMipSubLevels(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3188,6 +3369,7 @@ void ProcBase<IDirect3DVolumeTexture9>::GetLevelDesc(BytesPtr srcBytes, BytesPtr
     HRESULT res = self->GetLevelDesc(args.Level, opt2ptr(args.pDesc));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pDesc) wp(*args.pDesc);
 }
 
@@ -3204,6 +3386,7 @@ void ProcBase<IDirect3DVolumeTexture9>::GetVolumeLevel(BytesPtr srcBytes, BytesP
     HRESULT res = self->GetVolumeLevel(args.Level, &args.ppVolumeLevel);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppVolumeLevel));
 }
 
@@ -3225,6 +3408,7 @@ void ProcBase<IDirect3DVolumeTexture9>::LockBox(BytesPtr srcBytes, BytesPtr dstB
     HRESULT res = self->LockBox(args.Level, opt2ptr(args.pLockedVolume), opt2ptr(args.pBox), args.Flags);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pLockedVolume) wp(*args.pLockedVolume);
 }
 
@@ -3240,6 +3424,7 @@ void ProcBase<IDirect3DVolumeTexture9>::UnlockBox(BytesPtr srcBytes, BytesPtr ds
     HRESULT res = self->UnlockBox(args.Level);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVolumeTexture9>::AddDirtyBox(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3254,6 +3439,7 @@ void ProcBase<IDirect3DVolumeTexture9>::AddDirtyBox(BytesPtr srcBytes, BytesPtr 
     HRESULT res = self->AddDirtyBox(opt2ptr(args.pDirtyBox));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 ProcBase<IDirect3DCubeTexture9>::ProcBase(CreateProcArgs const &args)
@@ -3277,6 +3463,7 @@ void ProcBase<IDirect3DCubeTexture9>::AddRef(BytesPtr srcBytes, BytesPtr dstByte
     ULONG res = self->AddRef();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DCubeTexture9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3290,6 +3477,7 @@ void ProcBase<IDirect3DCubeTexture9>::Release(BytesPtr srcBytes, BytesPtr dstByt
     ULONG res = self->Release();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DCubeTexture9>::GetDevice(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3303,6 +3491,7 @@ void ProcBase<IDirect3DCubeTexture9>::GetDevice(BytesPtr srcBytes, BytesPtr dstB
     HRESULT res = self->GetDevice(&args.ppDevice);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppDevice));
 }
 
@@ -3328,6 +3517,7 @@ void ProcBase<IDirect3DCubeTexture9>::FreePrivateData(BytesPtr srcBytes, BytesPt
     HRESULT res = self->FreePrivateData(args.refguid);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DCubeTexture9>::SetPriority(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3342,6 +3532,7 @@ void ProcBase<IDirect3DCubeTexture9>::SetPriority(BytesPtr srcBytes, BytesPtr ds
     DWORD res = self->SetPriority(args.PriorityNew);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DCubeTexture9>::GetPriority(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3355,6 +3546,7 @@ void ProcBase<IDirect3DCubeTexture9>::GetPriority(BytesPtr srcBytes, BytesPtr ds
     DWORD res = self->GetPriority();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DCubeTexture9>::PreLoad(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3380,6 +3572,7 @@ void ProcBase<IDirect3DCubeTexture9>::GetType(BytesPtr srcBytes, BytesPtr dstByt
     D3DRESOURCETYPE res = self->GetType();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DCubeTexture9>::SetLOD(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3394,6 +3587,7 @@ void ProcBase<IDirect3DCubeTexture9>::SetLOD(BytesPtr srcBytes, BytesPtr dstByte
     DWORD res = self->SetLOD(args.LODNew);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DCubeTexture9>::GetLOD(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3407,6 +3601,7 @@ void ProcBase<IDirect3DCubeTexture9>::GetLOD(BytesPtr srcBytes, BytesPtr dstByte
     DWORD res = self->GetLOD();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DCubeTexture9>::GetLevelCount(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3420,6 +3615,7 @@ void ProcBase<IDirect3DCubeTexture9>::GetLevelCount(BytesPtr srcBytes, BytesPtr 
     DWORD res = self->GetLevelCount();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DCubeTexture9>::SetAutoGenFilterType(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3434,6 +3630,7 @@ void ProcBase<IDirect3DCubeTexture9>::SetAutoGenFilterType(BytesPtr srcBytes, By
     HRESULT res = self->SetAutoGenFilterType(args.FilterType);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DCubeTexture9>::GetAutoGenFilterType(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3447,6 +3644,7 @@ void ProcBase<IDirect3DCubeTexture9>::GetAutoGenFilterType(BytesPtr srcBytes, By
     D3DTEXTUREFILTERTYPE res = self->GetAutoGenFilterType();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DCubeTexture9>::GenerateMipSubLevels(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3475,6 +3673,7 @@ void ProcBase<IDirect3DCubeTexture9>::GetLevelDesc(BytesPtr srcBytes, BytesPtr d
     HRESULT res = self->GetLevelDesc(args.Level, opt2ptr(args.pDesc));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pDesc) wp(*args.pDesc);
 }
 
@@ -3493,6 +3692,7 @@ void ProcBase<IDirect3DCubeTexture9>::GetCubeMapSurface(BytesPtr srcBytes, Bytes
     HRESULT res = self->GetCubeMapSurface(args.FaceType, args.Level, &args.ppCubeMapSurface);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppCubeMapSurface));
 }
 
@@ -3516,6 +3716,7 @@ void ProcBase<IDirect3DCubeTexture9>::LockRect(BytesPtr srcBytes, BytesPtr dstBy
     HRESULT res = self->LockRect(args.FaceType, args.Level, opt2ptr(args.pLockedRect), opt2ptr(args.pRect), args.Flags);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pLockedRect) wp(*args.pLockedRect);
 }
 
@@ -3533,6 +3734,7 @@ void ProcBase<IDirect3DCubeTexture9>::UnlockRect(BytesPtr srcBytes, BytesPtr dst
     HRESULT res = self->UnlockRect(args.FaceType, args.Level);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DCubeTexture9>::AddDirtyRect(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3549,6 +3751,7 @@ void ProcBase<IDirect3DCubeTexture9>::AddDirtyRect(BytesPtr srcBytes, BytesPtr d
     HRESULT res = self->AddDirtyRect(args.FaceType, opt2ptr(args.pDirtyRect));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 ProcBase<IDirect3DVertexBuffer9>::ProcBase(CreateProcArgs const &args)
@@ -3572,6 +3775,7 @@ void ProcBase<IDirect3DVertexBuffer9>::AddRef(BytesPtr srcBytes, BytesPtr dstByt
     ULONG res = self->AddRef();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVertexBuffer9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3585,6 +3789,7 @@ void ProcBase<IDirect3DVertexBuffer9>::Release(BytesPtr srcBytes, BytesPtr dstBy
     ULONG res = self->Release();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVertexBuffer9>::GetDevice(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3598,6 +3803,7 @@ void ProcBase<IDirect3DVertexBuffer9>::GetDevice(BytesPtr srcBytes, BytesPtr dst
     HRESULT res = self->GetDevice(&args.ppDevice);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppDevice));
 }
 
@@ -3623,6 +3829,7 @@ void ProcBase<IDirect3DVertexBuffer9>::FreePrivateData(BytesPtr srcBytes, BytesP
     HRESULT res = self->FreePrivateData(args.refguid);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVertexBuffer9>::SetPriority(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3637,6 +3844,7 @@ void ProcBase<IDirect3DVertexBuffer9>::SetPriority(BytesPtr srcBytes, BytesPtr d
     DWORD res = self->SetPriority(args.PriorityNew);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVertexBuffer9>::GetPriority(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3650,6 +3858,7 @@ void ProcBase<IDirect3DVertexBuffer9>::GetPriority(BytesPtr srcBytes, BytesPtr d
     DWORD res = self->GetPriority();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVertexBuffer9>::PreLoad(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3675,6 +3884,7 @@ void ProcBase<IDirect3DVertexBuffer9>::GetType(BytesPtr srcBytes, BytesPtr dstBy
     D3DRESOURCETYPE res = self->GetType();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVertexBuffer9>::Lock(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3693,6 +3903,7 @@ void ProcBase<IDirect3DVertexBuffer9>::Unlock(BytesPtr srcBytes, BytesPtr dstByt
     HRESULT res = self->Unlock();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVertexBuffer9>::GetDesc(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3707,6 +3918,7 @@ void ProcBase<IDirect3DVertexBuffer9>::GetDesc(BytesPtr srcBytes, BytesPtr dstBy
     HRESULT res = self->GetDesc(opt2ptr(args.pDesc));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pDesc) wp(*args.pDesc);
 }
 
@@ -3731,6 +3943,7 @@ void ProcBase<IDirect3DIndexBuffer9>::AddRef(BytesPtr srcBytes, BytesPtr dstByte
     ULONG res = self->AddRef();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DIndexBuffer9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3744,6 +3957,7 @@ void ProcBase<IDirect3DIndexBuffer9>::Release(BytesPtr srcBytes, BytesPtr dstByt
     ULONG res = self->Release();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DIndexBuffer9>::GetDevice(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3757,6 +3971,7 @@ void ProcBase<IDirect3DIndexBuffer9>::GetDevice(BytesPtr srcBytes, BytesPtr dstB
     HRESULT res = self->GetDevice(&args.ppDevice);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppDevice));
 }
 
@@ -3782,6 +3997,7 @@ void ProcBase<IDirect3DIndexBuffer9>::FreePrivateData(BytesPtr srcBytes, BytesPt
     HRESULT res = self->FreePrivateData(args.refguid);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DIndexBuffer9>::SetPriority(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3796,6 +4012,7 @@ void ProcBase<IDirect3DIndexBuffer9>::SetPriority(BytesPtr srcBytes, BytesPtr ds
     DWORD res = self->SetPriority(args.PriorityNew);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DIndexBuffer9>::GetPriority(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3809,6 +4026,7 @@ void ProcBase<IDirect3DIndexBuffer9>::GetPriority(BytesPtr srcBytes, BytesPtr ds
     DWORD res = self->GetPriority();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DIndexBuffer9>::PreLoad(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3834,6 +4052,7 @@ void ProcBase<IDirect3DIndexBuffer9>::GetType(BytesPtr srcBytes, BytesPtr dstByt
     D3DRESOURCETYPE res = self->GetType();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DIndexBuffer9>::Lock(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3852,6 +4071,7 @@ void ProcBase<IDirect3DIndexBuffer9>::Unlock(BytesPtr srcBytes, BytesPtr dstByte
     HRESULT res = self->Unlock();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DIndexBuffer9>::GetDesc(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3866,6 +4086,7 @@ void ProcBase<IDirect3DIndexBuffer9>::GetDesc(BytesPtr srcBytes, BytesPtr dstByt
     HRESULT res = self->GetDesc(opt2ptr(args.pDesc));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pDesc) wp(*args.pDesc);
 }
 
@@ -3890,6 +4111,7 @@ void ProcBase<IDirect3DSurface9>::AddRef(BytesPtr srcBytes, BytesPtr dstBytes)
     ULONG res = self->AddRef();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DSurface9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3903,6 +4125,7 @@ void ProcBase<IDirect3DSurface9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
     ULONG res = self->Release();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DSurface9>::GetDevice(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3916,6 +4139,7 @@ void ProcBase<IDirect3DSurface9>::GetDevice(BytesPtr srcBytes, BytesPtr dstBytes
     HRESULT res = self->GetDevice(&args.ppDevice);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppDevice));
 }
 
@@ -3941,6 +4165,7 @@ void ProcBase<IDirect3DSurface9>::FreePrivateData(BytesPtr srcBytes, BytesPtr ds
     HRESULT res = self->FreePrivateData(args.refguid);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DSurface9>::SetPriority(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3955,6 +4180,7 @@ void ProcBase<IDirect3DSurface9>::SetPriority(BytesPtr srcBytes, BytesPtr dstByt
     DWORD res = self->SetPriority(args.PriorityNew);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DSurface9>::GetPriority(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3968,6 +4194,7 @@ void ProcBase<IDirect3DSurface9>::GetPriority(BytesPtr srcBytes, BytesPtr dstByt
     DWORD res = self->GetPriority();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DSurface9>::PreLoad(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -3993,6 +4220,7 @@ void ProcBase<IDirect3DSurface9>::GetType(BytesPtr srcBytes, BytesPtr dstBytes)
     D3DRESOURCETYPE res = self->GetType();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DSurface9>::GetContainer(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -4012,6 +4240,7 @@ void ProcBase<IDirect3DSurface9>::GetDesc(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->GetDesc(opt2ptr(args.pDesc));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pDesc) wp(*args.pDesc);
 }
 
@@ -4031,6 +4260,7 @@ void ProcBase<IDirect3DSurface9>::LockRect(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->LockRect(opt2ptr(args.pLockedRect), opt2ptr(args.pRect), args.Flags);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pLockedRect) wp(*args.pLockedRect);
 }
 
@@ -4045,6 +4275,7 @@ void ProcBase<IDirect3DSurface9>::UnlockRect(BytesPtr srcBytes, BytesPtr dstByte
     HRESULT res = self->UnlockRect();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DSurface9>::GetDC(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -4059,6 +4290,7 @@ void ProcBase<IDirect3DSurface9>::GetDC(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->GetDC(opt2ptr(args.phdc));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.phdc) wp(*args.phdc);
 }
 
@@ -4074,6 +4306,7 @@ void ProcBase<IDirect3DSurface9>::ReleaseDC(BytesPtr srcBytes, BytesPtr dstBytes
     HRESULT res = self->ReleaseDC(args.hdc);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 ProcBase<IDirect3DVolume9>::ProcBase(CreateProcArgs const &args)
@@ -4097,6 +4330,7 @@ void ProcBase<IDirect3DVolume9>::AddRef(BytesPtr srcBytes, BytesPtr dstBytes)
     ULONG res = self->AddRef();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVolume9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -4110,6 +4344,7 @@ void ProcBase<IDirect3DVolume9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
     ULONG res = self->Release();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVolume9>::GetDevice(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -4123,6 +4358,7 @@ void ProcBase<IDirect3DVolume9>::GetDevice(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->GetDevice(&args.ppDevice);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppDevice));
 }
 
@@ -4148,6 +4384,7 @@ void ProcBase<IDirect3DVolume9>::FreePrivateData(BytesPtr srcBytes, BytesPtr dst
     HRESULT res = self->FreePrivateData(args.refguid);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DVolume9>::GetContainer(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -4167,6 +4404,7 @@ void ProcBase<IDirect3DVolume9>::GetDesc(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->GetDesc(opt2ptr(args.pDesc));
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pDesc) wp(*args.pDesc);
 }
 
@@ -4186,6 +4424,7 @@ void ProcBase<IDirect3DVolume9>::LockBox(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->LockBox(opt2ptr(args.pLockedVolume), opt2ptr(args.pBox), args.Flags);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     if (args.pLockedVolume) wp(*args.pLockedVolume);
 }
 
@@ -4200,6 +4439,7 @@ void ProcBase<IDirect3DVolume9>::UnlockBox(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->UnlockBox();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 ProcBase<IDirect3DQuery9>::ProcBase(CreateProcArgs const &args)
@@ -4223,6 +4463,7 @@ void ProcBase<IDirect3DQuery9>::AddRef(BytesPtr srcBytes, BytesPtr dstBytes)
     ULONG res = self->AddRef();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DQuery9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -4236,6 +4477,7 @@ void ProcBase<IDirect3DQuery9>::Release(BytesPtr srcBytes, BytesPtr dstBytes)
     ULONG res = self->Release();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DQuery9>::GetDevice(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -4249,6 +4491,7 @@ void ProcBase<IDirect3DQuery9>::GetDevice(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->GetDevice(&args.ppDevice);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
     wp(procMap_->getProxyID(args.ppDevice));
 }
 
@@ -4263,6 +4506,7 @@ void ProcBase<IDirect3DQuery9>::GetType(BytesPtr srcBytes, BytesPtr dstBytes)
     D3DQUERYTYPE res = self->GetType();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DQuery9>::GetDataSize(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -4276,6 +4520,7 @@ void ProcBase<IDirect3DQuery9>::GetDataSize(BytesPtr srcBytes, BytesPtr dstBytes
     DWORD res = self->GetDataSize();
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DQuery9>::Issue(BytesPtr srcBytes, BytesPtr dstBytes)
@@ -4290,6 +4535,7 @@ void ProcBase<IDirect3DQuery9>::Issue(BytesPtr srcBytes, BytesPtr dstBytes)
     HRESULT res = self->Issue(args.dwIssueFlags);
     bytes::write_proc wp(dstBytes);
     wp(res);
+    checkProcResult(res);
 }
 
 void ProcBase<IDirect3DQuery9>::GetData(BytesPtr srcBytes, BytesPtr dstBytes)

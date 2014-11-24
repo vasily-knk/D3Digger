@@ -119,8 +119,10 @@ class ServerProcGenerator extends CodeGeneratorBase(ServerProcGenerator.head, Se
 
             sb ++= "bytes::write_proc wp(dstBytes);\r\n"
 
-            if (!isVoid)
-                sb ++= "wp(res);\r\n".format(method.retType.name)
+            if (!isVoid) {
+                sb ++= "wp(res);\r\n"
+                sb ++= "checkProcResult(res);\r\n"
+            }
 
             outs.foreach((arg) => {
                 sb ++= ser(arg)
