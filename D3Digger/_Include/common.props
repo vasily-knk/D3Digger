@@ -3,14 +3,17 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <IncludePath>$(SolutionDir)_Include;$(BOOST_DIR);$(DXSDK_DIR)\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(BOOST_DIR)\lib32-msvc-12.0;$(DXSDK_DIR)\Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)_Include;$(BOOST_DIR);$(DXSDK_DIR)\include;$(SIMLABS_DIR)\src\_Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(BOOST_DIR)\lib32-msvc-12.0;$(DXSDK_DIR)\Lib\x86;$(SIMLABS_DIR)\bin\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalOptions>-Zm256 %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>logger.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>

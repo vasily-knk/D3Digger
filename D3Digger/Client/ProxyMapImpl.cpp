@@ -35,7 +35,7 @@ namespace D3D9
 			{
 				Record record;
 				record.ptr = creator(id);
-				assert(record.ptr);
+				Assert(record.ptr);
 				record.connDeleted = record.ptr->subscribeDeleted(bind(&ProxyMapImpl::onDeleted, this, id));
 
 				map_.insert(make_pair(id, std::move(record)));
@@ -50,7 +50,7 @@ namespace D3D9
 
 		void ProxyMapImpl::onDeleted(ProxyId id)
 		{
-			assert(map_.count(id));
+			Assert(map_.count(id));
 			map_.erase(id);
 		}
 

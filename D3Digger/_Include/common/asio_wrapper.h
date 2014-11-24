@@ -47,7 +47,7 @@ private:
         Proc proc;
         {
             Lock l(mutex_);
-            assert(!queue_.empty());
+            Assert(!queue_.empty());
             proc = queue_.front();
             queue_.pop();
         }

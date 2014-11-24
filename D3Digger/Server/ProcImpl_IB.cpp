@@ -47,13 +47,13 @@ void Impl::Unlock(BytesPtr srcBytes, BytesPtr dstBytes)
     {
         rp.array(ptr, size);
         res = self->Unlock();
-        assert(SUCCEEDED(res));
+        Assert(SUCCEEDED(res));
     }
     else
     {
         vector<char> dump(size);
         rp.array(dump.data(), size);
-        assert(false);
+        Assert(false);
     }
 
     bytes::write_proc wp(dstBytes);

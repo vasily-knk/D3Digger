@@ -121,7 +121,7 @@ class ServerProcGenerator extends CodeGeneratorBase(ServerProcGenerator.head, Se
 
             if (!isVoid) {
                 sb ++= "wp(res);\r\n"
-                sb ++= "checkProcResult(res);\r\n"
+                sb ++= "CHECK_PROC_RESULT(res);\r\n"
             }
 
             outs.foreach((arg) => {

@@ -9,16 +9,10 @@ namespace D3D9
 			: IGlobal
 		{
 			GlobalImpl()
-				: log_("d3d9.log")
-				, proxyMap_(createProxyMap())
+				: proxyMap_(createProxyMap())
 				, executor_(createExecutor())
 			{
 
-			}
-
-			ostream &log() override
-			{
-				return log_;
 			}
 
 			IProxyMap &proxyMap() override
@@ -42,20 +36,23 @@ namespace D3D9
 	
 		IGlobal &createGlobal()
         {
-            assert(!g_globalImpl);
+            logging::add_default_file_writer();
+            logging::add_console_writer();
+
+            Verify(!g_globalImpl);
             g_globalImpl = std::make_unique<GlobalImpl>();
             return *g_globalImpl;
         }
 
         void deleteGlobal()
         {
-            assert(g_globalImpl);
+            Verify(g_globalImpl);
             g_globalImpl.reset();
         }
         
         IGlobal &getGlobal()
 		{
-            assert(g_globalImpl);
+            Verify(g_globalImpl);
             return *g_globalImpl;
 		}
 	

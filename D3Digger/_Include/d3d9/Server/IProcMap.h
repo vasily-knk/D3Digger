@@ -26,13 +26,13 @@ struct IProcMap
 	T *getPtr(ProxyId id)
 	{
         IUnknown *p = getPtrImpl(id);
-        assert(p);
+        Assert(p);
 
         GUID guid = getGuid<T>();
         T* dst;
         HRESULT res = p->QueryInterface(guid, reinterpret_cast<void**>(&dst));
-        assert(SUCCEEDED(res));
-        assert(dst);
+        Assert(SUCCEEDED(res));
+        Assert(dst);
 
         if (SUCCEEDED(res) && dst)
             p->Release();

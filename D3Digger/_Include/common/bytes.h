@@ -114,12 +114,12 @@ namespace inner
 
         ~getter()
         {
-            assert(allowLeft_ || left() == 0);
+            Assert(allowLeft_ || left() == 0);
         }
 
         size_t left() const 
         {
-            assert(offset_ <= bytes_->size());
+            Assert(offset_ <= bytes_->size());
             return bytes_->size() - offset_;
         }
     

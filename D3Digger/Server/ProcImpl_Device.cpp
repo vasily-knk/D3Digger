@@ -71,7 +71,7 @@ void Impl::CreateVertexDeclaration(BytesPtr srcBytes, BytesPtr dstBytes)
     
     bytes::write_proc wp(dstBytes);
     wp(res);
-    checkProcResult(res);
+    CHECK_PROC_RESULT(res);
 
     wp(procMap_->getProxyID(args.ppDecl));
 }

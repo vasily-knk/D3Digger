@@ -31,8 +31,8 @@ void Impl::UnlockRect(BytesPtr srcBytes, BytesPtr dstBytes)
     DWORD flags;
     rp(flags);
 
-    assert(rect.left < rect.right);
-    assert(rect.top < rect.bottom);
+    Assert(rect.left < rect.right);
+    Assert(rect.top < rect.bottom);
 
     D3DLOCKED_RECT lockedRect;
     HRESULT res = self->LockRect(&lockedRect, &rect, flags);

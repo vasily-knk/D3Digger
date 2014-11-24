@@ -37,7 +37,7 @@ HRESULT Impl::GetData(void* pData, DWORD dwSize, DWORD dwGetDataFlags)
 
     if (SUCCEEDED(ret))
     {
-        assert(buffer.size() == dwSize);
+        Assert(buffer.size() == dwSize);
         memcpy(pData, buffer.data(), dwSize);
     }
         

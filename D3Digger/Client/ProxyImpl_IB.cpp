@@ -27,7 +27,7 @@ HRESULT Impl::Lock(UINT OffsetToLock, UINT SizeToLock, void** ppbData, DWORD Fla
 {
     if (!ppbData)
     {
-        assert(false);
+        Assert(false);
         return D3DERR_INVALIDCALL;
     }
 
@@ -53,7 +53,7 @@ HRESULT Impl::Unlock()
 {
     if (lockStack_.empty())
     {
-        assert(false);
+        Assert(false);
         return D3DERR_INVALIDCALL;
     }
 

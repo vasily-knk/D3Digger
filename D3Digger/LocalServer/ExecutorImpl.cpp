@@ -54,7 +54,7 @@ BytesPtr ExecutorImpl::runSync(MethodId const& id, BytesPtr args)
     BytesPtr dstArgs = bytes::make();
 
     std::unique_lock<std::mutex> lock(mutex_);
-    assert(isComplete_);
+    Assert(isComplete_);
     isComplete_ = false;
 
     service_.post(bind(&ExecutorImpl::execute, this, id, args, dstArgs));
@@ -73,7 +73,7 @@ void ExecutorImpl::runAsync(MethodId const &id, BytesPtr args)
 void ExecutorImpl::execute(MethodId const &id, BytesPtr srcArgs, BytesPtr dstArgs)
 {
     // Thread: service
-    assert(this_thread::get_id() == serviceThread_.get_id());
+    Assert(this_thread::get_id() == serviceThread_.get_id());
 
     Method method = getMethod(id);
     
@@ -100,7 +100,7 @@ void ExecutorImpl::Direct3DCreate9(BytesPtr srcArgs, BytesPtr dstArgs) const
     auto fn = reinterpret_cast<fn_t>(GetProcAddress(dll, "Direct3DCreate9"));
 
     IDirect3D9 *ptr = fn(args.SDKVersion);
-    assert(ptr);
+    Assert(ptr);
 
     bytes::write_proc wp(dstArgs);
     uint32_t id = procMap_->getProxyID(ptr);

@@ -11,7 +11,6 @@ namespace D3D9
 		struct IGlobal
 			: Interface
 		{
-			virtual ostream &log() = 0;
 			virtual IProxyMap &proxyMap() = 0;
 			virtual IExecutor &executor() = 0;
 		};
@@ -19,8 +18,6 @@ namespace D3D9
 		IGlobal &getGlobal();
 		IGlobal &createGlobal();
 		void deleteGlobal();
-
-#define LOG(str) getGlobal().log() << str << std::endl << std::flush;
 
 
 	} // namespace Client

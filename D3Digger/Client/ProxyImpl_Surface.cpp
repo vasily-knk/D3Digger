@@ -24,7 +24,7 @@ HRESULT Impl::LockRect(D3DLOCKED_RECT* pLockedRect, const RECT* pRect, DWORD Fla
 {
     if (lockData_)
     {
-        assert(false);
+        Assert(false);
         return D3DERR_INVALIDCALL;
     }
     
@@ -41,7 +41,7 @@ HRESULT Impl::UnlockRect()
 {
     if (!lockData_)
     {
-        assert(false);
+        Assert(false);
         return D3DERR_INVALIDCALL;
     }
 
@@ -68,8 +68,8 @@ HRESULT Impl::UnlockRect()
 
 size_t Impl::calcBufferOffset(RECT const &rect) const
 {
-    assert(rect.right > rect.left);
-    assert(rect.bottom > rect.top);
+    Assert(rect.right > rect.left);
+    Assert(rect.bottom > rect.top);
 
     size_t pitch = calcPitch();
     return rect.top * pitch + rect.left * bytesPerPixel_;
@@ -88,8 +88,8 @@ RECT Impl::calcRect(RECT const *pSrcRect) const
     else
         rect = {0, 0, desc_.Width, desc_.Height};
     
-    assert(rect.right > rect.left);
-    assert(rect.bottom > rect.top);
+    Assert(rect.right > rect.left);
+    Assert(rect.bottom > rect.top);
     return rect;
 }
 

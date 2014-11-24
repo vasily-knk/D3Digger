@@ -7,6 +7,7 @@
 #include <SDKDDKVer.h>
 
 #include <d3d9.h>
+#include <dxerr.h>
 #include <D3dx9tex.h>
 #include <atlbase.h>
 
@@ -58,8 +59,6 @@ using std::stringstream;
 #include <algorithm>
 #include <numeric> 
 
-#include "interface.h"
-
 #include <thread>
 typedef std::thread Thread;
 namespace this_thread = std::this_thread;
@@ -89,5 +88,11 @@ using std::mutex;
 #include <condition_variable>
 using std::condition_variable;
 
+using boost::noncopyable;
+using std::runtime_error;
 
+#include <boost/unordered_map.hpp>
+
+#include "interface.h"
 #include "opt_ptr.h"
+#include "logger/logger.hpp"

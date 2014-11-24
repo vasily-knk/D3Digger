@@ -24,7 +24,7 @@ HRESULT ProxyBase<IDirect3D9>::QueryInterface(REFIID riid, void** ppvObj)
 
 ULONG ProxyBase<IDirect3D9>::AddRef()
 {
-    assert(refcount_ > 0);
+    Assert(refcount_ > 0);
     ++refcount_;
     return refcount_;
 }
@@ -32,7 +32,7 @@ ULONG ProxyBase<IDirect3D9>::AddRef()
 ULONG ProxyBase<IDirect3D9>::Release()
 {
     --refcount_;
-    assert(refcount_ >= 0);
+    Assert(refcount_ >= 0);
     if (refcount_ == 0)
     {
         BytesPtr inBytes = bytes::make();
@@ -290,7 +290,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::QueryInterface(REFIID riid, void** ppvObj)
 
 ULONG ProxyBase<IDirect3DDevice9>::AddRef()
 {
-    assert(refcount_ > 0);
+    Assert(refcount_ > 0);
     ++refcount_;
     return refcount_;
 }
@@ -298,7 +298,7 @@ ULONG ProxyBase<IDirect3DDevice9>::AddRef()
 ULONG ProxyBase<IDirect3DDevice9>::Release()
 {
     --refcount_;
-    assert(refcount_ >= 0);
+    Assert(refcount_ >= 0);
     if (refcount_ == 0)
     {
         BytesPtr inBytes = bytes::make();
@@ -2018,7 +2018,7 @@ HRESULT ProxyBase<IDirect3DStateBlock9>::QueryInterface(REFIID riid, void** ppvO
 
 ULONG ProxyBase<IDirect3DStateBlock9>::AddRef()
 {
-    assert(refcount_ > 0);
+    Assert(refcount_ > 0);
     ++refcount_;
     return refcount_;
 }
@@ -2026,7 +2026,7 @@ ULONG ProxyBase<IDirect3DStateBlock9>::AddRef()
 ULONG ProxyBase<IDirect3DStateBlock9>::Release()
 {
     --refcount_;
-    assert(refcount_ >= 0);
+    Assert(refcount_ >= 0);
     if (refcount_ == 0)
     {
         BytesPtr inBytes = bytes::make();
@@ -2095,7 +2095,7 @@ HRESULT ProxyBase<IDirect3DSwapChain9>::QueryInterface(REFIID riid, void** ppvOb
 
 ULONG ProxyBase<IDirect3DSwapChain9>::AddRef()
 {
-    assert(refcount_ > 0);
+    Assert(refcount_ > 0);
     ++refcount_;
     return refcount_;
 }
@@ -2103,7 +2103,7 @@ ULONG ProxyBase<IDirect3DSwapChain9>::AddRef()
 ULONG ProxyBase<IDirect3DSwapChain9>::Release()
 {
     --refcount_;
-    assert(refcount_ >= 0);
+    Assert(refcount_ >= 0);
     if (refcount_ == 0)
     {
         BytesPtr inBytes = bytes::make();
@@ -2239,7 +2239,7 @@ HRESULT ProxyBase<IDirect3DVertexDeclaration9>::QueryInterface(REFIID riid, void
 
 ULONG ProxyBase<IDirect3DVertexDeclaration9>::AddRef()
 {
-    assert(refcount_ > 0);
+    Assert(refcount_ > 0);
     ++refcount_;
     return refcount_;
 }
@@ -2247,7 +2247,7 @@ ULONG ProxyBase<IDirect3DVertexDeclaration9>::AddRef()
 ULONG ProxyBase<IDirect3DVertexDeclaration9>::Release()
 {
     --refcount_;
-    assert(refcount_ >= 0);
+    Assert(refcount_ >= 0);
     if (refcount_ == 0)
     {
         BytesPtr inBytes = bytes::make();
@@ -2311,7 +2311,7 @@ HRESULT ProxyBase<IDirect3DVertexShader9>::QueryInterface(REFIID riid, void** pp
 
 ULONG ProxyBase<IDirect3DVertexShader9>::AddRef()
 {
-    assert(refcount_ > 0);
+    Assert(refcount_ > 0);
     ++refcount_;
     return refcount_;
 }
@@ -2319,7 +2319,7 @@ ULONG ProxyBase<IDirect3DVertexShader9>::AddRef()
 ULONG ProxyBase<IDirect3DVertexShader9>::Release()
 {
     --refcount_;
-    assert(refcount_ >= 0);
+    Assert(refcount_ >= 0);
     if (refcount_ == 0)
     {
         BytesPtr inBytes = bytes::make();
@@ -2381,7 +2381,7 @@ HRESULT ProxyBase<IDirect3DPixelShader9>::QueryInterface(REFIID riid, void** ppv
 
 ULONG ProxyBase<IDirect3DPixelShader9>::AddRef()
 {
-    assert(refcount_ > 0);
+    Assert(refcount_ > 0);
     ++refcount_;
     return refcount_;
 }
@@ -2389,7 +2389,7 @@ ULONG ProxyBase<IDirect3DPixelShader9>::AddRef()
 ULONG ProxyBase<IDirect3DPixelShader9>::Release()
 {
     --refcount_;
-    assert(refcount_ >= 0);
+    Assert(refcount_ >= 0);
     if (refcount_ == 0)
     {
         BytesPtr inBytes = bytes::make();
@@ -2451,7 +2451,7 @@ HRESULT ProxyBase<IDirect3DTexture9>::QueryInterface(REFIID riid, void** ppvObj)
 
 ULONG ProxyBase<IDirect3DTexture9>::AddRef()
 {
-    assert(refcount_ > 0);
+    Assert(refcount_ > 0);
     ++refcount_;
     return refcount_;
 }
@@ -2459,7 +2459,7 @@ ULONG ProxyBase<IDirect3DTexture9>::AddRef()
 ULONG ProxyBase<IDirect3DTexture9>::Release()
 {
     --refcount_;
-    assert(refcount_ >= 0);
+    Assert(refcount_ >= 0);
     if (refcount_ == 0)
     {
         BytesPtr inBytes = bytes::make();
@@ -2744,7 +2744,7 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::QueryInterface(REFIID riid, void** p
 
 ULONG ProxyBase<IDirect3DVolumeTexture9>::AddRef()
 {
-    assert(refcount_ > 0);
+    Assert(refcount_ > 0);
     ++refcount_;
     return refcount_;
 }
@@ -2752,7 +2752,7 @@ ULONG ProxyBase<IDirect3DVolumeTexture9>::AddRef()
 ULONG ProxyBase<IDirect3DVolumeTexture9>::Release()
 {
     --refcount_;
-    assert(refcount_ >= 0);
+    Assert(refcount_ >= 0);
     if (refcount_ == 0)
     {
         BytesPtr inBytes = bytes::make();
@@ -3037,7 +3037,7 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::QueryInterface(REFIID riid, void** ppv
 
 ULONG ProxyBase<IDirect3DCubeTexture9>::AddRef()
 {
-    assert(refcount_ > 0);
+    Assert(refcount_ > 0);
     ++refcount_;
     return refcount_;
 }
@@ -3045,7 +3045,7 @@ ULONG ProxyBase<IDirect3DCubeTexture9>::AddRef()
 ULONG ProxyBase<IDirect3DCubeTexture9>::Release()
 {
     --refcount_;
-    assert(refcount_ >= 0);
+    Assert(refcount_ >= 0);
     if (refcount_ == 0)
     {
         BytesPtr inBytes = bytes::make();
@@ -3334,7 +3334,7 @@ HRESULT ProxyBase<IDirect3DVertexBuffer9>::QueryInterface(REFIID riid, void** pp
 
 ULONG ProxyBase<IDirect3DVertexBuffer9>::AddRef()
 {
-    assert(refcount_ > 0);
+    Assert(refcount_ > 0);
     ++refcount_;
     return refcount_;
 }
@@ -3342,7 +3342,7 @@ ULONG ProxyBase<IDirect3DVertexBuffer9>::AddRef()
 ULONG ProxyBase<IDirect3DVertexBuffer9>::Release()
 {
     --refcount_;
-    assert(refcount_ >= 0);
+    Assert(refcount_ >= 0);
     if (refcount_ == 0)
     {
         BytesPtr inBytes = bytes::make();
@@ -3520,7 +3520,7 @@ HRESULT ProxyBase<IDirect3DIndexBuffer9>::QueryInterface(REFIID riid, void** ppv
 
 ULONG ProxyBase<IDirect3DIndexBuffer9>::AddRef()
 {
-    assert(refcount_ > 0);
+    Assert(refcount_ > 0);
     ++refcount_;
     return refcount_;
 }
@@ -3528,7 +3528,7 @@ ULONG ProxyBase<IDirect3DIndexBuffer9>::AddRef()
 ULONG ProxyBase<IDirect3DIndexBuffer9>::Release()
 {
     --refcount_;
-    assert(refcount_ >= 0);
+    Assert(refcount_ >= 0);
     if (refcount_ == 0)
     {
         BytesPtr inBytes = bytes::make();
@@ -3706,7 +3706,7 @@ HRESULT ProxyBase<IDirect3DSurface9>::QueryInterface(REFIID riid, void** ppvObj)
 
 ULONG ProxyBase<IDirect3DSurface9>::AddRef()
 {
-    assert(refcount_ > 0);
+    Assert(refcount_ > 0);
     ++refcount_;
     return refcount_;
 }
@@ -3714,7 +3714,7 @@ ULONG ProxyBase<IDirect3DSurface9>::AddRef()
 ULONG ProxyBase<IDirect3DSurface9>::Release()
 {
     --refcount_;
-    assert(refcount_ >= 0);
+    Assert(refcount_ >= 0);
     if (refcount_ == 0)
     {
         BytesPtr inBytes = bytes::make();
@@ -3934,7 +3934,7 @@ HRESULT ProxyBase<IDirect3DVolume9>::QueryInterface(REFIID riid, void** ppvObj)
 
 ULONG ProxyBase<IDirect3DVolume9>::AddRef()
 {
-    assert(refcount_ > 0);
+    Assert(refcount_ > 0);
     ++refcount_;
     return refcount_;
 }
@@ -3942,7 +3942,7 @@ ULONG ProxyBase<IDirect3DVolume9>::AddRef()
 ULONG ProxyBase<IDirect3DVolume9>::Release()
 {
     --refcount_;
-    assert(refcount_ >= 0);
+    Assert(refcount_ >= 0);
     if (refcount_ == 0)
     {
         BytesPtr inBytes = bytes::make();
@@ -4086,7 +4086,7 @@ HRESULT ProxyBase<IDirect3DQuery9>::QueryInterface(REFIID riid, void** ppvObj)
 
 ULONG ProxyBase<IDirect3DQuery9>::AddRef()
 {
-    assert(refcount_ > 0);
+    Assert(refcount_ > 0);
     ++refcount_;
     return refcount_;
 }
@@ -4094,7 +4094,7 @@ ULONG ProxyBase<IDirect3DQuery9>::AddRef()
 ULONG ProxyBase<IDirect3DQuery9>::Release()
 {
     --refcount_;
-    assert(refcount_ >= 0);
+    Assert(refcount_ >= 0);
     if (refcount_ == 0)
     {
         BytesPtr inBytes = bytes::make();

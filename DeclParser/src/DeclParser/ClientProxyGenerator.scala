@@ -63,14 +63,14 @@ class ClientProxyGenerator extends CodeGeneratorBase(ClientProxyGenerator.head, 
     }
 
     private def methodBodyAddRef(interface: Interface, method: StdMethod) : String = {
-        """assert(refcount_ > 0);
+        """Assert(refcount_ > 0);
           |++refcount_;
           |return refcount_;
           |""".stripMargin
     }
     private def methodBodyRelease(interface: Interface, method: StdMethod) : String = {
         """--refcount_;
-          |assert(refcount_ >= 0);
+          |Assert(refcount_ >= 0);
           |if (refcount_ == 0)
           |{
           |    BytesPtr inBytes = bytes::make();

@@ -6,11 +6,13 @@ namespace Server
 {
 
 template<typename T>
-void checkProcResult(T const &)
+void checkProcResult(T const &, char const *)
 {
 }
 
-void checkProcResult(HRESULT res);
+void checkProcResult(HRESULT res, char const *fn_name);
+
+#define CHECK_PROC_RESULT(x) checkProcResult(x, __FUNCTION__)
 
     
 } // namespace Server
