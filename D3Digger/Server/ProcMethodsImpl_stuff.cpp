@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "ExecutorMethodsImpl.h"
+#include "ProcMethodsImpl.h"
 #include "d3d9/Server/IProcMap.h"
 
 namespace D3D9
@@ -10,7 +10,7 @@ namespace Server
 
 namespace
 {
-    typedef ExecutorMethodsImpl Impl;
+    typedef ProcMethodsImpl Impl;
 }
 
 Impl::AllMethods Impl::getMethods() const
@@ -31,7 +31,7 @@ Impl::InterfaceMethods Impl::getMethodsBASE() const
 {
     InterfaceMethods methods = 
     {
-        make_pair(bind(&ExecutorMethodsImpl::Direct3DCreate9, this, _1, _2), "Direct3DCreate9"),
+        make_pair(bind(&ProcMethodsImpl::Direct3DCreate9, this, _1, _2), "Direct3DCreate9"),
     };
     return methods;
 };

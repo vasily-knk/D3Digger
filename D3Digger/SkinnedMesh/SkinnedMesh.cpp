@@ -3,6 +3,8 @@
 //
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //--------------------------------------------------------------------------------------
+#undef PROFILE
+
 #include "DXUT.h"
 #include "DXUTcamera.h"
 #include "DXUTsettingsdlg.h"

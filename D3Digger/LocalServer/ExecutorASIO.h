@@ -1,7 +1,7 @@
 #pragma once
 
 #include "d3d9/Client/IExecutor.h"
-#include "d3d9/Server/IExecutorMethods.h"
+#include "d3d9/Server/IProcMethods.h"
 #include "common/asio_wrapper.h"
 
 namespace D3D9
@@ -33,7 +33,7 @@ private:
     bool isComplete_;
 
 private:
-    typedef Server::IExecutorMethods::Method Method;
+    typedef Server::IProcMethods::Method Method;
     Server::IExecutorMethodsPtr methods_;
 };
 	

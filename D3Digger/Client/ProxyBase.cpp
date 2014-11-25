@@ -136,7 +136,7 @@ HRESULT ProxyBase<IDirect3D9>::GetAdapterDisplayMode(UINT Adapter, D3DDISPLAYMOD
     return ret;
 }
 
-HRESULT ProxyBase<IDirect3D9>::CheckDeviceType(UINT Adapter, D3DDEVTYPE DevType, D3DFORMAT AdapterFormat, D3DFORMAT BackBufferFormat, BOOL bWindowed)
+HRESULT_SYNC ProxyBase<IDirect3D9>::CheckDeviceType(UINT Adapter, D3DDEVTYPE DevType, D3DFORMAT AdapterFormat, D3DFORMAT BackBufferFormat, BOOL bWindowed)
 {
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
@@ -147,12 +147,14 @@ HRESULT ProxyBase<IDirect3D9>::CheckDeviceType(UINT Adapter, D3DDEVTYPE DevType,
     wp(BackBufferFormat);
     wp(bWindowed);
     
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3D9, Methods_IDirect3D9::CheckDeviceType), inBytes);
+    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3D9, Methods_IDirect3D9::CheckDeviceType), inBytes);
     
-    return D3D_OK;
+    bytes::read_proc rp(outBytes);
+    HRESULT_SYNC ret; rp(ret);
+    return ret;
 }
 
-HRESULT ProxyBase<IDirect3D9>::CheckDeviceFormat(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT AdapterFormat, DWORD Usage, D3DRESOURCETYPE RType, D3DFORMAT CheckFormat)
+HRESULT_SYNC ProxyBase<IDirect3D9>::CheckDeviceFormat(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT AdapterFormat, DWORD Usage, D3DRESOURCETYPE RType, D3DFORMAT CheckFormat)
 {
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
@@ -164,12 +166,14 @@ HRESULT ProxyBase<IDirect3D9>::CheckDeviceFormat(UINT Adapter, D3DDEVTYPE Device
     wp(RType);
     wp(CheckFormat);
     
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3D9, Methods_IDirect3D9::CheckDeviceFormat), inBytes);
+    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3D9, Methods_IDirect3D9::CheckDeviceFormat), inBytes);
     
-    return D3D_OK;
+    bytes::read_proc rp(outBytes);
+    HRESULT_SYNC ret; rp(ret);
+    return ret;
 }
 
-HRESULT ProxyBase<IDirect3D9>::CheckDeviceMultiSampleType(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT SurfaceFormat, BOOL Windowed, D3DMULTISAMPLE_TYPE MultiSampleType, DWORD* pQualityLevels)
+HRESULT_SYNC ProxyBase<IDirect3D9>::CheckDeviceMultiSampleType(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT SurfaceFormat, BOOL Windowed, D3DMULTISAMPLE_TYPE MultiSampleType, DWORD* pQualityLevels)
 {
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
@@ -184,12 +188,12 @@ HRESULT ProxyBase<IDirect3D9>::CheckDeviceMultiSampleType(UINT Adapter, D3DDEVTY
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3D9, Methods_IDirect3D9::CheckDeviceMultiSampleType), inBytes);
     
     bytes::read_proc rp(outBytes);
-    HRESULT ret; rp(ret);
+    HRESULT_SYNC ret; rp(ret);
     if (pQualityLevels) rp(*pQualityLevels);
     return ret;
 }
 
-HRESULT ProxyBase<IDirect3D9>::CheckDepthStencilMatch(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT AdapterFormat, D3DFORMAT RenderTargetFormat, D3DFORMAT DepthStencilFormat)
+HRESULT_SYNC ProxyBase<IDirect3D9>::CheckDepthStencilMatch(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT AdapterFormat, D3DFORMAT RenderTargetFormat, D3DFORMAT DepthStencilFormat)
 {
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
@@ -200,12 +204,14 @@ HRESULT ProxyBase<IDirect3D9>::CheckDepthStencilMatch(UINT Adapter, D3DDEVTYPE D
     wp(RenderTargetFormat);
     wp(DepthStencilFormat);
     
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3D9, Methods_IDirect3D9::CheckDepthStencilMatch), inBytes);
+    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3D9, Methods_IDirect3D9::CheckDepthStencilMatch), inBytes);
     
-    return D3D_OK;
+    bytes::read_proc rp(outBytes);
+    HRESULT_SYNC ret; rp(ret);
+    return ret;
 }
 
-HRESULT ProxyBase<IDirect3D9>::CheckDeviceFormatConversion(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT SourceFormat, D3DFORMAT TargetFormat)
+HRESULT_SYNC ProxyBase<IDirect3D9>::CheckDeviceFormatConversion(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT SourceFormat, D3DFORMAT TargetFormat)
 {
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
@@ -215,9 +221,11 @@ HRESULT ProxyBase<IDirect3D9>::CheckDeviceFormatConversion(UINT Adapter, D3DDEVT
     wp(SourceFormat);
     wp(TargetFormat);
     
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3D9, Methods_IDirect3D9::CheckDeviceFormatConversion), inBytes);
+    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3D9, Methods_IDirect3D9::CheckDeviceFormatConversion), inBytes);
     
-    return D3D_OK;
+    bytes::read_proc rp(outBytes);
+    HRESULT_SYNC ret; rp(ret);
+    return ret;
 }
 
 HRESULT ProxyBase<IDirect3D9>::GetDeviceCaps(UINT Adapter, D3DDEVTYPE DeviceType, D3DCAPS9* pCaps)

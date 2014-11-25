@@ -7,7 +7,7 @@ namespace Client
 {
     
 ExecutorDummy::ExecutorDummy()
-    : methods_(Server::createExecutorMethods())
+    : methods_(Server::createProcMethods())
 {
 }
 

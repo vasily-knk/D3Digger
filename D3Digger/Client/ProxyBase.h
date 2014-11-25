@@ -11,6 +11,9 @@ namespace D3D9
 {
 	namespace Client
 	{
+
+        typedef HRESULT HRESULT_SYNC;
+
 	
 		template<typename T>
 		struct ProxyBase;

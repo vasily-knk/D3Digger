@@ -9,7 +9,7 @@ namespace D3D9
 namespace Server
 {
 
-struct IExecutorMethods
+struct IProcMethods
     : Interface
 {
     typedef function<void(BytesPtr, BytesPtr)> MethodFn;
@@ -18,9 +18,9 @@ struct IExecutorMethods
     virtual Method getMethod(MethodId const &id) const = 0;
 };
 
-typedef shared_ptr<IExecutorMethods> IExecutorMethodsPtr;
+typedef shared_ptr<IProcMethods> IExecutorMethodsPtr;
 
-IExecutorMethodsPtr createExecutorMethods();
+IExecutorMethodsPtr createProcMethods();
 
 } // namespace Server
 

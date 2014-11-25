@@ -10,6 +10,8 @@ namespace D3D9
 namespace Server
 {
 
+typedef HRESULT HRESULT_SYNC;
+
 template<typename T>
 struct ProcBase;
 

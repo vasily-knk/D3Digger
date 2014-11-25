@@ -155,7 +155,7 @@ void ProcBase<IDirect3D9>::CheckDeviceType(BytesPtr srcBytes, BytesPtr dstBytes)
     rp(args.AdapterFormat);
     rp(args.BackBufferFormat);
     rp(args.bWindowed);
-    HRESULT res = self->CheckDeviceType(args.Adapter, args.DevType, args.AdapterFormat, args.BackBufferFormat, args.bWindowed);
+    HRESULT_SYNC res = self->CheckDeviceType(args.Adapter, args.DevType, args.AdapterFormat, args.BackBufferFormat, args.bWindowed);
     bytes::write_proc wp(dstBytes);
     wp(res);
     CHECK_PROC_RESULT(res);
@@ -180,7 +180,7 @@ void ProcBase<IDirect3D9>::CheckDeviceFormat(BytesPtr srcBytes, BytesPtr dstByte
     rp(args.Usage);
     rp(args.RType);
     rp(args.CheckFormat);
-    HRESULT res = self->CheckDeviceFormat(args.Adapter, args.DeviceType, args.AdapterFormat, args.Usage, args.RType, args.CheckFormat);
+    HRESULT_SYNC res = self->CheckDeviceFormat(args.Adapter, args.DeviceType, args.AdapterFormat, args.Usage, args.RType, args.CheckFormat);
     bytes::write_proc wp(dstBytes);
     wp(res);
     CHECK_PROC_RESULT(res);
@@ -205,7 +205,7 @@ void ProcBase<IDirect3D9>::CheckDeviceMultiSampleType(BytesPtr srcBytes, BytesPt
     rp(args.Windowed);
     rp(args.MultiSampleType);
     rp(args.pQualityLevels);
-    HRESULT res = self->CheckDeviceMultiSampleType(args.Adapter, args.DeviceType, args.SurfaceFormat, args.Windowed, args.MultiSampleType, opt2ptr(args.pQualityLevels));
+    HRESULT_SYNC res = self->CheckDeviceMultiSampleType(args.Adapter, args.DeviceType, args.SurfaceFormat, args.Windowed, args.MultiSampleType, opt2ptr(args.pQualityLevels));
     bytes::write_proc wp(dstBytes);
     wp(res);
     CHECK_PROC_RESULT(res);
@@ -229,7 +229,7 @@ void ProcBase<IDirect3D9>::CheckDepthStencilMatch(BytesPtr srcBytes, BytesPtr ds
     rp(args.AdapterFormat);
     rp(args.RenderTargetFormat);
     rp(args.DepthStencilFormat);
-    HRESULT res = self->CheckDepthStencilMatch(args.Adapter, args.DeviceType, args.AdapterFormat, args.RenderTargetFormat, args.DepthStencilFormat);
+    HRESULT_SYNC res = self->CheckDepthStencilMatch(args.Adapter, args.DeviceType, args.AdapterFormat, args.RenderTargetFormat, args.DepthStencilFormat);
     bytes::write_proc wp(dstBytes);
     wp(res);
     CHECK_PROC_RESULT(res);
@@ -250,7 +250,7 @@ void ProcBase<IDirect3D9>::CheckDeviceFormatConversion(BytesPtr srcBytes, BytesP
     rp(args.DeviceType);
     rp(args.SourceFormat);
     rp(args.TargetFormat);
-    HRESULT res = self->CheckDeviceFormatConversion(args.Adapter, args.DeviceType, args.SourceFormat, args.TargetFormat);
+    HRESULT_SYNC res = self->CheckDeviceFormatConversion(args.Adapter, args.DeviceType, args.SourceFormat, args.TargetFormat);
     bytes::write_proc wp(dstBytes);
     wp(res);
     CHECK_PROC_RESULT(res);

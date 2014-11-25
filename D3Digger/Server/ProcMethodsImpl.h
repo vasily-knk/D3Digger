@@ -1,6 +1,6 @@
 #pragma once
 
-#include "d3d9/Server/IExecutorMethods.h"
+#include "d3d9/Server/IProcMethods.h"
 #include "d3d9/Server/IProc.h"
 #include "d3d9/InterfacesList.h"
 #include "d3d9/Server/IProcMap.h"
@@ -11,10 +11,10 @@ namespace D3D9
 namespace Server
 {
 
-struct ExecutorMethodsImpl
-    : IExecutorMethods
+struct ProcMethodsImpl
+    : IProcMethods
 {
-    ExecutorMethodsImpl();
+    ProcMethodsImpl();
     
     Method getMethod(MethodId const &id) const override;
 

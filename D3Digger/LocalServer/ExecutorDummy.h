@@ -1,7 +1,7 @@
 #pragma once
 
 #include "d3d9/Client/IExecutor.h"
-#include "d3d9/Server/IExecutorMethods.h"
+#include "d3d9/Server/IProcMethods.h"
 
 namespace D3D9
 {
@@ -18,7 +18,7 @@ struct ExecutorDummy
 	void runAsync(MethodId const &id, BytesPtr args) override;
 
 private:
-    typedef Server::IExecutorMethods::Method Method;
+    typedef Server::IProcMethods::Method Method;
     Server::IExecutorMethodsPtr methods_;
 };
 	

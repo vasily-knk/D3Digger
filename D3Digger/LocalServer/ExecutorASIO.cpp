@@ -19,7 +19,7 @@ ExecutorASIO::ExecutorASIO()
     : serviceWork_(service_)
     , serviceThread_(bind(runService, &service_))
     , isComplete_(true)
-    , methods_(Server::createExecutorMethods())
+    , methods_(Server::createProcMethods())
 {
 }
 

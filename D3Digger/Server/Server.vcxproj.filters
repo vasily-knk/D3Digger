@@ -42,7 +42,7 @@
     <ClInclude Include="checkProcResult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExecutorMethodsImpl.h">
+    <ClInclude Include="ProcMethodsImpl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -77,10 +77,10 @@
     <ClCompile Include="checkProcResult.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExecutorMethodsImpl.cpp">
+    <ClCompile Include="ProcMethodsImpl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExecutorMethodsImpl_stuff.cpp">
+    <ClCompile Include="ProcMethodsImpl_stuff.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

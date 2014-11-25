@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "ExecutorMethodsImpl.h"
+#include "ProcMethodsImpl.h"
 #include "d3d9/Server/IProc.h"
 #include "d3d9/InterfacesList.h"
 #include "d3d9/Server/IProcMap.h"
@@ -10,14 +10,19 @@ namespace D3D9
 namespace Server
 {
 
-ExecutorMethodsImpl::ExecutorMethodsImpl()
+IExecutorMethodsPtr createProcMethods()
+{
+    return make_shared<ProcMethodsImpl>();
+}
+
+ProcMethodsImpl::ProcMethodsImpl()
     : procMap_(createProcMap())
 {
     initProcs();
     methods_ = getMethods();
 }
 
-void ExecutorMethodsImpl::initProcs()
+void ProcMethodsImpl::initProcs()
 {
     Server::CreateProcArgs args;
     args.procMap = procMap_;
@@ -27,12 +32,12 @@ void ExecutorMethodsImpl::initProcs()
 #undef EXECUTORIMPL_INIT_PROC
 }
 
-IExecutorMethods::Method ExecutorMethodsImpl::getMethod(MethodId const &id) const 
+IProcMethods::Method ProcMethodsImpl::getMethod(MethodId const &id) const 
 {
     return methods_.at(static_cast<size_t>(id.first)).at(id.second);
 }
 
-void ExecutorMethodsImpl::Direct3DCreate9(BytesPtr srcArgs, BytesPtr dstArgs) const
+void ProcMethodsImpl::Direct3DCreate9(BytesPtr srcArgs, BytesPtr dstArgs) const
 {
     struct 
     {
@@ -55,11 +60,6 @@ void ExecutorMethodsImpl::Direct3DCreate9(BytesPtr srcArgs, BytesPtr dstArgs) co
     wp(id);
 }
 
-
-IExecutorMethodsPtr createExecutorMethods()
-{
-    return make_shared<ExecutorMethodsImpl>();
-}
 
 } // namespace Server
 

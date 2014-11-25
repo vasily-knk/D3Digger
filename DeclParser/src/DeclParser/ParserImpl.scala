@@ -7,7 +7,9 @@ object ParserImpl {
     case class StdMethodHR(override val name: String, override val args: Args) extends StdMethod {
         override val retType = ArgType("HRESULT", false, 0, false)
     }
-
+    case class StdMethodHRSync(override val name: String, override val args: Args) extends StdMethod {
+        override val retType = ArgType("HRESULT_SYNC", false, 0, false)
+    }
 }
 
 class ParserImpl extends  JavaTokenParsers with InterfacesParser{
@@ -38,11 +40,15 @@ class ParserImpl extends  JavaTokenParsers with InterfacesParser{
         case name ~ args => StdMethodHR(name, args)
     }
 
+    def stdMethodHRSync: Parser[StdMethodHRSync] = "STDMETHOD_SYNC" ~> (("(" ~> ident <~ ")") ~ brArgs) <~ "PURE" ^^ {
+        case name ~ args => StdMethodHRSync(name, args)
+    }
+
     def stdMethodRet: Parser[StdMethodRet] = "STDMETHOD_" ~> ((("(" ~> argType <~ ",") ~ ident <~ ")") ~ brArgs) <~ "PURE" ^^ {
         case t ~ name ~ args => StdMethodRet(name, t, args)
     }
 
-    def stdMethod: Parser[StdMethod] = stdMethodRet | stdMethodHR
+    def stdMethod: Parser[StdMethod] = stdMethodHRSync | stdMethodRet | stdMethodHR
 
     def interfaceDecl: Parser[String] = ("DECLARE_INTERFACE_" ~ "(") ~> ((ident <~ "," ) <~ ident) <~ ")"
     def interfaceBody: Parser[StdMethods] = rep(stdMethod <~ ";")
