@@ -18,6 +18,8 @@ ExecutorDummy::~ExecutorDummy()
 
 BytesPtr ExecutorDummy::runSync(MethodId const& id, BytesPtr srcArgs) 
 {
+    updateTraffic(id, srcArgs->size());
+    
     BytesPtr dstArgs = bytes::make();
     Method method = methods_->getMethod(id);
     method.first(srcArgs, dstArgs);
@@ -28,6 +30,14 @@ BytesPtr ExecutorDummy::runSync(MethodId const& id, BytesPtr srcArgs)
 void ExecutorDummy::runAsync(MethodId const &id, BytesPtr args) 
 {
 	runSync(id, args);
+}
+
+void ExecutorDummy::updateTraffic(MethodId const &id, size_t size)
+{
+    if (traffic_.count(id) == 0)
+        traffic_.emplace(id, 0);
+
+    traffic_.at(id) += size;
 }
 
 } // namespace Client

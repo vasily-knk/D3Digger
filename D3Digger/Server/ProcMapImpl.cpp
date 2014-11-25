@@ -49,6 +49,9 @@ ProxyId ProcMapImpl::getProxyID(IUnknown *ptr)
 
 IUnknown *ProcMapImpl::getPtrImpl(ProxyId id)
 {
+    if (id == 0)
+        return nullptr;
+
     return bimap_.left.at(id);
 }
 

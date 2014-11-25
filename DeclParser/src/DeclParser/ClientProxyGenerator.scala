@@ -26,7 +26,7 @@ object ClientProxyGenerator {
     }
 
     private def wrapStr(arg: Arg): String = arg.argType match {
-        case ArgType(InOuts.IName(innerName), false, 1, _) => "dynamic_cast<IProxy<%s>*>(%s)->getId()".format(InOuts.IName(innerName), arg.name)
+        case ArgType(InOuts.IName(innerName), false, 1, _) => "%s ? dynamic_cast<IProxy<%s>*>(%s)->getId() : ProxyId(0)".format(arg.name, InOuts.IName(innerName), arg.name)
         case ArgType(_, _, 0, _) => arg.name
         case ArgType(_, _, 1, _) => "ptr2opt(%s)".format(arg.name)
     }
@@ -57,6 +57,7 @@ class ClientProxyGenerator extends CodeGeneratorBase(ClientProxyGenerator.head, 
         case "QueryInterface" => methodBodyQueryInterface(interface, method)
         case "GetPrivateData" => methodBodyGetPrivateData(interface, method)
         case "SetPrivateData" => methodBodySetPrivateData(interface, method)
+        case "FreePrivateData" => methodBodyFreePrivateData(interface, method)
         case _                => methodBodyGeneric       (interface, method)
     }
 
@@ -99,37 +100,10 @@ class ClientProxyGenerator extends CodeGeneratorBase(ClientProxyGenerator.head, 
           |""".stripMargin.format(ptrArgName, ptrArgName)
     }
 
-    private def methodBodySetPrivateData(interface: Interface, method: StdMethod) : String = {
-        """BytesPtr inBytes = bytes::make();
-          |bytes::write_proc wp(inBytes);
-          |wp(getId());
-          |wp(refguid);
-          |wp(SizeOfData);
-          |wp.array(reinterpret_cast<char const *>(pData), SizeOfData);
-          |wp(Flags);
-          |
-          |getGlobal().executor().runAsync(%s, inBytes);
-          |
-          |return D3D_OK;
-          |""".stripMargin.format(getMethodId(interface, method))
-    }
+    private def methodBodySetPrivateData(interface: Interface, method: StdMethod) : String = "return D3D_OK;"
 
-    private def methodBodyGetPrivateData(interface: Interface, method: StdMethod) : String = {
-      """BytesPtr inBytes = bytes::make();
-        |bytes::write_proc wp(inBytes);
-        |wp(getId());
-        |wp(refguid);
-        |
-        |BytesPtr outBytes = getGlobal().executor().runSync(%s, inBytes);
-        |bytes::read_proc rp(outBytes);
-        |HRESULT ret; rp(ret);
-        |
-        |rp(*pSizeOfData);
-        |rp.array(reinterpret_cast<char *>(pData), *pSizeOfData);
-        |
-        |return ret;
-        |""".stripMargin.format(getMethodId(interface, method))
-    }
+    private def methodBodyGetPrivateData(interface: Interface, method: StdMethod) : String = "return D3DERR_NOTFOUND;"
+    private def methodBodyFreePrivateData(interface: Interface, method: StdMethod) : String = "return D3DERR_NOTFOUND;"
 
     private def methodBodyGeneric(interface: Interface, method: StdMethod) : String = {
         val ins = getIns(method)

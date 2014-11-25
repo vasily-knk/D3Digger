@@ -422,7 +422,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetCursorProperties(UINT XHotSpot, UINT YHo
     wp(getId());
     wp(XHotSpot);
     wp(YHotSpot);
-    wp(dynamic_cast<IProxy<IDirect3DSurface9>*>(pCursorBitmap)->getId());
+    wp(pCursorBitmap ? dynamic_cast<IProxy<IDirect3DSurface9>*>(pCursorBitmap)->getId() : ProxyId(0));
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::SetCursorProperties), inBytes);
     
@@ -741,9 +741,9 @@ HRESULT ProxyBase<IDirect3DDevice9>::UpdateSurface(IDirect3DSurface9* pSourceSur
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
     wp(getId());
-    wp(dynamic_cast<IProxy<IDirect3DSurface9>*>(pSourceSurface)->getId());
+    wp(pSourceSurface ? dynamic_cast<IProxy<IDirect3DSurface9>*>(pSourceSurface)->getId() : ProxyId(0));
     wp(ptr2opt(pSourceRect));
-    wp(dynamic_cast<IProxy<IDirect3DSurface9>*>(pDestinationSurface)->getId());
+    wp(pDestinationSurface ? dynamic_cast<IProxy<IDirect3DSurface9>*>(pDestinationSurface)->getId() : ProxyId(0));
     wp(ptr2opt(pDestPoint));
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::UpdateSurface), inBytes);
@@ -756,8 +756,8 @@ HRESULT ProxyBase<IDirect3DDevice9>::UpdateTexture(IDirect3DBaseTexture9* pSourc
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
     wp(getId());
-    wp(dynamic_cast<IProxy<IDirect3DBaseTexture9>*>(pSourceTexture)->getId());
-    wp(dynamic_cast<IProxy<IDirect3DBaseTexture9>*>(pDestinationTexture)->getId());
+    wp(pSourceTexture ? dynamic_cast<IProxy<IDirect3DBaseTexture9>*>(pSourceTexture)->getId() : ProxyId(0));
+    wp(pDestinationTexture ? dynamic_cast<IProxy<IDirect3DBaseTexture9>*>(pDestinationTexture)->getId() : ProxyId(0));
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::UpdateTexture), inBytes);
     
@@ -769,8 +769,8 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetRenderTargetData(IDirect3DSurface9* pRen
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
     wp(getId());
-    wp(dynamic_cast<IProxy<IDirect3DSurface9>*>(pRenderTarget)->getId());
-    wp(dynamic_cast<IProxy<IDirect3DSurface9>*>(pDestSurface)->getId());
+    wp(pRenderTarget ? dynamic_cast<IProxy<IDirect3DSurface9>*>(pRenderTarget)->getId() : ProxyId(0));
+    wp(pDestSurface ? dynamic_cast<IProxy<IDirect3DSurface9>*>(pDestSurface)->getId() : ProxyId(0));
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetRenderTargetData), inBytes);
     
@@ -783,7 +783,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetFrontBufferData(UINT iSwapChain, IDirect
     bytes::write_proc wp(inBytes);
     wp(getId());
     wp(iSwapChain);
-    wp(dynamic_cast<IProxy<IDirect3DSurface9>*>(pDestSurface)->getId());
+    wp(pDestSurface ? dynamic_cast<IProxy<IDirect3DSurface9>*>(pDestSurface)->getId() : ProxyId(0));
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::GetFrontBufferData), inBytes);
     
@@ -795,9 +795,9 @@ HRESULT ProxyBase<IDirect3DDevice9>::StretchRect(IDirect3DSurface9* pSourceSurfa
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
     wp(getId());
-    wp(dynamic_cast<IProxy<IDirect3DSurface9>*>(pSourceSurface)->getId());
+    wp(pSourceSurface ? dynamic_cast<IProxy<IDirect3DSurface9>*>(pSourceSurface)->getId() : ProxyId(0));
     wp(ptr2opt(pSourceRect));
-    wp(dynamic_cast<IProxy<IDirect3DSurface9>*>(pDestSurface)->getId());
+    wp(pDestSurface ? dynamic_cast<IProxy<IDirect3DSurface9>*>(pDestSurface)->getId() : ProxyId(0));
     wp(ptr2opt(pDestRect));
     wp(Filter);
     
@@ -811,7 +811,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::ColorFill(IDirect3DSurface9* pSurface, cons
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
     wp(getId());
-    wp(dynamic_cast<IProxy<IDirect3DSurface9>*>(pSurface)->getId());
+    wp(pSurface ? dynamic_cast<IProxy<IDirect3DSurface9>*>(pSurface)->getId() : ProxyId(0));
     wp(ptr2opt(pRect));
     wp(color);
     
@@ -844,7 +844,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetRenderTarget(DWORD RenderTargetIndex, ID
     bytes::write_proc wp(inBytes);
     wp(getId());
     wp(RenderTargetIndex);
-    wp(dynamic_cast<IProxy<IDirect3DSurface9>*>(pRenderTarget)->getId());
+    wp(pRenderTarget ? dynamic_cast<IProxy<IDirect3DSurface9>*>(pRenderTarget)->getId() : ProxyId(0));
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::SetRenderTarget), inBytes);
     
@@ -871,7 +871,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetDepthStencilSurface(IDirect3DSurface9* p
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
     wp(getId());
-    wp(dynamic_cast<IProxy<IDirect3DSurface9>*>(pNewZStencil)->getId());
+    wp(pNewZStencil ? dynamic_cast<IProxy<IDirect3DSurface9>*>(pNewZStencil)->getId() : ProxyId(0));
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::SetDepthStencilSurface), inBytes);
     
@@ -1231,7 +1231,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetTexture(DWORD Stage, IDirect3DBaseTextur
     bytes::write_proc wp(inBytes);
     wp(getId());
     wp(Stage);
-    wp(dynamic_cast<IProxy<IDirect3DBaseTexture9>*>(pTexture)->getId());
+    wp(pTexture ? dynamic_cast<IProxy<IDirect3DBaseTexture9>*>(pTexture)->getId() : ProxyId(0));
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::SetTexture), inBytes);
     
@@ -1518,8 +1518,8 @@ HRESULT ProxyBase<IDirect3DDevice9>::ProcessVertices(UINT SrcStartIndex, UINT De
     wp(SrcStartIndex);
     wp(DestIndex);
     wp(VertexCount);
-    wp(dynamic_cast<IProxy<IDirect3DVertexBuffer9>*>(pDestBuffer)->getId());
-    wp(dynamic_cast<IProxy<IDirect3DVertexDeclaration9>*>(pVertexDecl)->getId());
+    wp(pDestBuffer ? dynamic_cast<IProxy<IDirect3DVertexBuffer9>*>(pDestBuffer)->getId() : ProxyId(0));
+    wp(pVertexDecl ? dynamic_cast<IProxy<IDirect3DVertexDeclaration9>*>(pVertexDecl)->getId() : ProxyId(0));
     wp(Flags);
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::ProcessVertices), inBytes);
@@ -1547,7 +1547,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetVertexDeclaration(IDirect3DVertexDeclara
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
     wp(getId());
-    wp(dynamic_cast<IProxy<IDirect3DVertexDeclaration9>*>(pDecl)->getId());
+    wp(pDecl ? dynamic_cast<IProxy<IDirect3DVertexDeclaration9>*>(pDecl)->getId() : ProxyId(0));
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::SetVertexDeclaration), inBytes);
     
@@ -1597,17 +1597,19 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetFVF(DWORD* pFVF)
 
 HRESULT ProxyBase<IDirect3DDevice9>::CreateVertexShader(const DWORD* pFunction, IDirect3DVertexShader9** ppShader)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(ptr2opt(pFunction));
-    
-    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateVertexShader), inBytes);
-    
-    bytes::read_proc rp(outBytes);
-    HRESULT ret; rp(ret);
-    *ppShader = getGlobal().proxyMap().getById<IDirect3DVertexShader9>(rp.operator()<ProxyId>());
-    return ret;
+    *ppShader = nullptr;
+    return D3D_OK;
+    //     BytesPtr inBytes = bytes::make();
+//     bytes::write_proc wp(inBytes);
+//     wp(getId());
+//     wp(ptr2opt(pFunction));
+//     
+//     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateVertexShader), inBytes);
+//     
+//     bytes::read_proc rp(outBytes);
+//     HRESULT ret; rp(ret);
+//     *ppShader = getGlobal().proxyMap().getById<IDirect3DVertexShader9>(rp.operator()<ProxyId>());
+//     return ret;
 }
 
 HRESULT ProxyBase<IDirect3DDevice9>::SetVertexShader(IDirect3DVertexShader9* pShader)
@@ -1615,7 +1617,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetVertexShader(IDirect3DVertexShader9* pSh
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
     wp(getId());
-    wp(dynamic_cast<IProxy<IDirect3DVertexShader9>*>(pShader)->getId());
+    wp(pShader ? dynamic_cast<IProxy<IDirect3DVertexShader9>*>(pShader)->getId() : ProxyId(0));
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::SetVertexShader), inBytes);
     
@@ -1735,7 +1737,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetStreamSource(UINT StreamNumber, IDirect3
     bytes::write_proc wp(inBytes);
     wp(getId());
     wp(StreamNumber);
-    wp(dynamic_cast<IProxy<IDirect3DVertexBuffer9>*>(pStreamData)->getId());
+    wp(pStreamData ? dynamic_cast<IProxy<IDirect3DVertexBuffer9>*>(pStreamData)->getId() : ProxyId(0));
     wp(OffsetInBytes);
     wp(Stride);
     
@@ -1797,7 +1799,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetIndices(IDirect3DIndexBuffer9* pIndexDat
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
     wp(getId());
-    wp(dynamic_cast<IProxy<IDirect3DIndexBuffer9>*>(pIndexData)->getId());
+    wp(pIndexData ? dynamic_cast<IProxy<IDirect3DIndexBuffer9>*>(pIndexData)->getId() : ProxyId(0));
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::SetIndices), inBytes);
     
@@ -1838,7 +1840,7 @@ HRESULT ProxyBase<IDirect3DDevice9>::SetPixelShader(IDirect3DPixelShader9* pShad
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
     wp(getId());
-    wp(dynamic_cast<IProxy<IDirect3DPixelShader9>*>(pShader)->getId());
+    wp(pShader ? dynamic_cast<IProxy<IDirect3DPixelShader9>*>(pShader)->getId() : ProxyId(0));
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::SetPixelShader), inBytes);
     
@@ -2146,7 +2148,7 @@ HRESULT ProxyBase<IDirect3DSwapChain9>::GetFrontBufferData(IDirect3DSurface9* pD
     BytesPtr inBytes = bytes::make();
     bytes::write_proc wp(inBytes);
     wp(getId());
-    wp(dynamic_cast<IProxy<IDirect3DSurface9>*>(pDestSurface)->getId());
+    wp(pDestSurface ? dynamic_cast<IProxy<IDirect3DSurface9>*>(pDestSurface)->getId() : ProxyId(0));
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DSwapChain9, Methods_IDirect3DSwapChain9::GetFrontBufferData), inBytes);
     
@@ -2497,46 +2499,17 @@ HRESULT ProxyBase<IDirect3DTexture9>::GetDevice(IDirect3DDevice9** ppDevice)
 
 HRESULT ProxyBase<IDirect3DTexture9>::SetPrivateData(REFGUID refguid, const void* pData, DWORD SizeOfData, DWORD Flags)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    wp(SizeOfData);
-    wp.array(reinterpret_cast<char const *>(pData), SizeOfData);
-    wp(Flags);
-    
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DTexture9, Methods_IDirect3DTexture9::SetPrivateData), inBytes);
-    
     return D3D_OK;
 }
 
 HRESULT ProxyBase<IDirect3DTexture9>::GetPrivateData(REFGUID refguid, void* pData, DWORD* pSizeOfData)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    
-    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DTexture9, Methods_IDirect3DTexture9::GetPrivateData), inBytes);
-    bytes::read_proc rp(outBytes);
-    HRESULT ret; rp(ret);
-    
-    rp(*pSizeOfData);
-    rp.array(reinterpret_cast<char *>(pData), *pSizeOfData);
-    
-    return ret;
+    return D3DERR_NOTFOUND;
 }
 
 HRESULT ProxyBase<IDirect3DTexture9>::FreePrivateData(REFGUID refguid)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DTexture9, Methods_IDirect3DTexture9::FreePrivateData), inBytes);
-    
-    return D3D_OK;
+    return D3DERR_NOTFOUND;
 }
 
 DWORD ProxyBase<IDirect3DTexture9>::SetPriority(DWORD PriorityNew)
@@ -2792,46 +2765,17 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::GetDevice(IDirect3DDevice9** ppDevic
 
 HRESULT ProxyBase<IDirect3DVolumeTexture9>::SetPrivateData(REFGUID refguid, const void* pData, DWORD SizeOfData, DWORD Flags)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    wp(SizeOfData);
-    wp.array(reinterpret_cast<char const *>(pData), SizeOfData);
-    wp(Flags);
-    
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DVolumeTexture9, Methods_IDirect3DVolumeTexture9::SetPrivateData), inBytes);
-    
     return D3D_OK;
 }
 
 HRESULT ProxyBase<IDirect3DVolumeTexture9>::GetPrivateData(REFGUID refguid, void* pData, DWORD* pSizeOfData)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    
-    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DVolumeTexture9, Methods_IDirect3DVolumeTexture9::GetPrivateData), inBytes);
-    bytes::read_proc rp(outBytes);
-    HRESULT ret; rp(ret);
-    
-    rp(*pSizeOfData);
-    rp.array(reinterpret_cast<char *>(pData), *pSizeOfData);
-    
-    return ret;
+    return D3DERR_NOTFOUND;
 }
 
 HRESULT ProxyBase<IDirect3DVolumeTexture9>::FreePrivateData(REFGUID refguid)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DVolumeTexture9, Methods_IDirect3DVolumeTexture9::FreePrivateData), inBytes);
-    
-    return D3D_OK;
+    return D3DERR_NOTFOUND;
 }
 
 DWORD ProxyBase<IDirect3DVolumeTexture9>::SetPriority(DWORD PriorityNew)
@@ -3087,46 +3031,17 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::GetDevice(IDirect3DDevice9** ppDevice)
 
 HRESULT ProxyBase<IDirect3DCubeTexture9>::SetPrivateData(REFGUID refguid, const void* pData, DWORD SizeOfData, DWORD Flags)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    wp(SizeOfData);
-    wp.array(reinterpret_cast<char const *>(pData), SizeOfData);
-    wp(Flags);
-    
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DCubeTexture9, Methods_IDirect3DCubeTexture9::SetPrivateData), inBytes);
-    
     return D3D_OK;
 }
 
 HRESULT ProxyBase<IDirect3DCubeTexture9>::GetPrivateData(REFGUID refguid, void* pData, DWORD* pSizeOfData)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    
-    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DCubeTexture9, Methods_IDirect3DCubeTexture9::GetPrivateData), inBytes);
-    bytes::read_proc rp(outBytes);
-    HRESULT ret; rp(ret);
-    
-    rp(*pSizeOfData);
-    rp.array(reinterpret_cast<char *>(pData), *pSizeOfData);
-    
-    return ret;
+    return D3DERR_NOTFOUND;
 }
 
 HRESULT ProxyBase<IDirect3DCubeTexture9>::FreePrivateData(REFGUID refguid)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DCubeTexture9, Methods_IDirect3DCubeTexture9::FreePrivateData), inBytes);
-    
-    return D3D_OK;
+    return D3DERR_NOTFOUND;
 }
 
 DWORD ProxyBase<IDirect3DCubeTexture9>::SetPriority(DWORD PriorityNew)
@@ -3386,46 +3301,17 @@ HRESULT ProxyBase<IDirect3DVertexBuffer9>::GetDevice(IDirect3DDevice9** ppDevice
 
 HRESULT ProxyBase<IDirect3DVertexBuffer9>::SetPrivateData(REFGUID refguid, const void* pData, DWORD SizeOfData, DWORD Flags)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    wp(SizeOfData);
-    wp.array(reinterpret_cast<char const *>(pData), SizeOfData);
-    wp(Flags);
-    
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DVertexBuffer9, Methods_IDirect3DVertexBuffer9::SetPrivateData), inBytes);
-    
     return D3D_OK;
 }
 
 HRESULT ProxyBase<IDirect3DVertexBuffer9>::GetPrivateData(REFGUID refguid, void* pData, DWORD* pSizeOfData)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    
-    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DVertexBuffer9, Methods_IDirect3DVertexBuffer9::GetPrivateData), inBytes);
-    bytes::read_proc rp(outBytes);
-    HRESULT ret; rp(ret);
-    
-    rp(*pSizeOfData);
-    rp.array(reinterpret_cast<char *>(pData), *pSizeOfData);
-    
-    return ret;
+    return D3DERR_NOTFOUND;
 }
 
 HRESULT ProxyBase<IDirect3DVertexBuffer9>::FreePrivateData(REFGUID refguid)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DVertexBuffer9, Methods_IDirect3DVertexBuffer9::FreePrivateData), inBytes);
-    
-    return D3D_OK;
+    return D3DERR_NOTFOUND;
 }
 
 DWORD ProxyBase<IDirect3DVertexBuffer9>::SetPriority(DWORD PriorityNew)
@@ -3574,46 +3460,17 @@ HRESULT ProxyBase<IDirect3DIndexBuffer9>::GetDevice(IDirect3DDevice9** ppDevice)
 
 HRESULT ProxyBase<IDirect3DIndexBuffer9>::SetPrivateData(REFGUID refguid, const void* pData, DWORD SizeOfData, DWORD Flags)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    wp(SizeOfData);
-    wp.array(reinterpret_cast<char const *>(pData), SizeOfData);
-    wp(Flags);
-    
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DIndexBuffer9, Methods_IDirect3DIndexBuffer9::SetPrivateData), inBytes);
-    
     return D3D_OK;
 }
 
 HRESULT ProxyBase<IDirect3DIndexBuffer9>::GetPrivateData(REFGUID refguid, void* pData, DWORD* pSizeOfData)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    
-    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DIndexBuffer9, Methods_IDirect3DIndexBuffer9::GetPrivateData), inBytes);
-    bytes::read_proc rp(outBytes);
-    HRESULT ret; rp(ret);
-    
-    rp(*pSizeOfData);
-    rp.array(reinterpret_cast<char *>(pData), *pSizeOfData);
-    
-    return ret;
+    return D3DERR_NOTFOUND;
 }
 
 HRESULT ProxyBase<IDirect3DIndexBuffer9>::FreePrivateData(REFGUID refguid)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DIndexBuffer9, Methods_IDirect3DIndexBuffer9::FreePrivateData), inBytes);
-    
-    return D3D_OK;
+    return D3DERR_NOTFOUND;
 }
 
 DWORD ProxyBase<IDirect3DIndexBuffer9>::SetPriority(DWORD PriorityNew)
@@ -3762,46 +3619,17 @@ HRESULT ProxyBase<IDirect3DSurface9>::GetDevice(IDirect3DDevice9** ppDevice)
 
 HRESULT ProxyBase<IDirect3DSurface9>::SetPrivateData(REFGUID refguid, const void* pData, DWORD SizeOfData, DWORD Flags)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    wp(SizeOfData);
-    wp.array(reinterpret_cast<char const *>(pData), SizeOfData);
-    wp(Flags);
-    
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DSurface9, Methods_IDirect3DSurface9::SetPrivateData), inBytes);
-    
     return D3D_OK;
 }
 
 HRESULT ProxyBase<IDirect3DSurface9>::GetPrivateData(REFGUID refguid, void* pData, DWORD* pSizeOfData)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    
-    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DSurface9, Methods_IDirect3DSurface9::GetPrivateData), inBytes);
-    bytes::read_proc rp(outBytes);
-    HRESULT ret; rp(ret);
-    
-    rp(*pSizeOfData);
-    rp.array(reinterpret_cast<char *>(pData), *pSizeOfData);
-    
-    return ret;
+    return D3DERR_NOTFOUND;
 }
 
 HRESULT ProxyBase<IDirect3DSurface9>::FreePrivateData(REFGUID refguid)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DSurface9, Methods_IDirect3DSurface9::FreePrivateData), inBytes);
-    
-    return D3D_OK;
+    return D3DERR_NOTFOUND;
 }
 
 DWORD ProxyBase<IDirect3DSurface9>::SetPriority(DWORD PriorityNew)
@@ -3992,46 +3820,17 @@ HRESULT ProxyBase<IDirect3DVolume9>::GetDevice(IDirect3DDevice9** ppDevice)
 
 HRESULT ProxyBase<IDirect3DVolume9>::SetPrivateData(REFGUID refguid, const void* pData, DWORD SizeOfData, DWORD Flags)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    wp(SizeOfData);
-    wp.array(reinterpret_cast<char const *>(pData), SizeOfData);
-    wp(Flags);
-    
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DVolume9, Methods_IDirect3DVolume9::SetPrivateData), inBytes);
-    
     return D3D_OK;
 }
 
 HRESULT ProxyBase<IDirect3DVolume9>::GetPrivateData(REFGUID refguid, void* pData, DWORD* pSizeOfData)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    
-    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DVolume9, Methods_IDirect3DVolume9::GetPrivateData), inBytes);
-    bytes::read_proc rp(outBytes);
-    HRESULT ret; rp(ret);
-    
-    rp(*pSizeOfData);
-    rp.array(reinterpret_cast<char *>(pData), *pSizeOfData);
-    
-    return ret;
+    return D3DERR_NOTFOUND;
 }
 
 HRESULT ProxyBase<IDirect3DVolume9>::FreePrivateData(REFGUID refguid)
 {
-    BytesPtr inBytes = bytes::make();
-    bytes::write_proc wp(inBytes);
-    wp(getId());
-    wp(refguid);
-    
-    getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DVolume9, Methods_IDirect3DVolume9::FreePrivateData), inBytes);
-    
-    return D3D_OK;
+    return D3DERR_NOTFOUND;
 }
 
 HRESULT ProxyBase<IDirect3DVolume9>::GetContainer(REFIID riid, void** ppContainer)

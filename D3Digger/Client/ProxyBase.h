@@ -18,6 +18,19 @@ namespace D3D9
 		template<typename T>
 		struct ProxyBase;
 
+        struct guid_cmp
+        {
+            bool operator()(GUID const &r1, GUID const &r2) const
+            {
+                typedef std::tuple<uint32_t, uint16_t, uint16_t, uint64_t> Tuple;
+                Tuple t1(r1.Data1, r1.Data2, r1.Data3, *(reinterpret_cast<uint64_t const*>(r1.Data4)));
+                Tuple t2(r2.Data1, r2.Data2, r2.Data3, *(reinterpret_cast<uint64_t const*>(r2.Data4)));
+                return t1 < t2;
+            }
+        };
+        
+        typedef std::map<GUID, vector<char>, guid_cmp> ProxyPrivateData;
+
 
 #include "d3d9/undef.h"
 
@@ -37,6 +50,7 @@ namespace D3D9
 		private: \
 			ProxyId id_; \
 			int refcount_; \
+            ProxyPrivateData privateData_; \
 		};
 
 #define MY_STDMETHOD(name, args) HRESULT STDMETHODCALLTYPE name args override;

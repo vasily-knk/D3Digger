@@ -8,6 +8,7 @@ namespace Server
 
 void checkProcResult(HRESULT res, char const *fn_name)
 {
+    //LogDebug("call: " << fn_name);
     if (FAILED(res))
     {
         char const *error = DXGetErrorStringA(res);

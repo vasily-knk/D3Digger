@@ -26,6 +26,8 @@ struct IProcMap
 	T *getPtr(ProxyId id)
 	{
         IUnknown *p = getPtrImpl(id);
+        if (!p)
+            return nullptr;
         Assert(p);
 
         GUID guid = getGuid<T>();

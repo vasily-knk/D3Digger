@@ -18,8 +18,12 @@ struct ExecutorDummy
 	void runAsync(MethodId const &id, BytesPtr args) override;
 
 private:
+    void updateTraffic(MethodId const &id, size_t size);
+
+private:
     typedef Server::IProcMethods::Method Method;
     Server::IExecutorMethodsPtr methods_;
+    std::map<MethodId, uint64_t> traffic_;
 };
 	
 } // namespace Client
