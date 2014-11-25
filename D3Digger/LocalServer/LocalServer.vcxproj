@@ -71,12 +71,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ExecutorImpl.h" />
+    <ClInclude Include="ExecutorASIO.h" />
+    <ClInclude Include="ExecutorDummy.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ExecutorImpl.cpp" />
-    <ClCompile Include="ExecutorImplMethods.cpp" />
+    <ClCompile Include="ExecutorASIO.cpp" />
+    <ClCompile Include="ExecutorDummy.cpp" />
+    <ClCompile Include="ExecutorFactory.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

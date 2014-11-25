@@ -1,47 +1,51 @@
 #include "stdafx.h"
-#include "ExecutorImpl.h"
+#include "ExecutorMethodsImpl.h"
+#include "d3d9/Server/IProcMap.h"
 
 namespace D3D9
 {
-namespace Client
+
+namespace Server
 {
 
-vector<vector<ExecutorImpl::Method>> ExecutorImpl::getMethods() const
+namespace
 {
-    vector<vector<Method>> methods(static_cast<size_t>(D3D9::Interfaces::TOTAL));
+    typedef ExecutorMethodsImpl Impl;
+}
 
-#define ADD_PROC(name) \
-    methods.at(static_cast<size_t>(D3D9::Interfaces::name)) = getMethods##name();
+Impl::AllMethods Impl::getMethods() const
+{
+    AllMethods methods(static_cast<size_t>(D3D9::Interfaces::TOTAL));
+
+    #define ADD_PROC(name) methods.at(static_cast<size_t>(D3D9::Interfaces::name)) = getMethods##name();
 
     ADD_PROC(BASE)
     D3D9_LIST_INTERFACES(ADD_PROC)
 
-#undef ADD_PROC
+    #undef ADD_PROC
 
     return methods;
 }
 
-vector<ExecutorImpl::Method> ExecutorImpl::getMethodsBASE() const
+Impl::InterfaceMethods Impl::getMethodsBASE() const
 {
-    vector<ExecutorImpl::Method> methods = 
+    InterfaceMethods methods = 
     {
-        make_pair(boost::bind(&ExecutorImpl::Direct3DCreate9, this, _1, _2), "Direct3DCreate9"),
+        make_pair(bind(&ExecutorMethodsImpl::Direct3DCreate9, this, _1, _2), "Direct3DCreate9"),
     };
     return methods;
 };
 
-
 #include "d3d9/undef.h"
 
 #define MY_BEGIN_INTERFACE(name) \
-    vector<ExecutorImpl::Method> ExecutorImpl::getMethods##name() const \
+    Impl::InterfaceMethods Impl::getMethods##name() const \
     { \
         string interface_name = #name; \
         typedef D3D9::Server::IProc<name> IProc; \
         typedef D3D9::Methods_##name MethodsEnum; \
         auto proc = proc##name##_; \
-        vector<ExecutorImpl::Method> methods(static_cast<size_t>(MethodsEnum::TOTAL)); 
-
+        InterfaceMethods methods(static_cast<size_t>(MethodsEnum::TOTAL)); 
 
 #define MY_BEGIN_INTERFACE_(name, parent) MY_BEGIN_INTERFACE(name)   
 
@@ -55,8 +59,6 @@ vector<ExecutorImpl::Method> ExecutorImpl::getMethodsBASE() const
 #include "d3d9/decl.h"
 #include "d3d9/undef.h"
 
-    
-
-} // namespace Client
+} // namespace Server
 
 } // namespace D3D9

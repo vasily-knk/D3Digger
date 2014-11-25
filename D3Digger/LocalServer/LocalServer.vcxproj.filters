@@ -18,7 +18,10 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExecutorImpl.h">
+    <ClInclude Include="ExecutorASIO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExecutorDummy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -26,10 +29,13 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExecutorImpl.cpp">
+    <ClCompile Include="ExecutorASIO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExecutorImplMethods.cpp">
+    <ClCompile Include="ExecutorFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExecutorDummy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

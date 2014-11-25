@@ -23,6 +23,7 @@
     <ClInclude Include="d3d9\def.h" />
     <ClInclude Include="d3d9\InterfacesList.h" />
     <ClInclude Include="d3d9\Methods.h" />
+    <ClInclude Include="d3d9\Server\IExecutorMethods.h" />
     <ClInclude Include="d3d9\Server\IProc.h" />
     <ClInclude Include="d3d9\Server\IProcMap.h" />
     <ClInclude Include="d3d9\structs_refl.h" />

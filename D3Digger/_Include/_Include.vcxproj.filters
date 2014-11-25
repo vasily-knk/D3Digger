@@ -69,5 +69,8 @@
     <ClInclude Include="d3d9\structs_refl_special.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="d3d9\Server\IExecutorMethods.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

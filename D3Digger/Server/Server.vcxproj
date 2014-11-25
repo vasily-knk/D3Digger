@@ -72,6 +72,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="checkProcResult.h" />
+    <ClInclude Include="ExecutorMethodsImpl.h" />
     <ClInclude Include="ProcBase.h" />
     <ClInclude Include="ProcImpl.h" />
     <ClInclude Include="ProcImpl_Device.h" />
@@ -83,6 +84,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="checkProcResult.cpp" />
+    <ClCompile Include="ExecutorMethodsImpl.cpp" />
+    <ClCompile Include="ExecutorMethodsImpl_stuff.cpp" />
     <ClCompile Include="ProcBase.cpp" />
     <ClCompile Include="ProcFactory.cpp" />
     <ClCompile Include="ProcImpl_Device.cpp" />
