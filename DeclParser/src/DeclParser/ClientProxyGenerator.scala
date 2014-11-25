@@ -52,10 +52,12 @@ class ClientProxyGenerator extends CodeGeneratorBase(ClientProxyGenerator.head, 
           |""".stripMargin.format(interface.name)
 
     override def methodBody(interface: Interface, method: StdMethod) : String = method.name match {
-        case "AddRef" => methodBodyAddRef(interface, method)
-        case "Release" => methodBodyRelease(interface, method)
+        case "AddRef"         => methodBodyAddRef        (interface, method)
+        case "Release"        => methodBodyRelease       (interface, method)
         case "QueryInterface" => methodBodyQueryInterface(interface, method)
-        case _ => methodBodyGeneric(interface, method)
+        case "GetPrivateData" => methodBodyGetPrivateData(interface, method)
+        case "SetPrivateData" => methodBodySetPrivateData(interface, method)
+        case _                => methodBodyGeneric       (interface, method)
     }
 
     private def getMethodId(interface: Interface, method: StdMethod) = {
@@ -95,6 +97,38 @@ class ClientProxyGenerator extends CodeGeneratorBase(ClientProxyGenerator.head, 
           |    return E_NOINTERFACE;
           |}
           |""".stripMargin.format(ptrArgName, ptrArgName)
+    }
+
+    private def methodBodySetPrivateData(interface: Interface, method: StdMethod) : String = {
+        """BytesPtr inBytes = bytes::make();
+          |bytes::write_proc wp(inBytes);
+          |wp(getId());
+          |wp(refguid);
+          |wp(SizeOfData);
+          |wp.array(reinterpret_cast<char const *>(pData), SizeOfData);
+          |wp(Flags);
+          |
+          |getGlobal().executor().runAsync(%s, inBytes);
+          |
+          |return D3D_OK;
+          |""".stripMargin.format(getMethodId(interface, method))
+    }
+
+    private def methodBodyGetPrivateData(interface: Interface, method: StdMethod) : String = {
+      """BytesPtr inBytes = bytes::make();
+        |bytes::write_proc wp(inBytes);
+        |wp(getId());
+        |wp(refguid);
+        |
+        |BytesPtr outBytes = getGlobal().executor().runSync(%s, inBytes);
+        |bytes::read_proc rp(outBytes);
+        |HRESULT ret; rp(ret);
+        |
+        |rp(*pSizeOfData);
+        |rp.array(reinterpret_cast<char *>(pData), *pSizeOfData);
+        |
+        |return ret;
+        |""".stripMargin.format(getMethodId(interface, method))
     }
 
     private def methodBodyGeneric(interface: Interface, method: StdMethod) : String = {

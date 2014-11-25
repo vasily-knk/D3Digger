@@ -2502,6 +2502,7 @@ HRESULT ProxyBase<IDirect3DTexture9>::SetPrivateData(REFGUID refguid, const void
     wp(getId());
     wp(refguid);
     wp(SizeOfData);
+    wp.array(reinterpret_cast<char const *>(pData), SizeOfData);
     wp(Flags);
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DTexture9, Methods_IDirect3DTexture9::SetPrivateData), inBytes);
@@ -2515,13 +2516,14 @@ HRESULT ProxyBase<IDirect3DTexture9>::GetPrivateData(REFGUID refguid, void* pDat
     bytes::write_proc wp(inBytes);
     wp(getId());
     wp(refguid);
-    wp(ptr2opt(pSizeOfData));
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DTexture9, Methods_IDirect3DTexture9::GetPrivateData), inBytes);
-    
     bytes::read_proc rp(outBytes);
     HRESULT ret; rp(ret);
-    if (pSizeOfData) rp(*pSizeOfData);
+    
+    rp(*pSizeOfData);
+    rp.array(reinterpret_cast<char *>(pData), *pSizeOfData);
+    
     return ret;
 }
 
@@ -2795,6 +2797,7 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::SetPrivateData(REFGUID refguid, cons
     wp(getId());
     wp(refguid);
     wp(SizeOfData);
+    wp.array(reinterpret_cast<char const *>(pData), SizeOfData);
     wp(Flags);
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DVolumeTexture9, Methods_IDirect3DVolumeTexture9::SetPrivateData), inBytes);
@@ -2808,13 +2811,14 @@ HRESULT ProxyBase<IDirect3DVolumeTexture9>::GetPrivateData(REFGUID refguid, void
     bytes::write_proc wp(inBytes);
     wp(getId());
     wp(refguid);
-    wp(ptr2opt(pSizeOfData));
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DVolumeTexture9, Methods_IDirect3DVolumeTexture9::GetPrivateData), inBytes);
-    
     bytes::read_proc rp(outBytes);
     HRESULT ret; rp(ret);
-    if (pSizeOfData) rp(*pSizeOfData);
+    
+    rp(*pSizeOfData);
+    rp.array(reinterpret_cast<char *>(pData), *pSizeOfData);
+    
     return ret;
 }
 
@@ -3088,6 +3092,7 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::SetPrivateData(REFGUID refguid, const 
     wp(getId());
     wp(refguid);
     wp(SizeOfData);
+    wp.array(reinterpret_cast<char const *>(pData), SizeOfData);
     wp(Flags);
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DCubeTexture9, Methods_IDirect3DCubeTexture9::SetPrivateData), inBytes);
@@ -3101,13 +3106,14 @@ HRESULT ProxyBase<IDirect3DCubeTexture9>::GetPrivateData(REFGUID refguid, void* 
     bytes::write_proc wp(inBytes);
     wp(getId());
     wp(refguid);
-    wp(ptr2opt(pSizeOfData));
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DCubeTexture9, Methods_IDirect3DCubeTexture9::GetPrivateData), inBytes);
-    
     bytes::read_proc rp(outBytes);
     HRESULT ret; rp(ret);
-    if (pSizeOfData) rp(*pSizeOfData);
+    
+    rp(*pSizeOfData);
+    rp.array(reinterpret_cast<char *>(pData), *pSizeOfData);
+    
     return ret;
 }
 
@@ -3385,6 +3391,7 @@ HRESULT ProxyBase<IDirect3DVertexBuffer9>::SetPrivateData(REFGUID refguid, const
     wp(getId());
     wp(refguid);
     wp(SizeOfData);
+    wp.array(reinterpret_cast<char const *>(pData), SizeOfData);
     wp(Flags);
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DVertexBuffer9, Methods_IDirect3DVertexBuffer9::SetPrivateData), inBytes);
@@ -3398,13 +3405,14 @@ HRESULT ProxyBase<IDirect3DVertexBuffer9>::GetPrivateData(REFGUID refguid, void*
     bytes::write_proc wp(inBytes);
     wp(getId());
     wp(refguid);
-    wp(ptr2opt(pSizeOfData));
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DVertexBuffer9, Methods_IDirect3DVertexBuffer9::GetPrivateData), inBytes);
-    
     bytes::read_proc rp(outBytes);
     HRESULT ret; rp(ret);
-    if (pSizeOfData) rp(*pSizeOfData);
+    
+    rp(*pSizeOfData);
+    rp.array(reinterpret_cast<char *>(pData), *pSizeOfData);
+    
     return ret;
 }
 
@@ -3571,6 +3579,7 @@ HRESULT ProxyBase<IDirect3DIndexBuffer9>::SetPrivateData(REFGUID refguid, const 
     wp(getId());
     wp(refguid);
     wp(SizeOfData);
+    wp.array(reinterpret_cast<char const *>(pData), SizeOfData);
     wp(Flags);
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DIndexBuffer9, Methods_IDirect3DIndexBuffer9::SetPrivateData), inBytes);
@@ -3584,13 +3593,14 @@ HRESULT ProxyBase<IDirect3DIndexBuffer9>::GetPrivateData(REFGUID refguid, void* 
     bytes::write_proc wp(inBytes);
     wp(getId());
     wp(refguid);
-    wp(ptr2opt(pSizeOfData));
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DIndexBuffer9, Methods_IDirect3DIndexBuffer9::GetPrivateData), inBytes);
-    
     bytes::read_proc rp(outBytes);
     HRESULT ret; rp(ret);
-    if (pSizeOfData) rp(*pSizeOfData);
+    
+    rp(*pSizeOfData);
+    rp.array(reinterpret_cast<char *>(pData), *pSizeOfData);
+    
     return ret;
 }
 
@@ -3757,6 +3767,7 @@ HRESULT ProxyBase<IDirect3DSurface9>::SetPrivateData(REFGUID refguid, const void
     wp(getId());
     wp(refguid);
     wp(SizeOfData);
+    wp.array(reinterpret_cast<char const *>(pData), SizeOfData);
     wp(Flags);
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DSurface9, Methods_IDirect3DSurface9::SetPrivateData), inBytes);
@@ -3770,13 +3781,14 @@ HRESULT ProxyBase<IDirect3DSurface9>::GetPrivateData(REFGUID refguid, void* pDat
     bytes::write_proc wp(inBytes);
     wp(getId());
     wp(refguid);
-    wp(ptr2opt(pSizeOfData));
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DSurface9, Methods_IDirect3DSurface9::GetPrivateData), inBytes);
-    
     bytes::read_proc rp(outBytes);
     HRESULT ret; rp(ret);
-    if (pSizeOfData) rp(*pSizeOfData);
+    
+    rp(*pSizeOfData);
+    rp.array(reinterpret_cast<char *>(pData), *pSizeOfData);
+    
     return ret;
 }
 
@@ -3985,6 +3997,7 @@ HRESULT ProxyBase<IDirect3DVolume9>::SetPrivateData(REFGUID refguid, const void*
     wp(getId());
     wp(refguid);
     wp(SizeOfData);
+    wp.array(reinterpret_cast<char const *>(pData), SizeOfData);
     wp(Flags);
     
     getGlobal().executor().runAsync(makeMethodId(Interfaces::IDirect3DVolume9, Methods_IDirect3DVolume9::SetPrivateData), inBytes);
@@ -3998,13 +4011,14 @@ HRESULT ProxyBase<IDirect3DVolume9>::GetPrivateData(REFGUID refguid, void* pData
     bytes::write_proc wp(inBytes);
     wp(getId());
     wp(refguid);
-    wp(ptr2opt(pSizeOfData));
     
     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DVolume9, Methods_IDirect3DVolume9::GetPrivateData), inBytes);
-    
     bytes::read_proc rp(outBytes);
     HRESULT ret; rp(ret);
-    if (pSizeOfData) rp(*pSizeOfData);
+    
+    rp(*pSizeOfData);
+    rp.array(reinterpret_cast<char *>(pData), *pSizeOfData);
+    
     return ret;
 }
 
