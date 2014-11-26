@@ -1,5 +1,8 @@
 #pragma once
 
+#include <common/stl_config.h>
+#include <common/boost_config.h>
+
 #define STRICT
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
