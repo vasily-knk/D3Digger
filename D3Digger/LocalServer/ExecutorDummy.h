@@ -2,6 +2,7 @@
 
 #include "d3d9/Client/IExecutor.h"
 #include "d3d9/Server/IProcMethods.h"
+#include "common/time_counter.h"
 
 namespace D3D9
 {
@@ -19,11 +20,14 @@ struct ExecutorDummy
 
 private:
     void updateTraffic(MethodId const &id, size_t size);
+    void sortTraffic();
 
 private:
     typedef Server::IProcMethods::Method Method;
     Server::IExecutorMethodsPtr methods_;
     std::map<MethodId, uint64_t> traffic_;
+    
+    time_counter tc_;
 };
 	
 } // namespace Client

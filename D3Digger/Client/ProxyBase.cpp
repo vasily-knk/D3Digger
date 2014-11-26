@@ -1597,19 +1597,17 @@ HRESULT ProxyBase<IDirect3DDevice9>::GetFVF(DWORD* pFVF)
 
 HRESULT ProxyBase<IDirect3DDevice9>::CreateVertexShader(const DWORD* pFunction, IDirect3DVertexShader9** ppShader)
 {
-    *ppShader = nullptr;
-    return D3D_OK;
-    //     BytesPtr inBytes = bytes::make();
-//     bytes::write_proc wp(inBytes);
-//     wp(getId());
-//     wp(ptr2opt(pFunction));
-//     
-//     BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateVertexShader), inBytes);
-//     
-//     bytes::read_proc rp(outBytes);
-//     HRESULT ret; rp(ret);
-//     *ppShader = getGlobal().proxyMap().getById<IDirect3DVertexShader9>(rp.operator()<ProxyId>());
-//     return ret;
+    BytesPtr inBytes = bytes::make();
+    bytes::write_proc wp(inBytes);
+    wp(getId());
+    wp(ptr2opt(pFunction));
+    
+    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateVertexShader), inBytes);
+    
+    bytes::read_proc rp(outBytes);
+    HRESULT ret; rp(ret);
+    *ppShader = getGlobal().proxyMap().getById<IDirect3DVertexShader9>(rp.operator()<ProxyId>());
+    return ret;
 }
 
 HRESULT ProxyBase<IDirect3DDevice9>::SetVertexShader(IDirect3DVertexShader9* pShader)

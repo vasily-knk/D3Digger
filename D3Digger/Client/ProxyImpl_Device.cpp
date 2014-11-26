@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ProxyImpl_Device.h"
+#include "Shaders.h"
 
 
 namespace D3D9
@@ -100,6 +101,61 @@ HRESULT Impl::CreateVertexDeclaration(const D3DVERTEXELEMENT9* pVertexElements, 
     *ppDecl = getGlobal().proxyMap().getById<IDirect3DVertexDeclaration9>(rp.operator()<ProxyId>());
     return ret;
 }
+
+HRESULT Impl::CreateVertexShader(const DWORD* /*pFunction*/, IDirect3DVertexShader9** ppShader)
+{
+    if (!ppShader)
+        return D3DERR_INVALIDCALL;
+
+    *ppShader = nullptr;
+    return D3D_OK;
+}
+
+HRESULT Impl::CreatePixelShader(const DWORD* /*pFunction*/, IDirect3DPixelShader9** ppShader)
+{
+    if (!ppShader)
+        return D3DERR_INVALIDCALL;
+
+    *ppShader = nullptr;
+    return D3D_OK;
+}
+
+/*
+HRESULT Impl::CreateVertexShader(const DWORD* pFunction, IDirect3DVertexShader9** ppShader)
+{
+    uint32_t shader_length = getShaderSize(pFunction);
+    
+    BytesPtr inBytes = bytes::make();
+    bytes::write_proc wp(inBytes);
+    wp(getId());
+    wp(shader_length);
+    wp.array(pFunction, shader_length);
+    
+    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreateVertexShader), inBytes);
+    
+    bytes::read_proc rp(outBytes);
+    HRESULT ret; rp(ret);
+    *ppShader = getGlobal().proxyMap().getById<IDirect3DVertexShader9>(rp.operator()<ProxyId>());
+    return ret;
+}
+
+HRESULT Impl::CreatePixelShader(const DWORD* pFunction, IDirect3DPixelShader9** ppShader)
+{
+    uint32_t shader_length = getShaderSize(pFunction);
+
+    BytesPtr inBytes = bytes::make();
+    bytes::write_proc wp(inBytes);
+    wp(getId());
+    wp(shader_length);
+    wp.array(pFunction, shader_length);
+    
+    BytesPtr outBytes = getGlobal().executor().runSync(makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::CreatePixelShader), inBytes);
+    
+    bytes::read_proc rp(outBytes);
+    HRESULT ret; rp(ret);
+    *ppShader = getGlobal().proxyMap().getById<IDirect3DPixelShader9>(rp.operator()<ProxyId>());
+    return ret;
+}*/
 
 
 } // namespace Client

@@ -19,6 +19,10 @@ struct ProxyImpl<IDirect3DDevice9>
     HRESULT STDMETHODCALLTYPE Present(const RECT* pSourceRect, const RECT* pDestRect, HWND hDestWindowOverride, const RGNDATA* pDirtyRegion) override;
     HRESULT STDMETHODCALLTYPE CreateQuery(D3DQUERYTYPE Type, IDirect3DQuery9** ppQuery) override;
     HRESULT STDMETHODCALLTYPE CreateVertexDeclaration(const D3DVERTEXELEMENT9* pVertexElements, IDirect3DVertexDeclaration9** ppDecl) override;
+
+    HRESULT STDMETHODCALLTYPE CreateVertexShader(const DWORD* pFunction, IDirect3DVertexShader9** ppShader) override;
+    HRESULT STDMETHODCALLTYPE CreatePixelShader (const DWORD* pFunction, IDirect3DPixelShader9 ** ppShader) override;
+
 };
 
 } // namespace Client

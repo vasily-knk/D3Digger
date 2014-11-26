@@ -16,6 +16,8 @@ struct ProcImpl<IDirect3DDevice9>
 
     void Clear(BytesPtr srcBytes, BytesPtr dstBytes) override;
     void CreateVertexDeclaration(BytesPtr srcBytes, BytesPtr dstBytes) override;
+    void CreateVertexShader(BytesPtr srcBytes, BytesPtr dstBytes) override;
+    void CreatePixelShader (BytesPtr srcBytes, BytesPtr dstBytes) override;
 };
 
 } // namespace Server

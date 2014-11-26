@@ -27,65 +27,20 @@ namespace inner
     }
 
     template<typename T>
-    size_t size(T const &/*data*/)
-    {
-        return sizeof(T);
-    }
-
-    inline size_t size(string const &str)
-    {
-        return sizeof(size_type) + str.size();
-    }
-
-    template<typename T>
-    size_t size(vector<T> const &vec)
-    {
-        size_t res = sizeof(size_type);
-        BOOST_FOREACH(T const &e, vec)
-            res += size(e);
-        return res;
-    }
-
-    template<typename T>
-    void put(const T &data, bytes_ptr bytes, typename std::enable_if<std::is_pod<T>::value/*std::is_arithmetic<T>::value || std::is_enum<T>::value*/>::type* = nullptr)
+    void put(const T &data, bytes_ptr bytes, typename std::enable_if<std::is_arithmetic<T>::value || std::is_enum<T>::value>::type* = nullptr)
     {
         const size_t offset = bytes->size();
-        bytes->resize(offset + size(data));
+        bytes->resize(offset + sizeof(T));
         *reinterpret_cast<T*>(&bytes->at(offset)) = data;
     }
 
     template<typename T>
-    void put(optional<T> const &data, bytes_ptr bytes)
+    void put_array(T const *p, size_t num, bytes_ptr bytes, typename std::enable_if<std::is_arithmetic<T>::value || std::is_enum<T>::value>::type* = nullptr)
     {
-        if (data)
-        {
-            put(uint8_t(1), bytes);
-            put(*data, bytes);
-        }
-        else
-        {
-            put(uint8_t(0), bytes);
-        }
-    }
-
-
-    template<typename T>
-    void put(vector<T> const &vec, bytes_ptr bytes)
-    {
-        reserve_additional(bytes, size(vec));
-    
-        put(static_cast<size_type>(vec.size()), bytes);
-        BOOST_FOREACH(T const &e, vec)
-            put(e, bytes);
-    }
-
-    inline void put(string const &vec, bytes_ptr bytes)
-    {
-        reserve_additional(bytes, size(vec));
-
-        put(static_cast<size_type>(vec.size()), bytes);
-        BOOST_FOREACH(char const &e, vec)
-            put(e, bytes);
+        size_t offset = bytes->size();
+        size_t size = num * sizeof(T);
+        bytes->resize(offset + size);
+        memcpy(&bytes->at(offset), p, size);
     }
 
     inline void append(bytes_ptr dst, bytes_const_ptr src)
@@ -124,58 +79,24 @@ namespace inner
         }
     
         template<typename T>
-        void get(T &data, typename std::enable_if<std::is_pod<T>::value/*std::is_arithmetic<T>::value || std::is_enum<T>::value*/>::type* = nullptr)
+        void get(T &data, typename std::enable_if<std::is_arithmetic<T>::value || std::is_enum<T>::value>::type* = nullptr)
         {
-            if(offset_ + size(data) > bytes_->size())
-            {
-                std::stringstream ss;
-                ss << "Trying to read bytes " << offset_ << "-" << offset_ + size(data) << ", size = " << bytes_->size();
-                throw error(ss.str());
-            }
+            if (offset_ + sizeof(T) > bytes_->size())
+                throw error("Not enough bytes");
             data = *reinterpret_cast<T*>(&bytes_->at(offset_));
-            offset_ += size(data);
+            offset_ += sizeof(T);
         }
 
         template<typename T>
-        void get(optional<T> &opt)
+        void get_array(T *p, size_t num, typename std::enable_if<std::is_arithmetic<T>::value || std::is_enum<T>::value>::type* = nullptr)
         {
-            uint8_t flag;
-            get(flag);
-            if (flag)
-            {
-                opt = T();
-                get(*opt);
-            }
-        }
+            size_t size = sizeof(T) * num;
+            if (offset_ + size > bytes_->size())
+                throw error("Not enough bytes");
 
-        template<typename T>
-        void get(vector<T> &vec)
-        {
-            size_type sz;
-            get(sz);
-            vec.resize(sz);
-            BOOST_FOREACH(T &e, vec)
-                get(e);
+            memcpy(p, &bytes_->at(offset_), size);
+            offset_ += size;
         }
-
-        void get(string &vec)
-        {
-            size_type sz;
-            get(sz);
-            vec.resize(sz);
-            BOOST_FOREACH(char &e, vec)
-                get(e);
-        }
-
-        template<typename T>
-        T get() 
-        {
-            T temp;
-            get(temp);
-            return temp;
-        }
-
-    private:
 
     private:
         bytes_ptr bytes_;
@@ -198,13 +119,21 @@ struct read_proc
     }
 
     template<typename T>
+    void array(T *const ptr, size_t size, typename std::enable_if<std::is_arithmetic<T>::value || std::is_enum<T>::value>::type* = nullptr)
+    {
+        typedef std::remove_const<T>::type nonconst_type;
+        nonconst_type* conv_ptr = const_cast<nonconst_type*>(ptr); 
+        g_.get_array<nonconst_type>(conv_ptr, size);
+    }
+
+    template<typename T>
     void operator()(T const &dst, typename std::enable_if<!std::is_arithmetic<T>::value && !std::is_enum<T>::value>::type* = nullptr)
     {
         refl::process(*this, dst);
     }
 
     template<typename T>
-    void array(T *const ptr, size_t size)
+    void array(T *const ptr, size_t size, typename std::enable_if<!std::is_arithmetic<T>::value && !std::is_enum<T>::value>::type* = nullptr)
     {
         T* dst = const_cast<T*>(ptr);
         for (size_t i = 0; i < size; ++i)
@@ -243,7 +172,13 @@ struct write_proc
 
 
     template<typename T>
-    void array(T *const ptr, size_t size)
+    void array(T *const ptr, size_t size, typename std::enable_if<std::is_arithmetic<T>::value || std::is_enum<T>::value>::type* = nullptr)
+    {
+        inner::put_array(ptr, size, bytes_);
+    }
+
+    template<typename T>
+    void array(T *const ptr, size_t size, typename std::enable_if<!std::is_arithmetic<T>::value && !std::is_enum<T>::value>::type* = nullptr)
     {
         for (size_t i = 0; i < size; ++i)
             this->operator()(ptr[i]);

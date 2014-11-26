@@ -82,6 +82,7 @@
     <ClInclude Include="ProxyImpl_Surface.h" />
     <ClInclude Include="ProxyImpl_Texture.h" />
     <ClInclude Include="ProxyImpl_VB.h" />
+    <ClInclude Include="Shaders.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
@@ -99,6 +100,7 @@
     <ClCompile Include="ProxyImpl_Surface.cpp" />
     <ClCompile Include="ProxyImpl_VB.cpp" />
     <ClCompile Include="ProxyMapImpl.cpp" />
+    <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

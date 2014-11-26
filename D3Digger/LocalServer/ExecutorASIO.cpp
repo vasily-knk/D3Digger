@@ -40,7 +40,10 @@ BytesPtr ExecutorASIO::runSync(MethodId const& id, BytesPtr args)
 
     service_.post(bind(&ExecutorASIO::execute, this, id, args, dstArgs));
 
-    cond_.wait(lock, [this]() { return isComplete_; });
+    cond_.wait(lock, [this]() 
+    { 
+        return isComplete_; 
+    });
 
     return dstArgs;
 }

@@ -76,6 +76,55 @@ void Impl::CreateVertexDeclaration(BytesPtr srcBytes, BytesPtr dstBytes)
     wp(procMap_->getProxyID(args.ppDecl));
 }
 
+void Impl::CreateVertexShader(BytesPtr srcBytes, BytesPtr dstBytes)
+{
+    bytes::read_proc rp(srcBytes);
+    IDirect3DDevice9 *self = procMap_->getPtr<IDirect3DDevice9>(rp.operator()<ProxyId>());
+    
+    struct {
+        vector<DWORD> pFunction;
+        IDirect3DVertexShader9* ppShader;
+    } args;
+
+    uint32_t shader_length;
+    rp(shader_length);
+
+    args.pFunction.resize(shader_length);
+    rp.array(args.pFunction.data(), shader_length);
+
+    HRESULT res = self->CreateVertexShader(args.pFunction.data(), &args.ppShader);
+    bytes::write_proc wp(dstBytes);
+    wp(res);
+    Assert(SUCCEEDED(res));
+    CHECK_PROC_RESULT(res);
+    wp(procMap_->getProxyID(args.ppShader));
+}
+
+void Impl::CreatePixelShader(BytesPtr srcBytes, BytesPtr dstBytes)
+{
+    bytes::read_proc rp(srcBytes);
+    IDirect3DDevice9 *self = procMap_->getPtr<IDirect3DDevice9>(rp.operator()<ProxyId>());
+    
+    struct {
+        vector<DWORD> pFunction;
+        IDirect3DPixelShader9* ppShader;
+    } args;
+
+    uint32_t shader_length;
+    rp(shader_length);
+
+    args.pFunction.resize(shader_length);
+    rp.array(args.pFunction.data(), shader_length);
+
+    HRESULT res = self->CreatePixelShader(args.pFunction.data(), &args.ppShader);
+    bytes::write_proc wp(dstBytes);
+    wp(res);
+    Assert(SUCCEEDED(res));
+    CHECK_PROC_RESULT(res);
+    wp(procMap_->getProxyID(args.ppShader));
+}
+
+
 } // namespace Server
 
 } // namespace D3D9
