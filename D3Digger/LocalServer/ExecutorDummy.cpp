@@ -18,13 +18,26 @@ ExecutorDummy::~ExecutorDummy()
 
 BytesPtr ExecutorDummy::runSync(MethodId const& id, BytesPtr srcArgs) 
 {
-    updateTraffic(id, srcArgs->size());
+    try
+    {
+        updateTraffic(id, srcArgs->size());
     
-    BytesPtr dstArgs = bytes::make();
-    Method method = methods_->getMethod(id);
-    method.first(srcArgs, dstArgs);
+        BytesPtr dstArgs = bytes::make();
+        Method method = methods_->getMethod(id);
+        method.first(srcArgs, dstArgs);
 
-    return dstArgs;
+        return dstArgs;
+    }
+    catch(std::exception const &e)
+    {
+        LogError(e.what());
+        Verify(false);
+    }
+    catch(...)
+    {
+        LogError("Unknown exception");
+        Verify(false); 
+    }
 }
 
 void ExecutorDummy::runAsync(MethodId const &id, BytesPtr args) 
@@ -67,6 +80,11 @@ void ExecutorDummy::sortTraffic()
     }
 
     std::sort(sorted.begin(), sorted.end(), comp());
+
+    size_t num = std::min<size_t>(10, sorted.size());
+    LogTrace("Traffic stats: ");
+    for (size_t i = 0; i < num; ++i)
+        LogTrace(sorted[i].first << ": " << sorted[i].second / 1024 / 1024 << " mb.");
 }
 
 } // namespace Client

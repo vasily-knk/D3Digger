@@ -120,6 +120,17 @@ HRESULT Impl::CreatePixelShader(const DWORD* /*pFunction*/, IDirect3DPixelShader
     return D3D_OK;
 }
 
+HRESULT Impl::DrawPrimitiveUP(D3DPRIMITIVETYPE PrimitiveType, UINT PrimitiveCount, const void* pVertexStreamZeroData, UINT VertexStreamZeroStride)
+{
+    return D3D_OK;
+}
+
+HRESULT Impl::DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE PrimitiveType, UINT MinVertexIndex, UINT NumVertices, UINT PrimitiveCount, const void* pIndexData, D3DFORMAT IndexDataFormat, const void* pVertexStreamZeroData, UINT VertexStreamZeroStride)
+{
+    return D3D_OK;
+}
+
+
 /*
 HRESULT Impl::CreateVertexShader(const DWORD* pFunction, IDirect3DVertexShader9** ppShader)
 {

@@ -25,3 +25,29 @@ IDirect3D9* WINAPI Direct3DCreate9(UINT SDKVersion)
 	return ptr;
 }
 
+int WINAPI D3DPERF_BeginEvent( D3DCOLOR col, LPCWSTR wszName )
+{
+    return -1;
+}
+int WINAPI D3DPERF_EndEvent( void )
+{
+    return -1;
+}
+void WINAPI D3DPERF_SetMarker( D3DCOLOR col, LPCWSTR wszName )
+{
+}
+void WINAPI D3DPERF_SetRegion( D3DCOLOR col, LPCWSTR wszName )
+{
+}
+BOOL WINAPI D3DPERF_QueryRepeatFrame( void )
+{
+    return false;
+}
+
+void WINAPI D3DPERF_SetOptions( DWORD dwOptions )
+{
+}
+DWORD WINAPI D3DPERF_GetStatus( void )
+{
+    return 0;
+}
