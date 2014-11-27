@@ -20,7 +20,7 @@ BytesPtr ExecutorDummy::runSync(MethodId const& id, BytesPtr srcArgs)
 {
     try
     {
-        updateTraffic(id, srcArgs->size());
+        //updateTraffic(id, srcArgs->size());
     
         BytesPtr dstArgs = bytes::make();
         Method method = methods_->getMethod(id);

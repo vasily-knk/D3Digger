@@ -21,9 +21,10 @@ struct ProxyImpl<IDirect3DTexture9>
     
     HRESULT STDMETHODCALLTYPE LockRect(UINT Level, D3DLOCKED_RECT* pLockedRect, const RECT* pRect, DWORD Flags);
     HRESULT STDMETHODCALLTYPE UnlockRect(UINT Level);
+    HRESULT STDMETHODCALLTYPE GetLevelDesc(UINT Level, D3DSURFACE_DESC* pDesc);
+
 private:
     vector<IDirect3DSurface9*> surfaces_;
-
 };
 
 } // namespace Client

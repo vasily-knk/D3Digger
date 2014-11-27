@@ -52,6 +52,12 @@ HRESULT Impl::UnlockRect(UINT Level)
     return surfaces_.at(Level)->UnlockRect();
 }
 
+HRESULT Impl::GetLevelDesc(UINT Level, D3DSURFACE_DESC* pDesc)
+{
+    return surfaces_.at(Level)->GetDesc(pDesc);
+}
+
+
 
 } // namespace Client
 

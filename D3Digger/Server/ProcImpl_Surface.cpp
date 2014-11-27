@@ -30,6 +30,8 @@ void Impl::UnlockRect(BytesPtr srcBytes, BytesPtr dstBytes)
     rp(rect);
     DWORD flags;
     rp(flags);
+    uint32_t bytesPerPixel;
+    rp(bytesPerPixel);
 
     Assert(rect.left < rect.right);
     Assert(rect.top < rect.bottom);
@@ -37,7 +39,6 @@ void Impl::UnlockRect(BytesPtr srcBytes, BytesPtr dstBytes)
     D3DLOCKED_RECT lockedRect;
     HRESULT res = self->LockRect(&lockedRect, &rect, flags);
 
-    size_t bytesPerPixel = 4;
     size_t lineSize = (rect.right - rect.left) * bytesPerPixel;
     
     char *dst = reinterpret_cast<char*>(lockedRect.pBits);
