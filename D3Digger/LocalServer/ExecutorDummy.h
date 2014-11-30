@@ -19,14 +19,18 @@ struct ExecutorDummy
 	void runAsync(MethodId const &id, BytesPtr args) override;
 
 private:
-    void updateTraffic(MethodId const &id, size_t size);
-    void sortTraffic();
+    BytesPtr run(MethodId const &id, BytesPtr args);
+
+private:
+    void updateSyncs(MethodId const &id);
+    void printSyncs();
 
 private:
     typedef Server::IProcMethods::Method Method;
     Server::IExecutorMethodsPtr methods_;
-    std::map<MethodId, uint64_t> traffic_;
     
+    size_t numFrames_;
+    std::map<MethodId, uint32_t> syncs_;
     time_counter tc_;
 };
 	

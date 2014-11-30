@@ -8,6 +8,7 @@ namespace Client
     
 ExecutorDummy::ExecutorDummy()
     : methods_(Server::createProcMethods())
+    , numFrames_(0)
 {
 }
 
@@ -15,12 +16,14 @@ ExecutorDummy::~ExecutorDummy()
 {
 }
 
-
-BytesPtr ExecutorDummy::runSync(MethodId const& id, BytesPtr srcArgs) 
+BytesPtr ExecutorDummy::run(MethodId const& id, BytesPtr srcArgs) 
 {
     try
     {
         //updateTraffic(id, srcArgs->size());
+
+        if (id == makeMethodId(Interfaces::IDirect3DDevice9, Methods_IDirect3DDevice9::Present))
+            ++numFrames_;
     
         BytesPtr dstArgs = bytes::make();
         Method method = methods_->getMethod(id);
@@ -42,24 +45,31 @@ BytesPtr ExecutorDummy::runSync(MethodId const& id, BytesPtr srcArgs)
 
 void ExecutorDummy::runAsync(MethodId const &id, BytesPtr args) 
 {
-	runSync(id, args);
+    run(id, args);
 }
 
-void ExecutorDummy::updateTraffic(MethodId const &id, size_t size)
+BytesPtr ExecutorDummy::runSync(MethodId const &id, BytesPtr args) 
 {
+    updateSyncs(id);
+	return run(id, args);
+}
+
+void ExecutorDummy::updateSyncs(MethodId const &id)
+{
+	if (syncs_.count(id) == 0)
+        syncs_.emplace(id, 0);
+
+    ++syncs_.at(id);
+
     if (tc_.time().total_seconds() > 10)
     {
-        sortTraffic();
+        printSyncs();
         tc_.reset();
     }
-    
-    if (traffic_.count(id) == 0)
-        traffic_.emplace(id, 0);
 
-    traffic_.at(id) += size;
 }
 
-void ExecutorDummy::sortTraffic()
+void ExecutorDummy::printSyncs()
 {
     typedef pair<string, uint64_t> Record;
     struct comp
@@ -71,20 +81,22 @@ void ExecutorDummy::sortTraffic()
     };
 
     vector<Record> sorted;
-    sorted.reserve(traffic_.size());
-    for (auto &r : traffic_)
+    sorted.reserve(syncs_.size());
+    for (auto &r : syncs_)
     {
         string str = methods_->getMethod(r.first).second;
         sorted.emplace_back(str, r.second);
-        r.second = 0;
     }
 
     std::sort(sorted.begin(), sorted.end(), comp());
 
     size_t num = std::min<size_t>(10, sorted.size());
-    LogTrace("Traffic stats: ");
+    LogTrace("sync stats: " << numFrames_ << " frames");
     for (size_t i = 0; i < num; ++i)
-        LogTrace(sorted[i].first << ": " << sorted[i].second / 1024 / 1024 << " mb.");
+        LogTrace(sorted[i].first << ": " << sorted[i].second);
+
+    syncs_.clear();
+    numFrames_ = 0;
 }
 
 } // namespace Client

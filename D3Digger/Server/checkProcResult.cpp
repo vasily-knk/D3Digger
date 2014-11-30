@@ -13,10 +13,6 @@ void checkProcResult(HRESULT res, char const *fn_name)
     {
         char const *error = DXGetErrorStringA(res);
         LogWarn(fn_name << " failed: " << error);
-        if (string("D3D9::Server::ProcBase<struct IDirect3D9>::CreateDevice") == string(fn_name))
-        {
-            int aaa = 5;
-        }
     }
 }
 
