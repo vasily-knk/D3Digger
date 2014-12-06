@@ -8,7 +8,7 @@ case class Interface(name: String, parentName: String, methods: List[Method])
 case class Annotation(name: String, comment: Option[String])
 
 
-class ParserImpl extends JavaTokenParsers {
+class ParserImpl extends JavaTokenParsers with InterfaceParser {
     def interfaces : Parser[List[Interface]] = rep(interface)
     def interface  : Parser[Interface   ] = midl ~> ident ~ parent ~ ("{" ~> body <~ "};") ^^ { case name ~ parentName ~ methods => Interface(name, parentName, methods)}
 
