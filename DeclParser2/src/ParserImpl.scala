@@ -1,16 +1,30 @@
 import scala.util.parsing.combinator.JavaTokenParsers
 
 case class Ptr      (isConst: Boolean)
-case class Type     (name: String, isConst: Boolean, ptrs: List[Ptr])
+
+case class Type(name: String, isConst: Boolean, ptrs: List[Ptr]) {
+    private def constStr(const: Boolean) = if (const) " const" else ""
+    override val toString = (name :: constStr(isConst) :: ptrs.map {
+        case Ptr(ptrIsConst) => "*" + constStr(ptrIsConst)
+    }).mkString("")
+}
+
 case class Arg      (name: String, argType: Type, annotation: Annotation, arraySize: Option[Int])
 case class Method   (name: String, retType: Type, args: List[Arg])
 case class Interface(name: String, parentName: String, methods: List[Method])
-case class Annotation(name: String, comment: Option[String])
+case class Annotation(name: String, isIn: Boolean, isOut: Boolean, comment: Option[String])
 
+
+object ParserImpl {
+    case class AnnotationType(name: String, isIn: Boolean, isOut: Boolean)
+}
 
 class ParserImpl extends JavaTokenParsers with InterfaceParser {
+    import ParserImpl._
+
     def interfaces : Parser[List[Interface]] = rep(interface)
-    def interface  : Parser[Interface   ] = midl ~> ident ~ parent ~ ("{" ~> body <~ "};") ^^ { case name ~ parentName ~ methods => Interface(name, parentName, methods)}
+    def interface  : Parser[Interface   ] = midl ~> ident ~ parent ~ ("{" ~> body <~ "};") ^^
+        { case name ~ parentName ~ methods => Interface(name, parentName, methods)}
 
     def parent     : Parser[String      ] = ":" ~> "public" ~> ident
     def midl       : Parser[String      ] = "MIDL_INTERFACE" ~> "(" ~> stringLiteral <~ ")"
@@ -24,16 +38,22 @@ class ParserImpl extends JavaTokenParsers with InterfaceParser {
     def noArgs     : Parser[List[Arg]   ] = "void" ^^ { _ => List() }
     def hasArgs    : Parser[List[Arg]   ] = repsep(arg, ",")
 
-    def arg        : Parser[Arg         ] = annotation ~ argType ~ ident ~ (("[" ~> decimalNumber <~ "]")?) ^^ { case annotation ~ argType ~ name ~ arraySize => Arg(name, argType, annotation, arraySize map (_.toInt)) }
+    def arg        : Parser[Arg         ] = annotation ~ argType ~ ident ~ (("[" ~> decimalNumber <~ "]")?) ^^
+        { case annotation ~ argType ~ name ~ arraySize => Arg(name, argType, annotation, arraySize map (_.toInt)) }
 
     def argType    : Parser[Type        ] = argTypeCore ~ rep(argTypePtr) ^^ { case Type(name, isConst, List()) ~ ptrs => Type(name, isConst, ptrs) }
     def argTypeCore: Parser[Type        ] = const ~ ident ~ const ^^ { case c1 ~ name ~ c2 => Type(name, c1 || c2, List()) }
     def argTypePtr : Parser[Ptr         ] = "*" ~> const ^^ { isConst => Ptr(isConst)}
     def const      : Parser[Boolean     ] = ("const"?) ^^ { case o => !o.isEmpty }
 
+    def annotation : Parser[Annotation] = annotationType ~ (("(" ~> annotationComment <~ ")")?) ^^
+        { case AnnotationType(name, isIn, isOut) ~ comment => Annotation(name, isIn, isOut, comment) }
 
-    def annotation : Parser[Annotation] = annotationType ~ (("(" ~> annotationComment <~ ")")?) ^^ { case name ~ comment => Annotation(name, comment) }
-    def annotationType: Parser[String] = "__([a-z_]+)".r
+    def annotationType: Parser[AnnotationType] = annotationTypeInout | annotationTypeIn | annotationTypeOut
+    def annotationTypeInout = "(__inout[a-z_]*)".r ^^ { case name => AnnotationType(name, isIn = true , isOut = true ) }
+    def annotationTypeIn    = "(__in[a-z_]*)"   .r ^^ { case name => AnnotationType(name, isIn = true , isOut = false) }
+    def annotationTypeOut   = "(__out[a-z_]*)"  .r ^^ { case name => AnnotationType(name, isIn = false, isOut = true ) }
+
     def annotationComment: Parser[String] = "[^\\)]*".r
 
     case class ParseException(msg: String) extends RuntimeException(msg)
